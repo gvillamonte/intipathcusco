@@ -120,7 +120,7 @@ $f = $editar ?? ['id' => 0, 'slug' => '', 'titulo' => '', 'titulo_en' => '', 'co
         .pag-preview li{list-style:disc;margin-left:20px;color:var(--tds-on-surface-variant)}
         .pag-preview img{max-width:100%;border-radius:var(--tds-radius);border:1px solid var(--tds-outline-variant)}
         .pag-preview p{margin-bottom:12px;color:var(--tds-on-surface)}
-        .pag-tabla img{width:60px;height:40px;object-fit:cover;border-radius:6px;display:block}
+        .pag-tabla{width:48px;height:36px;object-fit:cover;border-radius:6px;display:block;flex-shrink:0}
         .badge-pub{background:var(--tds-primary);color:#fff;padding:3px 10px;border-radius:20px;font-size:12px;font-family:var(--tds-font);font-weight:500}
         .badge-bor{background:var(--tds-outline);color:#fff;padding:3px 10px;border-radius:20px;font-size:12px;font-family:var(--tds-font);font-weight:500}
 
