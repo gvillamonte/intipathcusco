@@ -1,0 +1,2547 @@
+/* ==========================================================================
+    INTIPATH TOURS - HOJA DE ESTILOS PRINCIPAL
+    assets/css/style.css
+   ========================================================================== */
+
+/* --- 1. IMPORTACIONES Y VARIABLES --- */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap');
+
+:root {
+    --color-primario-azul: var(--ip-primary);
+    --color-secundario-amarillo: var(--ip-admin-accent);
+    --color-fondo-blanco: var(--ip-bg);
+    --color-texto-oscuro: var(--ip-text);
+    --color-texto-claro: var(--ip-text-light);
+}
+
+/* --- 2. CONFIGURACIÓN BASE (RESET) --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+body {
+    background-color: var(--color-fondo-blanco);
+    color: var(--color-texto-oscuro);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+a {
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+ul {
+    list-style: none;
+}
+
+.contenedor {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+
+/* ==========================================================================
+    COMPONENTES PRINCIPALES
+   ========================================================================== */
+
+/* --- 3. CABECERA (HEADER) --- */
+.cabecera-principal {
+    background-color: var(--color-primario-azul);
+    color: var(--color-texto-claro);
+    padding: 15px 0;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    border-bottom: 4px solid var(--color-secundario-amarillo);
+}
+
+.cabecera-principal .contenedor {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo-area img {
+    height: 60px;
+    width: auto;
+    display: block;
+    object-fit: contain;
+    filter: brightness(0) invert(1);
+}
+
+.menu-principal ul {
+    display: flex;
+    gap: 20px;
+}
+
+.menu-principal a {
+    color: var(--color-texto-claro);
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.menu-principal a:hover {
+    color: var(--color-secundario-amarillo);
+}
+
+/* --- BOTÓN HAMBURGUESA --- */
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--color-secundario-amarillo);
+    font-size: 1.8rem;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.menu-toggle:hover {
+    transform: scale(1.1);
+}
+
+/* --- 4. SECCIÓN HERO (SLIDER OPTIMIZADO) --- */
+.hero {
+    position: relative;
+    /* Contenedor para elementos absolutos */
+    height: 100vh;
+    /* Altura de toda la pantalla */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--color-fondo-blanco);
+    margin-top: 0px;
+    /* Margen para la cabecera fija */
+    overflow: hidden;
+    /* Evita que las imágenes se salgan */
+}
+
+/* Contenedor de las imágenes de fondo */
+.slider-contenedor {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    /* Manda el slider al fondo */
+}
+
+/* Capa oscura semitransparente para legibilidad del texto */
+.slider-contenedor::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* background: rgba(0, 0, 0, 0.4); */
+    /* Capa negra al 40% de opacidad */
+    z-index: 1;
+    /* Por encima de las imágenes, por debajo del texto */
+}
+
+/* Estilo para cada imagen del slide */
+.slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Se adapta sin deformarse */
+    opacity: 0;
+    /* Oculta por defecto */
+    transition: opacity 1s ease-in-out;
+    /* Transición suave de 1 segundo */
+    z-index: 0;
+    /* Por debajo de la capa oscura */
+}
+
+/* La imagen activa es visible */
+.slide.activa {
+    opacity: 2;
+    /* Se vuelve visible */
+}
+
+/* Asegurar legibilidad del texto */
+.hero-contenido {
+    position: relative;
+    z-index: 10;
+    /* Por encima del slider y su capa */
+    top: 30vh;
+    /* Ajuste para que no quede tan pegado al borde superior */
+}
+
+/* Botón de Llamada a la Acción */
+.btn-cta {
+    display: inline-block;
+    background-color: var(--color-secundario-amarillo);
+    /* Botón Amarillo llamativo */
+    color: var(--color-primario-azul);
+    /* Texto Azul Marino */
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    border-radius: 50px;
+
+    position: relative;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease;
+}
+
+.btn-cta:hover {
+    background-color: #F1C40F;
+    /* Un amarillo un poco más claro al pasar el ratón */
+}
+
+/* --- 5. SECCIÓN DE TOURS --- */
+.tours-destacados {
+    padding: 60px 0;
+}
+
+.tours-destacados h2 {
+    text-align: center;
+    color: var(--color-primario-azul);
+    font-size: 2rem;
+    margin-bottom: 40px;
+}
+
+.grilla-tours {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 25px;
+    padding-bottom: 20px;
+    scroll-behavior: smooth;
+
+
+}
+
+/* --- 6. SECCIÓN DE CONTACTO/FORMULARIO --- */
+.contacto {
+    padding: 80px 0;
+    background-color: #F8FAFC;
+    /* Fondo muy claro para resaltar el formulario blanco */
+}
+
+.contacto h2 {
+    text-align: center;
+    color: var(--color-primario-azul);
+    font-size: 2.5rem;
+    margin-bottom: 60px;
+}
+
+.tarjeta-formulario {
+    background-color: var(--color-fondo-blanco);
+    /* Formulario blanco limpio */
+    padding: 50px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.grupo-form {
+    margin-bottom: 25px;
+}
+
+.grupo-form label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #555;
+}
+
+.grupo-form input,
+.grupo-form textarea {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #CCC;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.grupo-form input:focus,
+.grupo-form textarea:focus {
+    border-color: var(--color-primario-azul);
+    /* El borde cambia al color de la marca al hacer clic */
+    outline: none;
+}
+
+.btn-enviar {
+    display: block;
+    width: 100%;
+    background-color: var(--color-secundario-amarillo);
+    /* Botón de envío Amarillo */
+    color: var(--color-primario-azul);
+    /* Texto Azul Marino */
+    border: none;
+    padding: 18px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-enviar:hover {
+    background-color: #F1C40F;
+}
+
+/* ARREGLO DE IMÁGENES DESPROPORCIONADAS */
+.tarjeta-tour {
+    position: relative;
+    flex: 0 0 calc(33.333% - 17px);
+    scroll-snap-align: start;
+    background-color: var(--color-fondo-blanco);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    border: 1px solid var(--ip-border);
+    display: flex;
+    flex-direction: column;
+}
+
+.imagen-tour {
+    width: 100%;
+    height: 300px;
+    /* Altura fija para todas */
+    overflow: hidden;
+}
+
+.imagen-tour img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Recorta la imagen sin deformarla */
+    object-position: center;
+}
+
+.contenido-tour {
+    padding: 20px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.contenido-tour h3 {
+    /* Limitamos a exactamente 2 líneas para el título */
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    min-height: 50px;
+    /* Mantiene el espacio aunque el título sea de 1 línea */
+    color: var(--color-primario-azul);
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+    line-height: 1.2;
+}
+
+.contenido-tour p {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    /* Esta es la versión para navegadores actuales */
+    line-clamp: 3;
+    /* AÑADE ESTA LÍNEA para quitar la advertencia */
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--ip-text-muted);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-bottom: 15px;
+}
+
+/* --- ESTILO PARA EL BOTÓN VER MÁS --- */
+.btn-vermas {
+    display: inline-block;
+    background-color: var(--color-primario-azul);
+    color: var(--ip-bg) !important;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    /* --- ESTO MUEVE EL BOTÓN AL CANTO DERECHO --- */
+    margin-top: 15px;
+    /* <--- LO EMPUJA A LA DERECHA */
+    margin-left: 15vh;
+}
+
+/* Efecto al pasar el mouse (Hover) */
+.btn-vermas:hover {
+    background-color: var(--color-secundario-amarillo);
+    /* Cambia a amarillo */
+    color: var(--color-primario-azul) !important;
+    /* Texto cambia a azul */
+    transform: translateY(-3px);
+    /* Pequeño salto hacia arriba */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    /* Sombra para dar profundidad */
+}
+
+.precio-tour {
+    font-weight: 700;
+    color: var(--color-primario-azul);
+    font-size: 1rem;
+}
+
+/* --- CLASE FLONTANTE DE OFERTA Y RECOMENDADO PARA EDITAR EL CSS --- */
+.etiquetas-flotantes {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 50;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+/* Estilo para que el texto resalte con fondo sólido */
+.etiqueta {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: var(--ip-bg) !important;
+    text-transform: uppercase;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.etiqueta.recomendado {
+    background-color: var(--color-primario-azul) !important;
+}
+
+.etiqueta.oferta {
+    background-color: var(--ip-danger) !important;
+    /* Rojo para que llame la atención */
+}
+
+/* Aseguramos que la tarjeta permita elementos flotantes */
+.tarjeta-tour {
+    position: relative;
+}
+
+/* ===================================Aqui termina el codigo=================================== */
+/* Botones Navegación Carrusel */
+.btn-carrusel {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--color-primario-azul);
+    font-size: 2.5rem;
+    width: 70px;
+    height: 70px;
+    cursor: pointer;
+    z-index: 20;
+}
+
+.btn-prev {
+    left: -80px;
+}
+
+.btn-next {
+    right: -80px;
+}
+
+/* --- 6. SECCIÓN DE CONTACTO --- */
+.contacto {
+    padding: 60px 0;
+    background-color: #f4f7f9;
+}
+
+/* --- 7. PIE DE PÁGINA --- */
+.pie-pagina {
+    background-color: var(--color-primario-azul);
+    color: var(--ip-text-light);
+    padding: 40px 0;
+    text-align: center;
+}
+
+/* ==========================================================================
+   PÁGINA DE TOURS - ESTILO TIENDA PROFESIONAL
+   ========================================================================== */
+.contenedor-tours-titulo {
+    background-color: var(--ip-bg-section); /* Un gris muy sutil para dar limpieza */
+    padding: 30px 20px;
+    text-align: center;
+    border-bottom: 1px solid var(--ip-border);
+    
+    /* Ajuste de posición */
+    margin-top: -10vh; /* Altura exacta de tu header para que no haya huecos */
+    margin-bottom: 30px;
+}
+
+.contenedor-tours-titulo h1 {
+    font-size: 2.2rem;
+    color: var(--color-primario-azul);
+    font-weight: 800;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+}
+
+.contenedor-tours-titulo p {
+    font-size: 1rem;
+    color: var(--ip-text-muted);
+    max-width: 800px;
+    margin: 0 auto;
+}
+.tienda-tours {
+    padding: 120px 0 80px;
+    /* Espacio para el header fijo */
+}
+
+.grid-tienda {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 40px;
+    align-items: flex-start;
+}
+
+/* --- SIDEBAR DE FILTROS --- */
+.sidebar-filtros {
+    background: var(--ip-bg);
+    padding: 25px;
+    border-radius: 15px;
+    border: 1px solid var(--ip-border);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    position: sticky;
+    top: 100px;
+}
+
+.filtro-grupo {
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #f5f5f5;
+}
+
+.filtro-grupo h3 {
+    font-size: 1.1rem;
+    color: var(--color-primario-azul);
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+
+.filtro-grupo select,
+.filtro-grupo input[type="text"] {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    outline: none;
+    font-size: 0.9rem;
+    transition: border-color 0.3s;
+}
+
+.filtro-grupo select:focus,
+.filtro-grupo input[type="text"]:focus {
+    border-color: var(--color-secundario-amarillo);
+}
+
+/* Checkboxes Modernos */
+.item-check {
+    margin-bottom: 10px;
+}
+
+.item-check label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    color: #444;
+    transition: color 0.3s;
+}
+
+.item-check label:hover {
+    color: var(--color-primario-azul);
+}
+
+.item-check input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--color-primario-azul);
+    cursor: pointer;
+}
+
+/* --- GRILLA DE PRODUCTOS --- */
+.tienda-header {
+    margin-bottom: 25px;
+    font-size: 1rem;
+    color: var(--ip-text-muted);
+    font-weight: 500;
+}
+
+.tienda-tours .grilla-tours {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 30px;
+}
+
+/* --- TARJETA DE TOUR --- */
+.tienda-tours .tarjeta-tour {
+    background-color: var(--color-fondo-blanco);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--ip-border);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    transition: all 0.3s ease;
+}
+
+.tienda-tours .tarjeta-tour:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.12);
+}
+
+.tienda-tours .btn-verdetalles {
+    display: inline-block;
+    background-color: var(--color-primario-azul);
+    color: var(--ip-bg) !important;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+/* --- PAGINA DETALLE TOUR --- */
+.pagina-detalle-tour {
+    background-color: #f4f7f9;
+    padding-bottom: 80px;
+}
+
+.pagina-detalle-tour .contenedor {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Banner */
+.pagina-detalle-tour .banner-tour {
+    height: 500px;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: flex-end;
+    padding-bottom: 60px;
+    color: var(--ip-bg);
+    margin-top: 80px; /* Espacio para el header */
+}
+
+.pagina-detalle-tour .badge-cat {
+    background: #FFD700;
+    color: var(--ip-primary);
+    padding: 5px 15px;
+    border-radius: 5px;
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+}
+
+.pagina-detalle-tour .banner-tour h1 {
+    font-size: 3rem;
+    margin: 15px 0;
+    text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+}
+
+.pagina-detalle-tour .metas-tour {
+    display: flex;
+    gap: 20px;
+    font-weight: 600;
+}
+
+/* Grid Layout */
+.pagina-detalle-tour .grid-detalle {
+    display: grid;
+    grid-template-columns: 1fr 350px;
+    gap: 30px;
+    margin-top: -40px; /* Sube las tarjetas sobre el banner */
+}
+
+/* Tarjetas */
+.pagina-detalle-tour .card-detalle {
+    background: var(--ip-bg);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+    margin-bottom: 25px;
+}
+
+.pagina-detalle-tour .card-detalle h3 {
+    color: var(--ip-primary);
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Incluye / No incluye */
+.pagina-detalle-tour .grid-check {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.pagina-detalle-tour .incluye h3 { color: var(--ip-success); }
+.pagina-detalle-tour .no-incluye h3 { color: var(--ip-danger); }
+
+/* Sidebar Reserva */
+.pagina-detalle-tour .sticky-reserva {
+    position: sticky;
+    top: 110px;
+}
+
+.pagina-detalle-tour .card-precio {
+    background: var(--ip-primary);
+    color: var(--ip-bg);
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+}
+
+.pagina-detalle-tour .precio-final {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin: 10px 0;
+}
+
+.pagina-detalle-tour .btn-whatsapp {
+    display: block;
+    background: var(--ip-btn-whatsapp);
+    color: var(--ip-bg);
+    padding: 15px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 700;
+    margin-top: 20px;
+    transition: 0.3s;
+}
+
+.pagina-detalle-tour .btn-whatsapp:hover {
+    background: #1eb954;
+    transform: scale(1.03);
+}
+
+
+
+
+/* ==========================================================================
+    8. MEDIA QUERIES - DISEÑO RESPONSIVE PARA MÓVILES Y TABLETS
+   ========================================================================== */
+@media (max-width: 1024px) {
+    .grid-tienda {
+        grid-template-columns: 240px 1fr; /* Sidebar un poco más estrecha */
+        gap: 20px;
+    }
+
+    .grilla-tours {
+        grid-template-columns: repeat(2, 1fr); /* 2 tours por fila */
+    }
+}
+@media (max-width: 768px) {
+    .menu-toggle {
+        display: block !important;
+    }
+
+    .menu-principal {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background-color: var(--color-primario-azul);
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.4s ease-in-out;
+        z-index: 999;
+    }
+
+    .menu-principal.activo {
+        max-height: 500px;
+        box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3);
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .menu-principal ul {
+        flex-direction: column;
+        padding: 10px 0;
+    }
+
+    .menu-principal a {
+        display: block;
+        padding: 15px 20px;
+        text-align: center;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        color: var(--ip-bg);
+    }
+
+    .tarjeta-tour {
+        flex: 0 0 100%;
+    }
+
+    .imagen-tour {
+        height: 250px;
+        /* Un poco más pequeño en móvil */
+    }
+
+    .btn-carrusel {
+        display: none !important;
+    }
+
+    .hero-contenido {
+        position: relative;
+        z-index: 10;
+        /* Por encima del slider y su capa */
+        top: 30vh;
+        /* Ajuste para que no quede tan pegado al borde superior */
+    }
+
+    .btn-vermas {
+        margin-left: 5vh;
+        /* En móvil, el botón se alinea a la izquierda */
+    }
+
+    /* DISEÑO RESPONSIVE PARA LA PAGINA  TOURS*/
+    .tienda-tours {
+        padding: 80px 0 40px; /* Reducimos padding superior */
+    }
+
+    .contenedor-tours-titulo {
+        margin-top: 0;
+        padding: 40px 15px;
+    }
+
+    .contenedor-tours-titulo h1 {
+        font-size: 1.8rem;
+    }
+
+    .grid-tienda {
+        grid-template-columns: 1fr; /* Una sola columna: Filtros arriba, Tours abajo */
+    }
+
+    .sidebar-filtros {
+        position: relative; /* Deja de ser pegajoso en móvil para que no estorbe */
+        top: 0;
+        margin-bottom: 30px;
+        padding: 20px;
+    }
+
+    .grilla-tours {
+        grid-template-columns: repeat(2, 1fr); /* Mantenemos 2 por fila si caben */
+        gap: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero {
+        height: 60vh;
+    }
+
+    .hero-contenido h1 {
+        font-size: 1.5rem;
+    }
+
+    .logo-area img {
+        height: 40px;
+    }
+
+    .slide img {
+        height: 60vh;
+        /* Más compacto en móvil */
+        object-position: center center;
+    }
+
+    .hero-contenido {
+        position: relative;
+        z-index: 10;
+        /* Por encima del slider y su capa */
+        top: 10vh;
+        /* Ajuste para que no quede tan pegado al borde superior */
+    }
+/*Diseño responsive para la pagina tour*/
+
+.contenedor-tours-titulo h1 {
+        font-size: 1.5rem;
+    }
+
+    .grilla-tours {
+        grid-template-columns: 1fr; /* 1 tour por fila para que se vea grande la imagen */
+    }
+
+    .tarjeta-tour .imagen-tour img {
+        height: 200px; /* Ajustamos altura de imagen */
+    }
+
+    .info-tour {
+        flex-direction: column; /* Botón y precio uno sobre otro */
+        gap: 15px;
+        text-align: center;
+    }
+
+    .btn-verdetalles {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .pagina-detalle-tour .grid-detalle { grid-template-columns: 1fr; }
+    .pagina-detalle-tour .grid-check { grid-template-columns: 1fr; }
+    .pagina-detalle-tour .banner-tour h1 { font-size: 2rem; }
+}
+/* ============================================================
+   INICIO: FOOTER PREMIUM (ESTILO RAIOLA NETWORKS)
+   ============================================================ */
+
+.footer-premium {
+    /* Degradado sutil usando tu azul corporativo */
+    background: linear-gradient(135deg, var(--color-primario-azul) 0%, #1a3d75 100%);
+    color: var(--color-texto-claro);
+    padding: 80px 0 0 0;
+    font-family: 'Montserrat', sans-serif;
+    position: relative;
+}
+
+.contenedor-footer {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.grid-footer {
+    display: grid;
+    /* Distribución de 4 columnas: Contacto, Acerca, Info, Newsletter */
+    grid-template-columns: 1.2fr 0.8fr 0.8fr 1.2fr;
+    gap: 40px;
+    padding-bottom: 50px;
+}
+
+/* Títulos de Columnas */
+.col-footer h4 {
+    color: var(--color-fondo-blanco);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 30px;
+    font-weight: 700;
+}
+
+/* Listas y Enlaces */
+.col-footer ul { list-style: none; padding: 0; margin: 0; }
+.col-footer ul li { margin-bottom: 12px; font-size: 0.9rem; }
+.col-footer ul li a { 
+    color: var(--color-texto-claro); 
+    text-decoration: none; 
+    transition: all 0.3s ease; 
+    opacity: 0.8;
+}
+.col-footer ul li a:hover { 
+    color: var(--color-fondo-blanco); 
+    opacity: 1;
+    padding-left: 5px; 
+}
+
+/* Iconos de contacto */
+.lista-contacto li { display: flex; align-items: center; gap: 12px; margin-bottom: 15px; }
+.lista-contacto i { 
+    color: var(--color-secundario-amarillo); 
+    width: 20px; 
+    text-align: center; 
+}
+
+/* Newsletter Estilo Raiola */
+.form-newsletter { margin-top: 15px; }
+.form-newsletter input {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 5px;
+    border: none;
+    margin-bottom: 15px;
+    background: var(--color-fondo-blanco);
+    color: var(--color-texto-oscuro);
+    font-size: 0.9rem;
+}
+
+.btn-suscripcion {
+    width: 100%;
+    padding: 13px;
+    background-color: var(--color-secundario-amarillo);
+    color: var(--color-primario-azul);
+    border: none;
+    border-radius: 5px;
+    font-weight: 800;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-suscripcion:hover { 
+    background-color: var(--color-fondo-blanco); 
+    transform: translateY(-2px); 
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* Franja de Certificaciones */
+.certificaciones-footer {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 40px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 60px;
+}
+.cert-item { display: flex; align-items: center; gap: 15px; }
+.cert-item img { height: 45px; filter: brightness(0) invert(1); opacity: 0.8; }
+.cert-item span { font-size: 0.8rem; font-weight: 600; color: var(--color-fondo-blanco); }
+.cert-line { width: 1px; height: 40px; background: rgba(255, 255, 255, 0.2); }
+
+/* Barra Inferior Oscura */
+.barra-inferior {
+    background-color: var(--ip-bg-dark); /* Un azul más profundo para el contraste final */
+    padding: 25px 0;
+    position: relative;
+
+}
+.bar-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.rating-google { font-size: 0.85rem; color: var(--color-fondo-blanco); }
+.rating-google strong { color: var(--color-secundario-amarillo); }
+.estrellas { color: var(--ip-star); margin-top: 4px; font-size: 1rem; }
+
+.social-inferior { display: flex; align-items: center; gap: 20px; }
+.social-inferior span { font-size: 0.9rem; font-weight: 600; color: var(--color-fondo-blanco); }
+.social-inferior a { color: var(--color-fondo-blanco); font-size: 1.3rem; transition: 0.3s; }
+.social-inferior a:hover { 
+    color: var(--color-secundario-amarillo); 
+    transform: scale(1.2); 
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 992px) {
+    .grid-footer { grid-template-columns: 1fr 1fr; gap: 30px; }
+    .certificaciones-footer { flex-direction: column; gap: 30px; }
+    .cert-line { display: none; }
+}
+
+@media (max-width: 600px) {
+    .grid-footer { grid-template-columns: 1fr; text-align: center; }
+    .col-footer h4 { margin: 0 auto 25px auto; width: fit-content; }
+    .lista-contacto li { justify-content: center; }
+    .bar-flex { flex-direction: column; gap: 25px; }
+}
+
+/* ============================================================
+   FINAL: FOOTER PREMIUM
+   ============================================================ */
+
+  /* ============================================================
+   SOLUCIÓN MENÚ MÓVIL - INTIPATH TOURS
+   ============================================================ */
+@media (max-width: 768px) {
+    
+    /* Forzamos que el menú se posicione debajo de toda la cabecera */
+    #menu-navegacion {
+        display: none !important; /* Escondido por defecto */
+        position: absolute !important;
+        top: 100% !important; 
+        left: 0 !important;
+        width: 100% !important;
+        background-color: var(--ip-primary) !important; /* Tu azul corporativo */
+        z-index: 9999 !important; /* Por encima de todo */
+        padding: 10px 0 !important;
+    }
+
+    /* REGLA CLAVE: Esto es lo que activa el JavaScript */
+    #menu-navegacion.activo {
+        display: block !important;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.5) !important;
+    }
+
+    /* Diseño de la lista en vertical para celular */
+    #menu-navegacion ul {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 10px !important;
+        padding: 20px 0 !important;
+    }
+
+    #menu-navegacion ul li a {
+        color: var(--ip-bg) !important;
+        font-size: 1.1rem !important;
+        padding: 10px !important;
+        display: block !important;
+    }
+}
+
+/* ============================================================
+   CORRECCIÓN: LIBRO DE RECLAMACIONES CENTRADO
+   ============================================================ */
+
+.li-reclamaciones {
+    list-style: none;
+    display: flex;
+    justify-content: center; /* Centra el bloque en la columna del footer */
+    margin: 20px 0;
+    width: 100%;
+}
+
+.enlace-reclamaciones {
+    display: flex;
+    flex-direction: column; /* Icono arriba, texto abajo */
+    align-items: center;    /* Centra el contenido horizontalmente */
+    text-decoration: none;
+    text-align: center;
+    gap: 8px;               /* Espacio entre imagen y texto */
+    padding: 12px;
+    transition: all 0.3s ease;
+}
+
+.enlace-reclamaciones img {
+    /* Tamaño solicitado: un poco más de 24px */
+    width: 32px; 
+    height: 32px;
+    display: block;
+    object-fit: contain;
+    /* Filtro para que el logo sea blanco y resalte en el fondo azul */
+    filter: brightness(0) invert(1);
+    opacity: 0.9;
+}
+
+.enlace-reclamaciones span {
+    color: var(--ip-text-light); /* --color-texto-claro */
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    line-height: 1.2;
+    letter-spacing: 0.5px;
+}
+
+/* Efecto hover profesional */
+.enlace-reclamaciones:hover {
+    transform: translateY(-3px);
+}
+
+.enlace-reclamaciones:hover span {
+    color: var(--ip-admin-accent); /* --color-secundario-amarillo */
+}
+
+
+/* ============================================================
+   CORRECCIÓN: CENTRADO DE LOGO EN CABECERA
+   ============================================================ */
+
+
+   /* --- CONTENEDOR PRINCIPAL DEL HERO --- */
+.main-s-hero {
+    position: relative;
+    width: 100%;
+    height: 100vh; /* Ocupa todo el alto de la pantalla */
+    background-color: #000;
+    overflow: hidden;
+}
+
+.main-s-slider-wrapper {
+    width: 100%;
+    height: 100%;
+}
+
+/* --- LÓGICA DE LAS DIAPOSITIVAS --- */
+.main-s-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 1.2s ease-in-out, visibility 1.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+}
+
+.main-s-slide.is-active {
+    opacity: 1;
+    visibility: visible;
+    z-index: 2;
+}
+
+/* --- IMAGEN DE FONDO --- */
+.main-s-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    z-index: -1;
+    /* Efecto zoom suave al activarse */
+    transform: scale(1.1);
+    transition: transform 6s linear;
+}
+
+.main-s-slide.is-active .main-s-bg {
+    transform: scale(1);
+}
+
+/* --- CONTENIDO DINÁMICO CENTRADO --- */
+/* --- BOTON DE SONIDO DEL SLIDER --- */
+
+.main-s-sound-toggle {
+    position: absolute;
+    bottom: 24px;
+    right: 24px;
+    z-index: 10;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.7);
+    background: rgba(0, 0, 0, 0.45);
+    color: #fff;
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s, border-color 0.3s, transform 0.2s;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
+.main-s-sound-toggle:hover {
+    background: rgba(0, 0, 0, 0.7);
+    border-color: #fff;
+    transform: scale(1.1);
+}
+
+.main-s-sound-toggle:active {
+    transform: scale(0.95);
+}
+.main-s-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    text-align: center;
+    z-index: 10;
+}
+
+.main-s-title {
+    color: var(--ip-bg);
+    font-size: clamp(2rem, 5vw, 4rem); /* Tamaño fluido */
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: 25px;
+    text-shadow: 0 10px 30px rgba(0,0,0,0.8);
+    letter-spacing: -1px;
+}
+
+.main-s-description-box {
+    margin-bottom: 45px;
+}
+
+.main-s-text {
+    color: var(--ip-bg);
+    font-size: 1.1rem;
+    font-weight: 400;
+    display: inline-block;
+    padding: 12px 30px;
+    /* background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.2); */
+    border-radius: 5px;
+    backdrop-filter: blur(4px); /* Efecto cristal */
+    max-width: 800px;
+}
+
+/* --- BOTONES DE ACCIÓN --- */
+.main-s-actions {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.main-s-btn {
+    padding: 18px 45px;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: all 0.4s ease;
+    border-radius: 2px;
+}
+
+.m-btn-border {
+    border: 2px solid var(--ip-accent);
+    color: var(--ip-accent);
+}
+
+.m-btn-solid {
+    border: 2px solid var(--ip-accent);
+    color: var(--ip-accent);
+    background: transparent;
+}
+
+.main-s-btn:hover {
+    background-color: var(--ip-primary); /* Naranja IntiPath */
+    border-color: var(--ip-primary);
+    color: var(--ip-text-light);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(243, 156, 18, 0.3);
+}
+
+/* --- PREMIOS (ESQUINA INFERIOR) --- */
+.main-s-awards {
+    position: absolute;
+    bottom: 40px;
+    left: 50px;
+    z-index: 30;
+}
+
+.main-s-awards-flex {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.main-s-award-img {
+    height: 55px;
+    filter: drop-shadow(0 2px 10px rgba(0,0,0,0.5));
+}
+
+.main-s-award-info {
+    display: flex;
+    flex-direction: column;
+    color: var(--ip-bg);
+}
+
+.m-award-top {
+    font-weight: 800;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+}
+
+.m-award-bottom {
+    font-weight: 400;
+    font-size: 11px;
+    opacity: 0.9;
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 768px) {
+    .main-s-awards {
+        left: 20px;
+        bottom: 20px;
+    }
+    
+    .main-s-title {
+        font-size: 2.2rem;
+    }
+
+    .main-s-actions {
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .main-s-btn {
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    .main-s-text {
+        font-size: 0.95rem;
+        padding: 10px 15px;
+    }
+}
+
+
+
+
+
+/* --- ESTILOS SECCIÓN INTRODUCCIÓN INTIPATH --- */
+.intro-ip-section {
+    padding: 90px 0;
+    background-color: var(--ip-bg);
+}
+
+.intro-ip-contenedor {
+    max-width: 1050px;
+    margin: 0 auto;
+    padding: 0 25px;
+    text-align: center;
+}
+
+/* Línea naranja superior estilo Salkantay */
+.intro-ip-separator {
+    width: 60px;
+    height: 3px;
+    background-color: var(--ip-primary); /* Naranja corporativo */
+    margin: 0 auto 30px;
+}
+
+/* Título con énfasis */
+.intro-ip-title {
+    font-size: 34px;
+    font-weight: 700;
+    color: #1a252f;
+    line-height: 1.3;
+    margin-bottom: 25px;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* Resaltado en naranja para el título */
+.intro-ip-title span {
+    color: var(--ip-primary);
+}
+
+/* Texto del párrafo principal */
+.intro-ip-text {
+    font-size: 17px;
+    color: #555555;
+    line-height: 1.8;
+    text-align: center;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* Negritas suaves para los textos destacados */
+.intro-ip-text strong {
+    color: #222;
+    font-weight: 600;
+}
+
+/* --- RESPONSIVE ADAPTATION --- */
+@media (max-width: 768px) {
+    .intro-ip-section {
+        padding: 60px 0;
+    }
+    
+    .intro-ip-title {
+        font-size: 26px;
+        padding: 0 10px;
+    }
+    
+    .intro-ip-text {
+        font-size: 15px;
+        line-height: 1.7;
+    }
+}
+
+
+
+
+/* --- ESTILOS CORPORATIVOS SECCIÓN FEATURES INTIPATH --- */
+.features-ip-section {
+    padding: 80px 0;
+    background-color: var(--ip-bg-section); /* Gris muy claro de fondo para que resalten las tarjetas blancas */
+}
+
+.features-ip-contenedor {
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.features-ip-grid {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.features-ip-card {
+    background-color: var(--ip-bg);
+    flex: 1;
+    min-width: 300px;
+    max-width: 360px;
+    padding: 50px 35px;
+    text-align: center;
+    border-radius: 12px; /* Bordes un poco más redondeados para modernidad */
+    box-shadow: 0 10px 30px rgba(21, 48, 93, 0.05); /* Sombra sutil con tono azulado */
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    border: 1px solid #edf2f7;
+    position: relative;
+}
+
+/* Efecto Hover Corporativo */
+.features-ip-card:hover {
+    transform: translateY(-12px);
+    box-shadow: 0 20px 40px rgba(21, 48, 93, 0.12);
+    border-color: var(--ip-accent); /* Borde naranja al resaltar */
+}
+
+/* Contenedor del Icono con círculo tenue de fondo */
+.features-ip-icon {
+    width: 80px;
+    height: 80px;
+    background-color: rgba(243, 156, 18, 0.1); /* Fondo naranja muy suave */
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 30px;
+    font-size: 35px;
+    color: var(--ip-accent) ; /* Naranja IntiPath */
+    transition: 0.3s;
+}
+
+.features-ip-card:hover .features-ip-icon {
+    background-color: var(--ip-accent) ;
+    color: var(--ip-bg); /* Icono blanco al hacer hover */
+}
+
+/* Estilo de los Textos */
+.features-ip-content p {
+    font-size: 15px;
+    color: #4a5568; /* Gris oscuro para lectura */
+    line-height: 1.8;
+    margin: 0;
+}
+
+/* Resaltado con el Azul Corporativo */
+.features-ip-content strong {
+    color: var(--ip-primary) ; /* Azul IntiPath */
+    font-weight: 700;
+}
+
+/* --- ADAPTACIÓN MÓVIL --- */
+@media (max-width: 768px) {
+    .features-ip-section {
+        padding: 50px 0;
+    }
+    
+    .features-ip-grid {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .features-ip-card {
+        width: 100%;
+        max-width: 100%;
+        padding: 40px 25px;
+    }
+}
+
+
+/* ==========================================================================
+   SECCIÓN TOURS PREMIUM - ESTILO INTIPATH (CLASES main-s-)
+   ========================================================================== */
+
+.tours-ip-section {
+    padding: 100px 0;
+    background-color: #fdfdfd;
+    font-family: 'Montserrat', sans-serif; /* Asegúrate de tener esta fuente o cambia a sans-serif */
+}
+
+.tours-ip-contenedor {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Cabecera */
+.tours-ip-header { text-align: center; margin-bottom: 60px; }
+.tours-ip-separator { width: 50px; height: 3px; background: var(--ip-primary) ; margin: 0 auto 20px; }
+.tours-ip-main-title { font-size: 28px; font-weight: 700; color: var(--ip-text); }
+.tours-ip-subtitle { font-size: 18px; color: var(--ip-text-muted); margin: 10px 0 20px; }
+.tours-ip-desc-top { max-width: 900px; margin: 0 auto; color: #888; font-size: 14px; line-height: 1.7; }
+
+/* Grilla */
+.tours-ip-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: 30px;
+}
+
+/* La Tarjeta */
+.tours-ip-card {
+    background: var(--ip-bg);
+    border-radius: 4px;
+    border: 1px solid #ececec;
+    overflow: hidden;
+    transition: all 0.4s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.tours-ip-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    border-color: var(--ip-accent);
+}
+
+/* Imagen y Badge */
+.tours-ip-img-container {
+    position: relative;
+    height: 230px;
+    overflow: hidden;
+}
+
+.tours-ip-img-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+.tours-ip-card:hover .tours-ip-img-container img {
+    transform: scale(1.1);
+}
+
+.tours-ip-badge-year {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: var(--ip-accent);
+    color: var(--ip-text-light);
+    padding: 5px 10px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: 800;
+}
+
+/* Stats Rápidas */
+.tours-ip-quick-stats {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 20px;
+    background: #fafafa;
+    border-bottom: 1px solid #f1f1f1;
+}
+
+.stat-item { font-size: 12px; color: #555; font-weight: 600; }
+.stat-item i { color: var(--ip-accent); margin-right: 5px; }
+
+/* Cuerpo */
+.tours-ip-card-body { padding: 25px; flex-grow: 1; }
+.tours-ip-card-title { font-size: 19px; font-weight: 700; color: var(--ip-primary) ; margin-bottom: 5px; }
+.tours-ip-card-loc { font-size: 11px; color: #bbb; text-transform: uppercase; margin-bottom: 15px; letter-spacing: 0.5px; }
+.tours-ip-card-text { font-size: 13.5px; color: #777; line-height: 1.6; margin-bottom: 20px; height: 65px; overflow: hidden; }
+
+/* Detalles Técnicos */
+.tours-ip-technical {
+    padding: 15px 0;
+    border-top: 1px dashed var(--ip-border);
+    margin-bottom: 20px;
+}
+
+.tech-row { font-size: 13px; color: var(--ip-text-muted); margin-bottom: 5px; display: flex; align-items: center; }
+.tech-row i { width: 25px; color: var(--ip-accent); font-size: 14px; }
+.tech-row.rating { color: var(--ip-accent); font-weight: 700; }
+
+/* Footer de Precio y Botón (Distribución exacta) */
+.tours-ip-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding-top: 15px;
+    border-top: 1px solid var(--ip-border);
+}
+
+.tours-ip-price-wrapper { display: flex; flex-direction: column; }
+.price-label { font-size: 10px; color: #999; text-transform: uppercase; font-weight: 700; }
+.price-main { display: flex; align-items: baseline; }
+.price-symbol { font-size: 16px; font-weight: 800; color: var(--ip-primary); margin-right: 2px; }
+.price-val { font-size: 24px; font-weight: 900; color: var(--ip-primary); line-height: 1; }
+.price-unit { font-size: 11px; color: #888; margin-left: 4px; }
+
+.tours-ip-btn-itinerary {
+    background-color: var(--ip-accent);
+    color: var(--ip-text-light);
+    padding: 12px 25px;
+    font-size: 12px;
+    font-weight: 700;
+    text-decoration: none;
+    text-transform: uppercase;
+    border-radius: 4px;
+    transition: background 0.3s;
+}
+
+.tours-ip-btn-itinerary:hover {
+    background-color: var(--ip-primary);
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .tours-ip-grid { grid-template-columns: 1fr; }
+    .tours-ip-card-footer { flex-direction: column; align-items: center; text-align: center; gap: 15px; }
+    .tours-ip-btn-itinerary { width: 100%; }
+}
+
+
+
+
+/* --- ESTILOS SECCIÓN COUNTER INTIPATH --- */
+.counter-ip-section {
+    padding: 60px 0;
+    background-color: #f1f1f1; /* Fondo gris claro de la referencia */
+    border-top: 1px solid #e2e2e2;
+    border-bottom: 1px solid #e2e2e2;
+}
+
+.counter-ip-contenedor {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.counter-ip-grid {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+.counter-ip-item {
+    flex: 1;
+    min-width: 220px;
+    text-align: center;
+    padding: 10px;
+}
+
+/* Estilo del Número (Naranja Corporativo) */
+.counter-ip-number {
+    font-size: 45px;
+    font-weight: 800;
+    color: var(--ip-accent); /* Tu color Naranja */
+    line-height: 1;
+    margin-bottom: 10px;
+    font-family: Arial, sans-serif;
+}
+
+/* Estilo del Texto (Azul Corporativo) */
+.counter-ip-label {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--ip-primary); /* Tu color Azul */
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    line-height: 1.4;
+    max-width: 180px;
+    margin: 0 auto;
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 768px) {
+    .counter-ip-section {
+        padding: 40px 0;
+    }
+    
+    .counter-ip-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr; /* 2 columnas en tablets */
+    }
+    
+    .counter-ip-number {
+        font-size: 35px;
+    }
+}
+
+@media (max-width: 480px) {
+    .counter-ip-grid {
+        grid-template-columns: 1fr; /* 1 columna en móviles pequeños */
+    }
+}
+
+
+
+/* ==========================================================================
+   ESTILOS COMPACTOS PARA INTIPATH (CLASES compact-ip-)
+   ========================================================================== */
+
+.compact-ip-section {
+    padding: 70px 0;
+    background-color: #fbfbfb; /* Fondo sutil para destacar las tarjetas */
+}
+
+.compact-ip-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Contenedor con scroll horizontal para móvil */
+.compact-ip-scroll-wrapper {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    padding: 15px 0;
+}
+
+/* Tarjeta Compacta */
+.compact-ip-card {
+    background: var(--ip-bg);
+    min-width: 330px;
+    flex: 1;
+    border: 1px solid var(--ip-border);
+    border-radius: 2px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.compact-ip-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+}
+
+.compact-ip-img-box {
+    height: 185px;
+    overflow: hidden;
+}
+
+.compact-ip-img-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Contenido Interno */
+.compact-ip-content {
+    padding: 22px 18px;
+}
+
+.compact-ip-meta-info {
+    font-size: 11px;
+    color: #999999;
+    margin-bottom: 6px;
+    letter-spacing: 0.3px;
+}
+
+.compact-ip-meta-info span {
+    color: var(--ip-text);
+    font-weight: 700;
+}
+
+.compact-ip-title {
+    font-size: 14.5px;
+    font-weight: 800;
+    color: #1a252f;
+    margin-bottom: 15px;
+    line-height: 1.3;
+    min-height: 38px;
+}
+
+/* Lista de detalles */
+.compact-ip-details-list p {
+    font-size: 11.5px;
+    color: #6d6d6d;
+    margin-bottom: 6px;
+    line-height: 1.4;
+}
+
+.compact-ip-details-list strong {
+    color: #222222;
+    font-weight: 600;
+}
+
+.compact-ip-visited-sites {
+    margin-top: 10px;
+    min-height: 32px;
+    border-top: 1px solid #f9f9f9;
+    padding-top: 8px;
+}
+
+/* Sistema de Barras de Dificultad */
+.compact-ip-diff-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 10px 0;
+    font-size: 11.5px;
+}
+
+.compact-ip-bars {
+    display: flex;
+    gap: 3px;
+}
+
+.c-bar {
+    width: 14px;
+    height: 6px;
+    background: #e5e5e5;
+    border-radius: 1px;
+}
+
+.c-bar.active {
+    background: var(--ip-accent); /* Tu naranja corporativo */
+}
+
+/* Footer de Tarjeta */
+.compact-ip-card-footer {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #f1f1f1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.compact-ip-rating-box {
+    font-size: 11px;
+    color: var(--ip-accent);
+    font-weight: 700;
+}
+
+.compact-ip-rating-box span {
+    color: #bbbbbb;
+    font-weight: 400;
+    margin-left: 3px;
+}
+
+.compact-ip-btn-action {
+    background-color: var(--ip-accent);
+    color: var(--ip-bg);
+    font-size: 10.5px;
+    font-weight: 800;
+    padding: 9px 18px;
+    border-radius: 3px;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: 0.3s;
+}
+
+.compact-ip-btn-action:hover {
+    background-color: var(--ip-primary); /* Tu azul corporativo */
+}
+
+/* Scrollbar para que no se vea feo en escritorio */
+.compact-ip-scroll-wrapper::-webkit-scrollbar { height: 6px; }
+.compact-ip-scroll-wrapper::-webkit-scrollbar-thumb { background: #e0e0e0; border-radius: 10px; }
+
+
+
+/* ==========================================================================
+   ESTILOS BANNER DE SEGURIDAD (CLASES banner-ip-)
+   ========================================================================== */
+
+.banner-ip-section {
+    position: relative;
+    width: 100%;
+    min-height: 500px; /* Altura mínima de la sección */
+    
+    /* LA IMAGEN DE FONDO VA AQUÍ */
+    /* He puesto una imagen de muestra para que lo veas funcionar. */
+    background-image: url('https://www.peru.travel/Contenido/General/Imagen/es/553/1.1/camino-inca-trekking.jpg');
+    
+    background-size: cover; /* La imagen cubre todo el ancho y alto */
+    background-position: center; /* La imagen se centra */
+    background-attachment: fixed; /* Efecto Parallax suave al hacer scroll */
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+}
+
+/* LA CAPA OSCURA SOBRE LA IMAGEN (OVERLAY) */
+.banner-ip-overlay {
+    background-color: rgba(0, 0, 0, 0.7); /* Oscurece la imagen un 70% */
+    width: 100%;
+    height: 100%;
+    padding: 100px 0; /* Espaciado superior e inferior del contenido */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.banner-ip-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 25px;
+    text-align: center;
+    color: var(--ip-bg); /* Todo el texto en blanco */
+}
+
+.banner-ip-icon {
+    font-size: 42px;
+    color: var(--ip-accent) ; /* Naranja IntiPath */
+    margin-bottom: 25px;
+}
+
+.banner-ip-title {
+    font-size: 34px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: var(--ip-primary);
+    letter-spacing: 0.5px;
+    font-family: 'Montserrat', sans-serif; /* O tu fuente principal */
+}
+
+.banner-ip-subtitle {
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--ip-accent); /* Naranja IntiPath */
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.banner-ip-text-wrapper {
+    max-width: 800px;
+    margin: 0 auto 40px;
+}
+
+.banner-ip-text-wrapper p {
+    font-size: 15.5px;
+    line-height: 1.8;
+    color: rgba(255, 255, 255, 0.9); /* Blanco suave */
+    font-weight: 300;
+}
+
+/* Botón transparente con borde blanco delgado (Igual a la imagen) */
+.banner-ip-btn {
+    display: inline-block;
+    padding: 13px 45px;
+    border: 1px solid var(--ip-accent);
+    color: var(--ip-accent);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.4s ease;
+}
+
+.banner-ip-btn:hover {
+    background-color: var(--ip-accent);
+    color: var(--ip-bg);
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .banner-ip-section {
+        background-attachment: scroll; /* Desactivar parallax en móvil */
+        min-height: auto;
+    }
+    
+    .banner-ip-overlay {
+        padding: 60px 0;
+    }
+
+    .banner-ip-title {
+        font-size: 26px;
+    }
+
+    .banner-ip-text-wrapper p {
+        font-size: 14px;
+        line-height: 1.6;
+    }
+}
+
+/* ==========================================================================
+   ESTILOS TESTIMONIOS (CLASES reviews-ip-)
+   ========================================================================== */
+
+.reviews-ip-section {
+    padding: 80px 0;
+    background-color: var(--ip-bg-section); /* Gris muy tenue de fondo */
+}
+
+.reviews-ip-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Cabecera */
+.reviews-ip-header { text-align: center; margin-bottom: 50px; }
+.reviews-ip-separator { width: 45px; height: 3px; background: var(--ip-accent); margin: 0 auto 15px; }
+.reviews-ip-title { font-size: 28px; font-weight: 700; color: var(--ip-primary); margin-bottom: 10px; }
+.reviews-ip-subtitle { font-size: 15px; color: #777; font-weight: 400; }
+
+/* Grilla de Testimonios */
+.reviews-ip-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+}
+
+/* Tarjeta */
+.reviews-ip-card {
+    background: var(--ip-bg);
+    padding: 40px 30px;
+    border-radius: 8px;
+    border: 1px solid var(--ip-border);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.02);
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.reviews-ip-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+    border-color: var(--ip-accent);
+}
+
+/* Estrellas Naranjas */
+.reviews-ip-stars {
+    color: var(--ip-accent);
+    font-size: 14px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+.reviews-ip-stars i { margin: 0 2px; }
+
+/* Texto del Testimonio */
+.reviews-ip-text {
+    font-size: 14.5px;
+    color: #555;
+    line-height: 1.8;
+    font-style: italic;
+    margin: 0 0 30px 0;
+    text-align: center;
+    flex-grow: 1;
+}
+
+/* Autor */
+.reviews-ip-author {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    border-top: 1px solid #f1f1f1;
+    padding-top: 20px;
+}
+
+.reviews-ip-avatar {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: var(--ip-border);
+}
+
+.reviews-ip-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.reviews-ip-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.reviews-ip-name {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--ip-primary);
+}
+
+.reviews-ip-country {
+    font-size: 12px;
+    color: #999;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .reviews-ip-title { font-size: 24px; }
+    .reviews-ip-grid { grid-template-columns: 1fr; }
+}
+
+
+
+
+
+/* ==========================================================================
+   ESTILOS DESTINOS DESDE BASE DE DATOS (CLASES destinos-db-)
+   ========================================================================== */
+
+.destinos-db-section {
+    padding: 90px 0;
+    background-color: var(--ip-bg);
+}
+
+.destinos-db-contenedor {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Cabecera */
+.destinos-db-header {
+    text-align: center;
+    margin-bottom: 70px;
+}
+
+.destinos-db-icon-top {
+    font-size: 32px;
+    color: var(--ip-accent); /* Naranja IntiPath */
+    margin-bottom: 15px;
+}
+
+.destinos-db-title {
+    font-size: 30px;
+    font-weight: 700;
+    color: var(--ip-text);
+    margin-bottom: 12px;
+}
+
+.destinos-db-subtitle {
+    font-size: 17px;
+    color: var(--ip-text-muted);
+    margin-bottom: 20px;
+}
+
+.destinos-db-text {
+    max-width: 850px;
+    margin: 0 auto;
+    font-size: 14px;
+    color: #888;
+    line-height: 1.7;
+}
+
+/* Grilla de Destinos */
+.destinos-db-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 40px;
+    justify-items: center;
+}
+
+.destinos-db-item {
+    text-align: center;
+}
+
+.destinos-db-link {
+    text-decoration: none;
+    display: block;
+}
+
+/* El Círculo Perfecto */
+.destinos-db-circle {
+    width: 165px;
+    height: 165px;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 1px solid var(--ip-border);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    transition: transform 0.4s ease;
+}
+
+.destinos-db-circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+/* Efectos al pasar el mouse */
+.destinos-db-item:hover .destinos-db-circle {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.destinos-db-item:hover .destinos-db-circle img {
+    transform: scale(1.1);
+}
+
+/* Tipografía de Destinos */
+.destinos-db-name {
+    font-size: 12.5px;
+    font-weight: 800;
+    color: var(--ip-primary); /* Azul IntiPath */
+    margin-bottom: 6px;
+    letter-spacing: 0.8px;
+    transition: color 0.3s;
+}
+
+.destinos-db-item:hover .destinos-db-name {
+    color: var(--ip-primary);
+}
+
+.destinos-db-loc {
+    font-size: 10.5px;
+    color: #bbbbbb;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+/* Adaptación para Celulares */
+@media (max-width: 768px) {
+    .destinos-db-grid {
+        grid-template-columns: repeat(2, 1fr); /* 2 por fila */
+        gap: 25px;
+    }
+    
+    .destinos-db-circle {
+        width: 145px;
+        height: 145px;
+    }
+}
+
+
+
+/*INICIO - pREGUNTAS FRECUENTES*/
+
+/* --- ESTILOS FAQ INTIPATH --- */
+.faq-ip-section { padding: 80px 0; background-color: #fcfcfc; }
+.faq-ip-container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+
+.faq-ip-header { text-align: center; margin-bottom: 50px; }
+.faq-ip-icon { font-size: 30px; color: var(--ip-accent); margin-bottom: 10px; }
+.faq-ip-title { font-size: 28px; font-weight: 700; color: var(--ip-text); }
+.faq-ip-subtitle { font-size: 14px; color: #888; }
+
+/* Grilla de 2 columnas */
+.faq-ip-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Dos columnas */
+    gap: 15px 30px;
+}
+
+.faq-ip-item {
+    border-bottom: 1px solid var(--ip-border);
+    background: var(--color-fondo-blanco);
+}
+
+.faq-ip-question {
+    width: 100%;
+    padding: 18px 10px;
+    background: none;
+    border: none;
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    font-weight: 700;
+    color: #555;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.faq-ip-question:hover { color: var(--ip-primary) ; }
+
+.faq-ip-icon-status { font-size: 18px; font-weight: 400; color: #ccc; }
+
+/* Efecto Acordeón */
+.faq-ip-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+    background: #fafafa;
+}
+
+.faq-ip-answer-content {
+    padding: 20px;
+    font-size: 14px;
+    color: var(--ip-text-muted);
+    line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+    .faq-ip-wrapper { grid-template-columns: 1fr; }
+}
+
+
+/*FINAL - PREGUNTAS FRECUENTES*/
+
+/* ==========================================================================
+   ESTILOS FRASE MOMENTOS (CLASES phrase-ip-)
+   ========================================================================== */
+
+.phrase-ip-section {
+    position: relative;
+    width: 100%;
+    min-height: 400px; /* Altura de la franja */
+    
+    /* IMAGEN DE FONDO */
+    /* Asegúrate de que esta ruta sea correcta según tu carpeta de imágenes */
+    background-image: url('../img/bg-frase-machupicchu.jpg'); 
+    
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; /* EFECTO PARALLAX */
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Capa de oscurecimiento (Overlay) */
+.phrase-ip-overlay {
+    /* Degradado azul oscuro/negro para que el texto brille */
+    background: linear-gradient(rgba(21, 48, 93, 0.6), rgba(0, 0, 0, 0.7)); 
+    width: 100%;
+    height: 100%;
+    padding: 80px 0;
+    display: flex;
+    align-items: center;
+}
+
+.phrase-ip-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    width: 100%;
+}
+
+.phrase-ip-content {
+    text-align: center;
+    color: var(--ip-bg);
+}
+
+/* Título Principal */
+.phrase-ip-title {
+    font-size: 34px;
+    font-weight: 800;
+    line-height: 1.3;
+    margin-bottom: 15px;
+    letter-spacing: 1.5px;
+    text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* Subtítulo en Itálica Naranja */
+.phrase-ip-subtitle {
+    font-size: 18px;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--ip-accent); /* Tu naranja corporativo */
+    margin-bottom: 25px;
+    letter-spacing: 0.5px;
+}
+
+/* Divisor Naranja Grueso */
+.phrase-ip-divider {
+    width: 70px;
+    height: 4px;
+    background-color: var(--ip-accent);
+    margin: 0 auto;
+    border-radius: 2px;
+}
+
+/* RESPONSIVE: Ajustes para celulares */
+@media (max-width: 768px) {
+    .phrase-ip-section {
+        min-height: 300px;
+        background-attachment: scroll; /* Parallax se desactiva en móvil por rendimiento */
+    }
+    
+    .phrase-ip-title {
+        font-size: 24px;
+        padding: 0 10px;
+    }
+    
+    .phrase-ip-subtitle {
+        font-size: 15px;
+    }
+}
+
+
+
+/* ==========================================================================
+   SECCION LO QUE DICEN NUESTROS CLIENTES - Grid de resenas 3x4
+   ========================================================================== */
+
+.resenas-ip-section { background: var(--ip-bg-section); padding: 70px 20px; }
+.resenas-ip-container { max-width: 1200px; margin: 0 auto; }
+
+.resenas-ip-header { text-align: center; margin-bottom: 45px; }
+.resenas-ip-separator { width: 52px; height: 4px; background: var(--ip-accent); margin: 0 auto 16px; border-radius: 4px; }
+.resenas-ip-title { font-size: clamp(22px, 4vw, 30px); font-weight: 800; color: var(--ip-primary); margin-bottom: 8px; font-family: "Montserrat", sans-serif; }
+.resenas-ip-subtitle { font-size: clamp(15px, 2.5vw, 18px); font-weight: 600; color: var(--ip-text); margin-bottom: 12px; }
+.resenas-ip-descripcion { font-size: 14px; color: var(--ip-text-muted); max-width: 760px; margin: 0 auto; line-height: 1.7; }
+
+/* --- Filas del grid --- */
+.resenas-ip-row { display: grid; grid-template-columns: 240px repeat(3, 1fr); gap: 16px; margin-bottom: 18px; align-items: stretch; }
+
+/* --- Tarjeta resumen de plataforma (columna 1) --- */
+.resenas-ip-summary { background: #fff; border: 1px solid var(--ip-border); border-radius: 14px; padding: 22px 18px; text-align: center; display: flex; flex-direction: column; justify-content: center; box-shadow: 0 2px 10px rgba(0,0,0,0.04); }
+.rv-sum-logo { display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 800; font-size: 15px; color: var(--ip-text); margin-bottom: 14px; }
+.rv-sum-logo i { font-size: 22px; }
+.rv-sum-logo img { width: 24px; height: 24px; }
+.rv-plat-tripadvisor .rv-sum-logo i { color: #00aa6c; }
+.rv-plat-trustpilot .rv-sum-logo i { color: #00b67a; }
+.rv-logo-g { width: 26px; height: 26px; border-radius: 50%; font-weight: 900; font-size: 15px; display: inline-flex; align-items: center; justify-content: center; border: 2px solid #4285f4; color: #4285f4; }
+.rv-plat-google .rv-sum-logo .rv-logo-g { border-color: #4285f4; color: #4285f4; }
+.rv-sum-trek { font-size: 12px; color: var(--ip-text-muted); margin-bottom: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .4px; }
+.rv-sum-score { font-size: 44px; font-weight: 900; line-height: 1; color: var(--ip-text); margin-bottom: 4px; }
+.rv-sum-stars-label { font-size: 12px; color: var(--ip-text-muted); margin-bottom: 10px; }
+.rv-sum-rating { margin-bottom: 12px; }
+.rv-sum-count { font-size: 13px; font-weight: 700; color: #E8AC18; text-decoration: none; }
+.rv-sum-count:hover { text-decoration: underline; }
+
+/* --- Valoraciones por plataforma --- */
+.rv-rating { display: inline-flex; gap: 3px; font-size: 13px; }
+.rv-dot i { color: #00aa6c; }
+.rv-star-g i { color: #ffbc00; }
+.rv-star-tp i { color: #00b67a; }
+
+/* --- Tarjeta de resena individual --- */
+.resenas-ip-card { background: #f7f7f7; border-radius: 12px; padding: 20px 18px 14px; position: relative; display: flex; flex-direction: column; }
+.rv-plat-badge { position: absolute; top: 12px; right: 14px; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 14px; }
+.rv-badge-tripadvisor { background: #00aa6c; }
+.rv-badge-google { background: #4285f4; }
+.rv-badge-google .rv-logo-g { border: none; color: #fff; font-size: 16px; width: auto; height: auto; }
+.rv-badge-trustpilot { background: #00b67a; }
+.rv-badge-trustpilot i { color: #fff; }
+.rv-plat-badge img { width: 16px; height: 16px; filter: brightness(0) invert(1); }
+
+.rv-card-head { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; padding-right: 34px; }
+.rv-avatar { width: 42px; height: 42px; border-radius: 50%; color: #fff; font-weight: 800; font-size: 17px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.rv-card-who { display: flex; flex-direction: column; min-width: 0; }
+.rv-autor { font-weight: 700; font-size: 14px; color: var(--ip-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.rv-fecha { font-size: 12px; color: #999; font-style: italic; }
+.rv-titulo { font-size: 14px; font-weight: 700; color: var(--ip-primary); margin-bottom: 6px; }
+.rv-rating-sm { margin-bottom: 8px; font-size: 12px; }
+.rv-texto { font-size: 13px; line-height: 1.6; color: #555; margin-bottom: 12px; flex-grow: 1; display: -webkit-box; -webkit-line-clamp: var(--rv-lines, 3); -webkit-box-orient: vertical; overflow: hidden; }
+.rv-link-full { font-size: 13px; font-weight: 700; color: #E8AC18; text-decoration: none; align-self: flex-end; }
+.rv-link-full:hover { text-decoration: underline; }
+
+/* --- Widget externo y botones CTA --- */
+.resenas-ip-widget { margin-top: 10px; text-align: center; }
+.resenas-ip-ctas { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 30px; }
+.rv-cta { display: inline-flex; align-items: center; gap: 8px; padding: 11px 22px; border-radius: 50px; background: var(--ip-primary); color: #fff; font-weight: 700; font-size: 13.5px; text-decoration: none; transition: .3s; }
+.rv-cta:hover { background: var(--ip-accent); color: var(--ip-bg-dark); transform: translateY(-2px); }
+.rv-cta img { width: 18px; height: 18px; filter: brightness(0) invert(1); }
+
+/* --- Responsive --- */
+@media (max-width: 1100px) { .resenas-ip-row { grid-template-columns: 200px repeat(3, 1fr); gap: 12px; } }
+@media (max-width: 900px) {
+    .resenas-ip-row { grid-template-columns: 1fr 1fr; }
+    .resenas-ip-summary { grid-column: 1 / -1; flex-direction: row; align-items: center; justify-content: space-between; text-align: left; gap: 14px; flex-wrap: wrap; }
+    .resenas-ip-summary .rv-sum-logo { margin-bottom: 0; }
+    .rv-sum-score { font-size: 34px; }
+}
+@media (max-width: 600px) {
+    .resenas-ip-row { grid-template-columns: 1fr; }
+    .resenas-ip-section { padding: 50px 14px; }
+    .resenas-ip-ctas { flex-direction: column; align-items: stretch; }
+    .rv-cta { justify-content: center; }
+}

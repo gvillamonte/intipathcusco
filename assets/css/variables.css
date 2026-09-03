@@ -1,0 +1,35 @@
+:root {
+    /* ===== MARCA ===== */
+    --ip-primary: var(--ip-dynamic-primary, #0f9b9e);
+    --ip-accent: var(--ip-dynamic-accent, #c6d544);
+
+    /* ===== TEXTOS ===== */
+    --ip-text: var(--ip-dynamic-text, #333333);
+    --ip-text-light: var(--ip-dynamic-text-light, #ECF0F1);
+    --ip-text-muted: var(--ip-dynamic-text-muted, #666666);
+
+    /* ===== FONDOS ===== */
+    --ip-bg: var(--ip-dynamic-bg, #FFFFFF);
+    --ip-bg-section: var(--ip-dynamic-bg-section, #f8f9fa);
+    --ip-bg-dark: var(--ip-dynamic-bg-dark, #0d1a33);
+
+    /* ===== BOTONES ===== */
+    --ip-btn-primary: var(--ip-dynamic-btn-primary, #0f9b9e);
+    --ip-btn-accent: var(--ip-dynamic-btn-accent, #c6d544);
+    --ip-btn-whatsapp: var(--ip-dynamic-btn-whatsapp, #25d366);
+
+    /* ===== ESTADOS ===== */
+    --ip-success: var(--ip-dynamic-success, #27ae60);
+    --ip-danger: var(--ip-dynamic-danger, #e74c3c);
+    --ip-star: var(--ip-dynamic-star, #ffbc00);
+
+    /* ===== BORDES ===== */
+    --ip-border: var(--ip-dynamic-border, #eeeeee);
+
+    /* ===== ADMIN ===== */
+    --ip-admin-primary: var(--ip-dynamic-admin-primary, #15305D);
+    --ip-admin-accent: var(--ip-dynamic-admin-accent, #E8AC18);
+
+    /* ===== OVERLAY ===== */
+    --ip-overlay: var(--ip-dynamic-overlay, rgba(0,0,0,0.5));
+}

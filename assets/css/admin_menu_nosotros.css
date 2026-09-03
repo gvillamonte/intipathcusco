@@ -1,0 +1,205 @@
+/**
+ * ESTILOS: admin_menu_nosotros.css
+ * COLORES CORPORATIVOS: IntiPath Tours
+ */
+
+:root {
+    --color-primario-azul: #15305D;
+    --color-secundario-amarillo: #E8AC18;
+    --color-fondo-blanco: #FFFFFF;
+    --color-texto-oscuro: #333333;
+    --color-texto-claro: #ECF0F1;
+    --sidebar-width: 280px; /* Ajuste según tu sidebar actual */
+}
+
+/* 1. RESET Y ESTRUCTURA */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body.ip-admin-body {
+    background-color: var(--color-texto-claro);
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    display: flex; /* Para que la sidebar y el main estén alineados */
+}
+
+.ip-main-content {
+    /* margin-left: var(--sidebar-width); */
+    width: calc(100% - var(--sidebar-width));
+    padding: 40px;
+    min-height: 100vh;
+}
+
+/* 2. HEADER */
+.ip-content-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid var(--color-primario-azul);
+    padding-bottom: 20px;
+    margin-bottom: 30px;
+}
+
+.header-text h1 { color: var(--color-primario-azul); font-size: 1.8rem; }
+.header-text p { color: #666; font-size: 0.9rem; margin-top: 5px; }
+
+.ip-btn-outline {
+    text-decoration: none;
+    color: var(--color-primario-azul);
+    border: 1px solid var(--color-primario-azul);
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.ip-btn-outline:hover {
+    background: var(--color-primario-azul);
+    color: white;
+}
+
+/* 3. FORMULARIO Y SECCIONES */
+.ip-form-section {
+    background: var(--color-fondo-blanco);
+    border-radius: 10px;
+    padding: 30px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.ip-section-title {
+    color: var(--color-primario-azul);
+    font-size: 1.1rem;
+    margin-bottom: 25px;
+    border-left: 4px solid var(--color-secundario-amarillo);
+    padding-left: 15px;
+}
+
+/* GRID SYSTEM */
+.ip-grid-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+}
+
+.ip-full { grid-column: span 2; }
+
+.ip-control label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 600;
+    color: var(--color-primario-azul);
+}
+
+.ip-control input[type="text"], 
+.ip-control textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-family: inherit;
+    font-size: 0.95rem;
+}
+
+.ip-control input:focus, 
+.ip-control textarea:focus {
+    border-color: var(--color-secundario-amarillo);
+    outline: none;
+}
+
+/* 4. IMÁGENES PREVIEW */
+.ip-preview-wrapper {
+    margin-bottom: 15px;
+}
+
+.ip-preview-wrapper img {
+    max-width: 250px;
+    max-height: 150px;
+    border: 3px solid var(--color-secundario-amarillo);
+    border-radius: 5px;
+    display: block;
+}
+
+/* 5. BOTÓN GUARDAR */
+.ip-form-actions {
+    text-align: right;
+    margin-top: 20px;
+}
+
+.ip-btn-save {
+    background: var(--color-primario-azul);
+    color: white;
+    border: none;
+    padding: 15px 50px;
+    font-size: 1rem;
+    font-weight: 700;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.ip-btn-save:hover {
+    background: var(--color-secundario-amarillo);
+    color: var(--color-primario-azul);
+    transform: translateY(-2px);
+}
+
+.mt-20 { margin-top: 20px; }
+
+
+/* Caja de información con tus colores */
+    /* Contenedor de la mini galería de nombres */
+.ip-mini-gallery-container {
+    background: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    max-height: 300px; /* Para que no se haga infinito */
+    overflow-y: auto;  /* Scroll si hay muchas fotos */
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* Item de la galería */
+.ip-gallery-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #fff;
+    padding: 5px;
+    border-radius: 4px;
+    border: 1px solid #eee;
+}
+
+/* Miniatura de la imagen */
+.ip-img-tiny {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 3px;
+    border: 1px solid var(--color-secundario-amarillo);
+}
+
+/* Texto del nombre del archivo */
+.ip-img-name {
+    font-family: 'Courier New', monospace;
+    font-size: 0.85rem;
+    color: var(--color-primario-azul);
+    user-select: all; /* Permite seleccionar el nombre con un clic */
+}
+
+.ip-img-name:hover {
+    color: var(--color-secundario-amarillo);
+    cursor: pointer;
+}
+
+
+
+/**
+ * ARCHIVO: admin_menu_mision.php
+ * DESCRIPCIÓN: Panel para gestionar Misión, Visión y Políticas de IntiPath Tours.
+ */
+
+
+ 
+
+

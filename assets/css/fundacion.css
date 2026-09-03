@@ -1,0 +1,384 @@
+/* =============================================
+   FUNDACIÓN INTI PATH TOURS — Teal Design System
+   Primary: #00685f | Primary-container: #008378
+   Surface: #f8fafc | On-surface: #0b1c30
+   ============================================= */
+
+/* === HERO === */
+.fundacion-hero {
+    position: relative;
+    width: 100%;
+    height: 420px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin-top: 80px;
+    overflow: hidden;
+}
+
+.fundacion-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(0, 104, 95, 0.85) 0%, rgba(0, 131, 120, 0.6) 100%);
+    z-index: 1;
+}
+
+.fundacion-hero h1,
+.fundacion-hero p {
+    position: relative;
+    z-index: 2;
+    color: #fff;
+}
+
+.fundacion-hero h1 {
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-size: 2.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 15px;
+    text-shadow: 0 3px 15px rgba(0, 0, 0, 0.3);
+}
+
+.fundacion-hero p {
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 500;
+    letter-spacing: 2px;
+    opacity: 0.95;
+    max-width: 600px;
+}
+
+/* === ABOUT / DESCRIPCIÓN === */
+.fundacion-about {
+    max-width: 1100px;
+    margin: 70px auto;
+    padding: 0 30px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+}
+
+.fundacion-about-texto h2 {
+    font-family: 'Hanken Grotesk', sans-serif;
+    color: #00685f;
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.fundacion-about-texto h3 {
+    font-family: 'Hanken Grotesk', sans-serif;
+    color: #008378;
+    font-size: 1.15rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    font-style: italic;
+}
+
+.fundacion-about-texto p {
+    font-family: 'Hanken Grotesk', sans-serif;
+    color: #3d4947;
+    line-height: 1.85;
+    font-size: 1rem;
+}
+
+.fundacion-about-logo {
+    text-align: center;
+}
+
+.fundacion-about-logo img {
+    max-width: 320px;
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+}
+
+.fundacion-about-logo img:hover {
+    transform: scale(1.03);
+}
+
+/* === VALORES (Misión / Visión / Valores) === */
+.fundacion-valores {
+    max-width: 1100px;
+    margin: 0 auto 70px;
+    padding: 0 30px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+
+.valor-card {
+    font-family: 'Hanken Grotesk', sans-serif;
+    text-align: center;
+    background: #ffffff;
+    border-radius: 8px;
+    padding: 40px 28px;
+    border: 1px solid #bcc9c6;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.valor-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.valor-card:nth-child(1) { border-top: 3px solid #00685f; }
+.valor-card:nth-child(2) { border-top: 3px solid #008378; }
+.valor-card:nth-child(3) { border-top: 3px solid #00685f; }
+
+.valor-card .valor-icono {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 1.8rem;
+}
+
+.valor-card:nth-child(1) .valor-icono { background: rgba(0, 104, 95, 0.08); color: #00685f; }
+.valor-card:nth-child(2) .valor-icono { background: rgba(0, 131, 120, 0.08); color: #008378; }
+.valor-card:nth-child(3) .valor-icono { background: rgba(0, 104, 95, 0.08); color: #00685f; }
+
+.valor-card h4 {
+    color: #00685f;
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+}
+
+.valor-card p {
+    color: #3d4947;
+    line-height: 1.75;
+    font-size: 0.92rem;
+}
+
+/* === PROYECTOS === */
+.fundacion-proyectos-seccion {
+    background: #f8fafc;
+    padding: 70px 0;
+}
+
+.fundacion-proyectos-titulo {
+    text-align: center;
+    margin-bottom: 45px;
+}
+
+.fundacion-proyectos-titulo h2 {
+    font-family: 'Hanken Grotesk', sans-serif;
+    color: #00685f;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.fundacion-proyectos-titulo .linea {
+    width: 60px;
+    height: 4px;
+    background: #008378;
+    margin: 0 auto;
+    border-radius: 2px;
+}
+
+.fundacion-proyectos-grid {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 30px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+
+.proyecto-card {
+    font-family: 'Hanken Grotesk', sans-serif;
+    background: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #bcc9c6;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.proyecto-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.proyecto-card-img {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+}
+
+.proyecto-card-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.proyecto-card:hover .proyecto-card-img img {
+    transform: scale(1.05);
+}
+
+.proyecto-card-body {
+    padding: 22px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.proyecto-card-body h4 {
+    color: #00685f;
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.proyecto-card-body p {
+    color: #3d4947;
+    font-size: 0.88rem;
+    line-height: 1.65;
+    flex: 1;
+    margin-bottom: 15px;
+}
+
+.proyecto-card-body a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #00685f;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.proyecto-card-body a:hover {
+    color: #008378;
+}
+
+.proyecto-card-body a i {
+    font-size: 0.75rem;
+    transition: transform 0.2s;
+}
+
+.proyecto-card-body a:hover i {
+    transform: translateX(4px);
+}
+
+/* Sin enlace: ocultar "LEER MÁS" */
+.proyecto-card-body.sin-enlace a {
+    display: none;
+}
+
+/* === CITA === */
+.fundacion-cita {
+    background: linear-gradient(135deg, #00685f 0%, #008378 100%);
+    padding: 70px 30px;
+    text-align: center;
+}
+
+.fundacion-cita blockquote {
+    max-width: 800px;
+    margin: 0 auto;
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-size: 1.2rem;
+    font-style: italic;
+    color: rgba(255, 255, 255, 0.95);
+    line-height: 1.85;
+    position: relative;
+    padding: 0 40px;
+}
+
+.fundacion-cita blockquote::before {
+    content: '\201C';
+    font-size: 4rem;
+    color: rgba(255, 255, 255, 0.4);
+    position: absolute;
+    left: -10px;
+    top: -20px;
+    font-family: Georgia, serif;
+    line-height: 1;
+}
+
+/* === DIFERENTE === */
+.fundacion-diferente {
+    max-width: 900px;
+    margin: 70px auto;
+    padding: 0 30px;
+    text-align: center;
+}
+
+.fundacion-diferente h2 {
+    font-family: 'Hanken Grotesk', sans-serif;
+    color: #00685f;
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.fundacion-diferente p {
+    font-family: 'Hanken Grotesk', sans-serif;
+    color: #3d4947;
+    line-height: 1.85;
+    font-size: 1rem;
+    margin-bottom: 30px;
+}
+
+.fundacion-diferente .certificaciones {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 30px;
+    opacity: 0.7;
+}
+
+.fundacion-diferente .certificaciones img {
+    height: 50px;
+    width: auto;
+    filter: grayscale(30%);
+    transition: filter 0.3s;
+}
+
+.fundacion-diferente .certificaciones img:hover {
+    filter: grayscale(0%);
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 992px) {
+    .fundacion-hero h1 { font-size: 2.2rem; }
+    .fundacion-about { grid-template-columns: 1fr; gap: 40px; }
+    .fundacion-about-logo { order: -1; }
+    .fundacion-valores { grid-template-columns: 1fr; gap: 20px; }
+    .fundacion-proyectos-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 600px) {
+    .fundacion-hero { height: 300px; margin-top: 60px; }
+    .fundacion-hero h1 { font-size: 1.6rem; letter-spacing: 1px; }
+    .fundacion-hero p { font-size: 0.95rem; }
+    .fundacion-about { margin: 40px auto; padding: 0 20px; }
+    .fundacion-about-texto h2 { font-size: 1.4rem; }
+    .fundacion-proyectos-grid { grid-template-columns: 1fr; }
+    .fundacion-cita blockquote { font-size: 1rem; padding: 0 20px; }
+    .fundacion-cita blockquote::before { font-size: 2.5rem; left: 0; top: -15px; }
+    .fundacion-diferente h2 { font-size: 1.4rem; }
+}

@@ -1,0 +1,265 @@
+/* assets/css/pago_izipay.css
+   Frontend de pagos estilo "Demo Checkout" de IZIPAY con colores IntiPath.
+   Usado por: seleccionar_pago.php, checkout_izipay.php, checkout_paypal.php, pago_exitoso.php */
+
+:root {
+    --ip-primary: #15305D;      /* azul marino IntiPath */
+    --ip-primary-soft: #1e3f7a;
+    --ip-accent: #c6d544;       /* lima IntiPath */
+    --ip-accent-soft: #eef3c8;
+    --ip-turq: #0C9A9E;         /* turquesa IntiPath */
+    --ip-turq-soft: #e0f5f5;
+    --ip-text: #2c3e50;
+    --ip-muted: #64748b;
+    --ip-bg: #f0f2f5;
+    --ip-paypal: #003087;
+    --ip-yape: #7d1fa2;
+    --ip-success: #27ae60;
+    --ip-warning: #e67e22;
+    --ip-danger: #d63031;
+    --ip-radius: 20px;
+    --ip-shadow: 0 10px 30px rgba(21, 48, 93, 0.08);
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    background: linear-gradient(160deg, #eef2f7 0%, var(--ip-bg) 45%, #e9f0ef 100%);
+    color: var(--ip-text);
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    min-height: 100vh;
+}
+
+/* ============ CABECERA + MARCA ============ */
+.pw-header { text-align: center; padding: 34px 15px 6px; }
+.pw-brand {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-weight: 900; font-size: 1.35rem; letter-spacing: 1px; color: var(--ip-primary);
+    text-decoration: none;
+}
+.pw-brand i { color: var(--ip-accent); font-size: 1.5rem; }
+.pw-brand img { max-height: 46px; max-width: 220px; width: auto; display: block; }
+.pw-brand small { font-weight: 700; color: var(--ip-turq); font-size: 0.7rem; letter-spacing: 2.5px; display: block; }
+.pw-loading-brand-img { max-height: 34px; max-width: 200px; width: auto; }
+.pw-header h1 { font-weight: 800; font-size: 1.7rem; margin: 14px 0 4px; color: var(--ip-primary); }
+.pw-header p.sub { margin: 0; color: var(--ip-muted); font-size: 0.95rem; }
+
+/* ============ WIZARD (estilo demo: circulos + barra) ============ */
+.pw-wizard { display: flex; justify-content: center; margin: 26px auto 8px; padding: 0 15px; }
+.pw-steps { display: flex; align-items: flex-start; gap: 0; max-width: 480px; width: 100%; }
+.pw-step {
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    width: 84px; flex-shrink: 0; color: #b0b8c4; font-weight: 700; font-size: 0.8rem;
+}
+.pw-num {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: #e2e8f0; color: #94a3b8;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 0.95rem; position: relative; z-index: 2;
+    transition: all 0.35s ease;
+}
+.pw-step.active .pw-num { background: var(--ip-primary); color: #fff; box-shadow: 0 0 0 5px rgba(21,48,93,0.12); }
+.pw-step.active { color: var(--ip-primary); }
+.pw-step.done .pw-num { background: var(--ip-accent); color: #fff; box-shadow: 0 0 0 5px rgba(198,213,68,0.25); }
+.pw-step.done { color: #6b7a52; }
+.pw-track {
+    flex: 1; height: 4px; background: #e2e8f0; border-radius: 4px;
+    margin-top: 17px; overflow: hidden; min-width: 30px;
+}
+.pw-progress { display: block; height: 100%; background: linear-gradient(90deg, var(--ip-accent), var(--ip-turq)); border-radius: 4px; transition: width 0.9s ease; }
+.pw-ico { font-size: 1.05rem; }
+
+/* ============ CONTENEDOR / LAYOUT ============ */
+.pw-container { max-width: 1020px; margin: 26px auto 60px; padding: 0 15px; }
+.pw-row { display: flex; gap: 28px; align-items: flex-start; }
+.pw-col-main { flex: 1; min-width: 0; }
+.pw-col-side { width: 380px; flex-shrink: 0; }
+
+/* ============ CARDS ============ */
+.pw-card {
+    background: #fff; border-radius: var(--ip-radius); border: none;
+    box-shadow: var(--ip-shadow); overflow: hidden; margin-bottom: 22px;
+}
+.pw-card-head {
+    padding: 22px 26px; border-bottom: 1px solid #f0f0f0;
+    display: flex; align-items: center; gap: 12px;
+}
+.pw-card-head h3 { margin: 0; font-size: 1.05rem; font-weight: 800; color: var(--ip-primary); }
+.pw-card-head .pw-head-ico {
+    width: 38px; height: 38px; border-radius: 11px; background: var(--ip-turq-soft);
+    color: var(--ip-turq); display: flex; align-items: center; justify-content: center; font-size: 1.05rem;
+}
+.pw-card-body { padding: 26px; }
+
+/* ============ OPCIONES DE PAGO ============ */
+.pw-option {
+    display: flex; align-items: center; gap: 18px;
+    border: 2px solid #eef0f4; border-radius: 16px; padding: 18px 20px; margin-bottom: 14px;
+    cursor: pointer; color: inherit; text-decoration: none; transition: all 0.3s ease; background: #fff;
+}
+.pw-option:hover {
+    border-color: var(--ip-accent); background: #fcfdf7; text-decoration: none; color: inherit;
+    transform: translateY(-2px); box-shadow: 0 10px 24px rgba(198, 213, 68, 0.18);
+}
+.pw-option.selected { border-color: var(--ip-turq); background: var(--ip-turq-soft); }
+.pw-option-ico {
+    width: 58px; height: 58px; border-radius: 14px; flex-shrink: 0;
+    background: #f3f5f9; color: var(--ip-primary);
+    display: flex; align-items: center; justify-content: center; font-size: 26px;
+}
+.pw-option-ico.ico-paypal { background: #e8edf7; color: var(--ip-paypal); }
+.pw-option-ico.ico-yape { background: #f4e9fa; color: var(--ip-yape); }
+.pw-option-ico.ico-card { background: var(--ip-turq-soft); color: var(--ip-turq); }
+.pw-option-info { flex: 1; }
+.pw-option-info h4 { margin: 0; font-size: 1.02rem; font-weight: 800; color: var(--ip-primary); }
+.pw-option-info p { margin: 4px 0 0; font-size: 0.82rem; color: var(--ip-muted); line-height: 1.45; }
+.pw-option-arrow { color: #cdd3dc; transition: all 0.3s; font-size: 1rem; }
+.pw-option:hover .pw-option-arrow { color: var(--ip-turq); transform: translateX(5px); }
+
+/* Moneda */
+.pw-currency { display: flex; gap: 10px; margin-bottom: 20px; }
+.pw-currency .pw-option { flex: 1; justify-content: center; margin: 0; padding: 13px 10px; gap: 8px; flex-direction: column; }
+.pw-currency .pw-option-info { text-align: center; }
+.pw-currency h4 { font-size: 0.92rem; }
+.pw-currency p { font-size: 0.75rem; }
+
+/* ============ RESUMEN ============ */
+.pw-tour-pic { position: relative; height: 165px; }
+.pw-tour-pic img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.pw-tour-pic .pw-overlay {
+    position: absolute; inset: auto 0 0 0; padding: 16px 20px;
+    background: linear-gradient(transparent, rgba(21, 48, 93, 0.88)); color: #fff;
+}
+.pw-tour-pic .pw-overlay h4 { margin: 0; font-weight: 800; font-size: 1rem; }
+.pw-tour-pic .pw-overlay small { opacity: 0.85; }
+.pw-sum-row { display: flex; justify-content: space-between; margin-bottom: 11px; font-size: 0.88rem; color: #566; }
+.pw-sum-row b { color: var(--ip-primary); }
+.pw-sum-total { border-top: 1px solid #f0f0f0; padding-top: 13px; margin-top: 13px; font-weight: 800; color: var(--ip-primary); font-size: 1.05rem; }
+.pw-sum-adelanto {
+    background: #f0f9f4; border-radius: 12px; padding: 14px 16px; margin-top: 10px;
+    display: flex; justify-content: space-between; align-items: center;
+    color: var(--ip-success); font-weight: 800; font-size: 1.1rem;
+}
+.pw-sum-saldo { font-size: 0.8rem; color: var(--ip-warning); font-weight: 700; text-align: center; display: block; margin-top: 6px; }
+.pw-note { font-size: 0.8rem; color: var(--ip-muted); line-height: 1.5; margin-top: 18px; padding-top: 16px; border-top: 1px solid #f0f0f0; }
+.pw-note i { color: var(--ip-turq); }
+
+/* ============ BOTONES ============ */
+.pw-btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+    padding: 14px 30px; border-radius: 13px; font-weight: 800; font-size: 0.95rem;
+    text-decoration: none; border: none; cursor: pointer; transition: all 0.3s;
+}
+.pw-btn-primary { background: var(--ip-primary); color: #fff; }
+.pw-btn-primary:hover { background: var(--ip-primary-soft); color: #fff; transform: translateY(-2px); }
+.pw-btn-turq { background: var(--ip-turq); color: #fff; }
+.pw-btn-turq:hover { background: #0a8488; color: #fff; transform: translateY(-2px); }
+.pw-btn-outline { background: #fff; color: var(--ip-primary); border: 2px solid var(--ip-primary); }
+.pw-btn-outline:hover { background: var(--ip-primary); color: #fff; transform: translateY(-2px); }
+.pw-btn-paypal { background: var(--ip-paypal); color: #fff; }
+.pw-btn-paypal:hover { background: #0046ad; color: #fff; transform: translateY(-2px); }
+.pw-btn-back {
+    background: transparent; border: none; color: var(--ip-muted); font-weight: 700;
+    font-size: 0.85rem; cursor: pointer; padding: 10px 14px; text-decoration: none;
+}
+.pw-btn-back:hover { color: var(--ip-primary); }
+
+/* ============ SEGURIDAD / TRUST ============ */
+.pw-secure-box {
+    background: #fff8e6; border: 1px solid #f5e6b8; border-radius: 12px;
+    padding: 13px 16px; font-size: 0.83rem; color: #856404; line-height: 1.5; margin-top: 18px;
+}
+.pw-secure-box i { color: var(--ip-warning); }
+.pw-trust { display: flex; justify-content: center; gap: 18px; margin-top: 26px; color: #9aa5b1; font-size: 1.6rem; }
+.pw-trust .fa-cc-visa { color: #1a1f71; }
+.pw-trust .fa-cc-mastercard { color: #eb001b; }
+.pw-trust .fa-cc-amex { color: #2e77bc; }
+.pw-trust .fa-paypal { color: var(--ip-paypal); }
+.pw-trust .fa-lock { color: var(--ip-turq); font-size: 1.35rem; align-self: center; }
+
+/* ============ PANTALLA DE CARGA (estilo demo izipay loader) ============ */
+.pw-loading {
+    position: fixed; inset: 0; z-index: 99999;
+    background: linear-gradient(150deg, rgba(21,48,93,0.97), rgba(12,154,158,0.92));
+    backdrop-filter: blur(5px);
+    display: none; align-items: center; justify-content: center; flex-direction: column; text-align: center;
+}
+.pw-loading.active { display: flex; animation: pwFade 0.35s ease; }
+@keyframes pwFade { from { opacity: 0; } to { opacity: 1; } }
+.pw-loading-box { color: #fff; max-width: 380px; padding: 0 25px; }
+.pw-spinner {
+    width: 66px; height: 66px; margin: 0 auto 24px; border-radius: 50%;
+    border: 5px solid rgba(255,255,255,0.18); border-top-color: var(--ip-accent);
+    animation: pwSpin 0.85s linear infinite;
+}
+@keyframes pwSpin { to { transform: rotate(360deg); } }
+.pw-loading-title { font-size: 1.15rem; font-weight: 800; letter-spacing: 1px; margin-bottom: 10px; }
+.pw-loading-sub { font-size: 0.9rem; color: rgba(255,255,255,0.78); line-height: 1.55; }
+.pw-loading-brand { margin-top: 26px; font-size: 0.75rem; letter-spacing: 3px; opacity: 0.65; font-weight: 700; }
+
+/* Loader inline (dentro de la tarjeta, como el gif de la demo) */
+.pw-inline-loader { text-align: center; padding: 46px 20px; }
+.pw-inline-loader .pw-spinner { width: 44px; height: 44px; border-width: 4px; border-top-color: var(--ip-turq); margin-bottom: 16px; }
+.pw-inline-loader p { color: var(--ip-muted); font-size: 0.9rem; font-weight: 600; }
+
+/* ============ PASARELA EMBEBIDA ============ */
+.pw-gateway { margin-top: 24px; min-height: 200px; }
+.pw-gateway .kr-embedded, .pw-gateway .kr-popin { margin: 0 auto; }
+
+/* ============ PAGINA EXITO ============ */
+.pw-success-card { max-width: 720px; margin: 30px auto; }
+.pw-success-head {
+    padding: 44px 30px; text-align: center; color: #fff; position: relative;
+    background: linear-gradient(135deg, var(--ip-primary), var(--ip-turq));
+}
+.pw-success-head.ok { background: linear-gradient(135deg, #1e7d46, var(--ip-turq)); }
+.pw-success-head.wait { background: linear-gradient(135deg, var(--ip-yape), #5b2a75); }
+.pw-success-ico {
+    width: 84px; height: 84px; border-radius: 50%; margin: 0 auto 18px;
+    background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center;
+    font-size: 2.4rem; animation: pwPop 0.6s ease;
+}
+@keyframes pwPop { 0% { transform: scale(0.4); opacity: 0; } 70% { transform: scale(1.12); } 100% { transform: scale(1); opacity: 1; } }
+.pw-success-head h2 { margin: 0; font-weight: 900; font-size: 1.75rem; }
+.pw-success-head p { margin: 6px 0 0; opacity: 0.9; font-size: 1rem; }
+.pw-grid-details { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 24px 0; }
+.pw-detail { background: #f8fafc; border: 1px solid #eef0f4; border-radius: 12px; padding: 14px 16px; }
+.pw-detail span { display: block; font-size: 0.72rem; color: #9aa5b1; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+.pw-detail b { font-size: 0.98rem; color: var(--ip-primary); }
+.pw-price-break { border-top: 2px dashed #e5e9f0; padding-top: 22px; margin-top: 8px; }
+.pw-price-row { display: flex; justify-content: space-between; margin-bottom: 9px; font-size: 0.92rem; color: #556; }
+.pw-price-row.paid { color: var(--ip-success); font-weight: 800; font-size: 1.08rem; }
+.pw-price-row.balance { color: var(--ip-warning); font-weight: 700; }
+.pw-price-row.total { font-weight: 900; color: var(--ip-primary); font-size: 1.05rem; border-top: 1px solid #eef0f4; padding-top: 13px; margin-top: 9px; }
+.pw-actions { display: flex; gap: 12px; margin-top: 30px; }
+.pw-actions .pw-btn { flex: 1; }
+.pw-mail-note {
+    margin-top: 18px; background: #f8fafc; border-radius: 10px; padding: 13px 16px;
+    font-size: 0.83rem; color: var(--ip-muted); line-height: 1.55;
+}
+.pw-mail-note strong { color: var(--ip-primary); }
+
+/* ============ RESPONSIVE ============ */
+@media (max-width: 991px) {
+    .pw-row { flex-direction: column; }
+    .pw-col-side { width: 100%; }
+}
+@media (max-width: 640px) {
+    .pw-header { padding-top: 24px; }
+    .pw-header h1 { font-size: 1.35rem; }
+    .pw-step { width: 62px; font-size: 0.7rem; }
+    .pw-num { width: 32px; height: 32px; font-size: 0.85rem; }
+    .pw-track { margin-top: 14px; }
+    .pw-card-body { padding: 18px; }
+    .pw-card-head { padding: 16px 18px; }
+    .pw-card-head h3 { font-size: 0.95rem; }
+    .pw-option { padding: 13px 14px; gap: 12px; }
+    .pw-option-ico { width: 46px; height: 46px; font-size: 21px; border-radius: 11px; }
+    .pw-option-info h4 { font-size: 0.93rem; }
+    .pw-option-info p { font-size: 0.76rem; }
+    .pw-tour-pic { height: 130px; }
+    .pw-grid-details { grid-template-columns: 1fr; }
+    .pw-actions { flex-direction: column; }
+    .pw-trust { font-size: 1.3rem; gap: 14px; flex-wrap: wrap; }
+}

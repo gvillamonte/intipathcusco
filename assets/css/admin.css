@@ -1,0 +1,674 @@
+:root {
+    --color-primario-azul: #15305D;
+    --color-secundario-amarillo: #E8AC18;
+    --color-texto-oscuro: #2C3E50;
+    --color-texto-claro: #ECF0F1;
+    --sidebar-width: 280px;
+}
+
+/* --------------------------------------------------------------------------
+
+   1. ESTILOS BASE Y RESET
+
+   Afecta a: El cuerpo de todas las páginas internas de administración.
+
+   -------------------------------------------------------------------------- */
+
+body {
+    background-color: #f4f6f7;
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    color: var(--color-texto-oscuro);
+}
+
+/* Contenedor flexible para separar Sidebar del Contenido */
+
+.admin-wrapper, .admin-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* --------------------------------------------------------------------------
+
+   2. SIDEBAR (MENÚ LATERAL UNIFICADO)
+
+   Afecta a: includes/sidebar.php (Presente en todas las páginas de admin).
+
+   -------------------------------------------------------------------------- */
+
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: var(--color-primario-azul);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+    z-index: 100;
+}
+
+.sidebar-header {
+    padding: 30px 20px;
+    text-align: center;
+    background-color: rgba(0,0,0,0.1);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.logo-admin {
+    max-width: 160px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+.sidebar-menu {
+    list-style: none;
+    padding: 20px 0;
+    margin: 0;
+}
+
+.sidebar-menu li a {
+    display: flex;
+    align-items: center;
+    padding: 15px 25px;
+    color: rgba(255,255,255,0.8);
+    text-decoration: none;
+    transition: 0.3s;
+    font-size: 0.95rem;
+}
+
+.sidebar-menu li a i {
+    width: 25px;
+    margin-right: 15px;
+    text-align: center;
+}
+
+.sidebar-menu li a:hover,
+.sidebar-menu li a.active {
+    background-color: rgba(255,255,255,0.1);
+    color: var(--color-secundario-amarillo);
+    border-left: 4px solid var(--color-secundario-amarillo);
+}
+
+/* --------------------------------------------------------------------------
+
+   3. ACORDEÓN (SUBMENÚS)
+
+   Afecta a: Menús desplegables dentro del sidebar (ej: Gestión de Tours).
+
+   -------------------------------------------------------------------------- */
+
+.acordeon-trigger {
+    width: 100%;
+    background: none;
+    border: none;
+    color: #ffffff;
+    padding: 15px 25px;
+    text-align: left;
+    font-size: 0.75rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    letter-spacing: 1px;
+}
+
+.acordeon-contenido {
+    list-style: none;
+    padding: 0;
+    background: rgba(0, 0, 0, 0.1);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+}
+
+.acordeon-contenido.abierto { max-height: 2000px; }
+
+.acordeon-flecha { transition: transform 0.3s ease; }
+.acordeon-flecha.rotada { transform: rotate(180deg); }
+
+.acordeon-contenido li a {
+    padding: 12px 25px 12px 52px;
+    font-size: 0.85rem;
+    border-left: none;
+}
+
+.acordeon-contenido li a i {
+    width: 22px;
+    margin-right: 12px;
+    font-size: 0.9rem;
+}
+
+.acordeon-contenido li a:hover {
+    background: rgba(255,255,255,0.1);
+    color: var(--color-secundario-amarillo);
+    border-left: 3px solid var(--color-secundario-amarillo);
+}
+
+/* Sidebar fijo con scroll propio (solo escritorio: no afecta el layout móvil) */
+@media (min-width: 1025px) {
+    .sidebar {
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        overflow-y: auto;
+    }
+
+    .sidebar::-webkit-scrollbar { width: 6px; }
+    .sidebar::-webkit-scrollbar-track { background: transparent; }
+    .sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.25); border-radius: 3px; }
+}
+
+/* --------------------------------------------------------------------------
+
+   4. MAIN CONTENT (ÁREA PRINCIPAL)
+
+   -------------------------------------------------------------------------- */
+
+.main-content {
+    flex: 1;
+    padding: 30px 40px;
+    overflow-y: auto;
+    background-color: #f4f6f7;
+}
+
+/* --------------------------------------------------------------------------
+
+   5. TABLAS DE ADMINISTRACIÓN
+
+   -------------------------------------------------------------------------- */
+
+.tabla-admin {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.tabla-admin th,
+.tabla-admin td {
+    padding: 14px 18px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.tabla-admin th {
+    background: var(--color-primario-azul);
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.tabla-admin tr:hover {
+    background: #fafbfc;
+}
+
+.tabla-admin tr:last-child td {
+    border-bottom: none;
+}
+
+/* --------------------------------------------------------------------------
+
+   6. BOTONES Y ELEMENTOS DE FORMA
+
+   -------------------------------------------------------------------------- */
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+.btn-primary {
+    background: var(--color-primario-azul);
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background: #0d1f3a;
+}
+
+.btn-secondary {
+    background: var(--color-secundario-amarillo);
+    color: var(--color-primario-azul);
+}
+
+.btn-secondary:hover {
+    background: #d49915;
+}
+
+.btn-danger {
+    background: #e74c3c;
+    color: #fff;
+}
+
+.btn-danger:hover {
+    background: #c0392b;
+}
+
+.btn-sm {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: var(--color-texto-oscuro);
+    font-size: 0.9rem;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    box-sizing: border-box;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--color-secundario-amarillo);
+    box-shadow: 0 0 0 3px rgba(232, 172, 24, 0.2);
+}
+
+/* --------------------------------------------------------------------------
+
+   7. MENSAJES FLASH / ALERTAS
+
+   -------------------------------------------------------------------------- */
+
+.alert {
+    padding: 14px 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.alert-success {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.alert-error,
+.alert-danger {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.alert-warning {
+    background: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeeba;
+}
+
+.alert-info {
+    background: #d1ecf1;
+    color: #0c5460;
+    border: 1px solid #bee5eb;
+}
+
+/* --------------------------------------------------------------------------
+
+   8. ESTILOS RESPONSIVE
+
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 1024px) {
+    .login-wrapper { width: 95%; height: auto; flex-direction: column; }
+    .sidebar { width: 80px; }
+    .sidebar span, .sidebar-header p { display: none; }
+    .logo-admin { max-width: 50px; }
+}
+
+@media (max-width: 768px) {
+    .admin-wrapper, .admin-container { flex-direction: column; }
+    .sidebar { width: 100%; min-height: auto; }
+    .sidebar-menu { display: flex; overflow-x: auto; }
+    .main-content { padding: 20px; }
+}
+
+/* --------------------------------------------------------------------------
+
+   9. ESTILOS EXCLUSIVOS PARA LOGIN.PHP
+
+   Afecta a: admin/login.php
+
+   -------------------------------------------------------------------------- */
+
+.body-login {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #15305D 0%, #0a1b35 100%);
+    font-family: 'Montserrat', sans-serif;
+}
+
+.login-wrapper {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    width: 100%;
+    max-width: 420px;
+    padding: 40px;
+}
+
+.login-logo {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.login-logo img {
+    max-width: 180px;
+    filter: brightness(0) invert(1);
+}
+
+.login-title {
+    color: #fff;
+    text-align: center;
+    margin-bottom: 8px;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.login-subtitle {
+    color: rgba(255,255,255,0.7);
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 0.9rem;
+}
+
+.login-form .form-group { margin-bottom: 20px; }
+
+.login-form label {
+    color: #fff;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.login-form input {
+    width: 100%;
+    padding: 14px 16px;
+    border: none;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+    font-size: 1rem;
+    box-sizing: border-box;
+    outline: none;
+    transition: 0.3s;
+}
+
+.login-form input::placeholder { color: rgba(255,255,255,0.5); }
+
+.login-form input:focus {
+    background: rgba(255,255,255,0.15);
+    box-shadow: 0 0 0 3px rgba(232, 172, 24, 0.3);
+}
+
+.login-btn {
+    width: 100%;
+    padding: 14px;
+    background: var(--color-secundario-amarillo);
+    color: var(--color-primario-azul);
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: 0.3s;
+}
+
+.login-btn:hover {
+    background: #fff;
+    transform: translateY(-2px);
+}
+
+.login-footer {
+    text-align: center;
+    margin-top: 24px;
+    color: rgba(255,255,255,0.6);
+    font-size: 0.85rem;
+}
+
+/* --------------------------------------------------------------------------
+
+   10. UTILIDADES Y HELPERS
+
+   -------------------------------------------------------------------------- */
+
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.mt-10 { margin-top: 10px; }
+.mt-20 { margin-top: 20px; }
+.mb-10 { margin-bottom: 10px; }
+.mb-20 { margin-bottom: 20px; }
+.d-flex { display: flex; }
+.justify-between { justify-content: space-between; }
+.align-center { align-items: center; }
+.gap-10 { gap: 10px; }
+.gap-20 { gap: 20px; }
+.w-100 { width: 100%; }
+
+/* Badges de estado */
+.badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.badge-success { background: #d4edda; color: #155724; }
+.badge-warning { background: #fff3cd; color: #856404; }
+.badge-info { background: #cce5ff; color: #004085; }
+.badge-danger { background: #f8d7da; color: #721c24; }
+.badge-primary { background: #d6e9f8; color: #15305D; }
+
+/* ==========================================================================
+   DASHBOARD - ESTILOS PARA admin/index.php
+   ========================================================================== */
+
+/* Header Principal */
+.header-main {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+.header-main h1 {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--color-primario-azul);
+    margin: 0;
+}
+.header-main h1 span {
+    color: var(--color-secundario-amarillo);
+}
+
+/* Panel Bienvenida */
+.panel-bienvenida {
+    background: #fff;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    border-left: 6px solid var(--color-secundario-amarillo);
+    margin-bottom: 30px;
+}
+.bienvenida-texto h3 {
+    color: var(--color-primario-azul);
+    margin-bottom: 8px;
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+.bienvenida-texto h3 i {
+    color: var(--color-secundario-amarillo);
+    margin-right: 8px;
+}
+.bienvenida-texto p {
+    color: #666;
+    font-size: 1rem;
+    margin: 0;
+}
+
+/* Grid Stats */
+.grid-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 25px;
+}
+
+/* Card Stat */
+.card-stat {
+    background: #fff;
+    border-radius: 12px;
+    padding: 18px 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+    transition: all 0.3s;
+    cursor: default;
+}
+.card-stat:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+}
+
+/* Stat Icon */
+.stat-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    background: #f1f5f9;
+    flex-shrink: 0;
+}
+
+/* Stat Data */
+.stat-data {
+    display: flex;
+    flex-direction: column;
+}
+.stat-titulo {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 2px;
+}
+.stat-numero {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--color-primario-azul);
+    line-height: 1.2;
+}
+
+/* Admin Contenedor */
+.admin-contenedor {
+    margin-top: 40px;
+}
+.admin-contenedor h3 {
+    color: var(--color-primario-azul);
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 700;
+}
+
+/* Table Container */
+.table-container {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+    overflow-x: auto;
+}
+.table-container table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.table-container table thead {
+    background: var(--color-primario-azul);
+    color: #fff;
+}
+.table-container table th {
+    padding: 14px 18px;
+    text-align: left;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.table-container table td {
+    padding: 14px 18px;
+    border-bottom: 1px solid #f1f5f9;
+    font-size: 0.88rem;
+}
+.table-container table tbody tr:hover {
+    background: #f8fafc;
+}
+.table-container table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Responsive Dashboard */
+@media (max-width: 768px) {
+    .header-main {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .grid-stats {
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        gap: 12px;
+    }
+    .card-stat {
+        padding: 14px 16px;
+    }
+    .stat-numero {
+        font-size: 1.2rem;
+    }
+}

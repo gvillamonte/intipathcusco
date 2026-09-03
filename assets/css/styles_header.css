@@ -1,0 +1,1806 @@
+/* ================================================================
+
+   CSS MAESTRO - INTI PATH TOURS (VERSIÓN FINAL)
+
+   ================================================================ */
+
+
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&display=swap');
+
+
+
+:root {
+
+    --color-azul: var(--ip-primary) ;
+
+    --color-amarillo: var(--ip-accent);
+
+    --color-blanco: var(--ip-bg);
+
+    --color-gris-claro: #F4F7F6;
+
+    --color-texto: var(--ip-text);
+
+}
+
+
+
+/* --- RESET GENERAL --- */
+
+* {
+
+    margin: 0;
+
+    padding: 0;
+
+    box-sizing: border-box;
+
+    font-family: 'Montserrat', sans-serif;
+
+}
+
+
+
+body {
+
+    background-color: var(--color-blanco);
+
+    color: var(--color-texto);
+
+    overflow-x: hidden;
+
+}
+
+
+
+/* --- UTILIDADES --- */
+
+.ip-container-flex {
+
+    display: flex;
+
+    align-items: center;
+
+    width: 100%;
+
+    max-width: 100%;
+
+    padding: 0 40px;
+
+}
+
+
+
+.ip-justify-between {
+
+    justify-content: space-between;
+
+}
+
+
+
+.ip-justify-end {
+
+    justify-content: flex-end;
+
+}
+
+
+
+
+
+
+
+
+
+/* .ip-nav-main {
+
+    justify-content: center;
+
+} */
+
+
+
+/* ================================================================
+
+   1. ESTILOS PARA COMPUTADORA (min-width: 992px)
+
+   ================================================================ */
+
+@media (min-width: 992px) {
+
+    .ip-mobile-only {
+
+        display: none !important;
+
+    }
+
+
+
+    /* Barra Azul Superior */
+
+    .ip-mid-bar {
+
+        background-color: var(--color-azul);
+
+        padding: 10px 0;
+
+        color: var(--color-blanco);
+
+        font-size: 13px;
+
+    }
+
+
+
+    .ip-contact-info {
+
+        display: flex;
+
+        align-items: center;
+
+        gap: 20px;
+
+    }
+
+
+
+    .ip-btn-whatsapp {
+
+        background-color: var(--ip-btn-whatsapp);
+
+        color: var(--ip-bg);
+
+        padding: 6px 12px;
+
+        border-radius: 4px;
+
+        font-weight: 700;
+
+        text-decoration: none;
+
+    }
+
+
+
+    .ip-btn-action {
+
+        background-color: var(--color-amarillo);
+
+        color: var(--color-azul);
+
+        padding: 8px 15px;
+
+        font-weight: 800;
+
+        text-decoration: none;
+
+        border-radius: 4px;
+
+    }
+
+
+
+    /* Navegación Blanca */
+
+    .ip-nav-main {
+
+        height: 90px;
+
+        background: var(--color-blanco);
+
+        border-bottom: 1px solid var(--ip-border);
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+
+
+    }
+
+
+
+    .ip-logo img {
+
+        max-width: 210px;
+
+        display: block;
+
+        margin-right: 30px;
+
+    }
+
+
+
+    /* Menú que se estira a la derecha */
+
+    .ip-menu-list {
+
+        display: flex;
+
+        list-style: none;
+
+        height: 90px;
+
+        flex-grow: 1;
+
+    }
+
+
+
+    .ip-has-mega {
+
+        position: static;
+
+        display: flex;
+
+        align-items: center;
+
+    }
+
+
+
+    .ip-menu-link {
+
+        text-decoration: none;
+
+        color: var(--color-azul);
+
+        font-weight: 700;
+
+        font-size: 12px;
+
+        padding: 0 18px;
+
+        height: 100%;
+
+        display: flex;
+
+        align-items: center;
+
+        text-transform: uppercase;
+
+        transition: 0.3s;
+
+    }
+
+
+
+    .ip-menu-link:hover {
+
+        color: var(--color-amarillo);
+
+    }
+
+
+
+    /* MEGA PANEL (Hover PC) */
+
+    .ip-mega-panel,
+
+    .ip-mega-menu {
+
+        position: absolute;
+
+        top: 100%;
+
+        left: 0;
+
+        width: 100%;
+
+        background: var(--ip-bg);
+
+        z-index: 1000;
+
+        padding: 40px 0;
+
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+
+        border-top: 4px solid var(--color-amarillo);
+
+        display: none;
+
+    }
+
+
+
+    /* .ip-has-mega:hover .ip-mega-panel,
+
+    .ip-has-mega:hover .ip-mega-menu {
+
+        display: block;
+
+    } */
+
+
+
+    /* Columnas Mega Menú */
+
+    .ip-mega-container {
+
+        display: grid;
+
+        grid-template-columns: 300px 1fr 350px;
+
+        gap: 30px;
+
+        max-width: 1400px;
+
+        margin: 0 auto;
+
+    }
+
+
+
+    .ip-mega-title {
+
+        color: var(--color-azul);
+
+        font-size: 14px;
+
+        border-bottom: 2px solid var(--color-amarillo);
+
+        padding-bottom: 8px;
+
+        margin-bottom: 15px;
+
+    }
+
+
+
+    .ip-category-list {
+
+        list-style: none;
+
+    }
+
+
+
+    .ip-category-list a {
+
+        text-decoration: none;
+
+        color: #555;
+
+        font-size: 13px;
+
+        font-weight: 600;
+
+        display: block;
+
+        padding: 8px 0;
+
+    }
+
+
+
+    .ip-category-list a:hover {
+
+        color: var(--color-amarillo);
+
+        padding-left: 5px;
+
+    }
+
+
+
+    .ip-banner-box img {
+
+        width: 100%;
+
+        border-radius: 8px;
+
+        height: 250px;
+
+        object-fit: cover;
+
+    }
+
+}
+
+
+
+/* ================================================================
+
+   2. ESTILOS PARA MÓVIL (max-width: 991px)
+
+   ================================================================ */
+
+@media (max-width: 991px) {
+
+    .ip-pc-only {
+
+        display: none !important;
+
+    }
+
+
+
+    /* Barra Compacta (Logo + Hamburguesa) */
+
+    .ip-m-bar-compact {
+
+        display: flex;
+
+        justify-content: space-between;
+
+        align-items: center;
+
+        padding: 10px 20px;
+
+        background: var(--ip-bg);
+
+        border-bottom: 1px solid #ddd;
+
+        height: 70px;
+
+    }
+
+
+
+    .ip-m-logo img {
+
+        max-height: 45px;
+
+        width: auto;
+
+    }
+
+
+
+    .ip-m-ham {
+
+        background: none;
+
+        border: none;
+
+        color: var(--color-azul);
+
+        font-size: 28px;
+
+        cursor: pointer;
+
+    }
+
+
+
+    /* Panel Lateral (Overlay) */
+
+    .ip-nav-main .ip-m-overlay {
+
+        position: fixed;
+
+        top: 0;
+
+        left: 0;
+
+        width: 100%;
+
+        height: 100%;
+
+        background: rgba(0, 0, 0, 0.7);
+
+        z-index: 9999;
+
+        display: none;
+
+    }
+
+
+
+    .ip-m-overlay.active {
+
+        display: block;
+
+    }
+
+
+
+    .ip-m-panel {
+
+        position: absolute;
+
+        top: 0;
+
+        right: -100%;
+
+        width: 85%;
+
+        height: 100%;
+
+        background: var(--ip-bg);
+
+        transition: 0.4s ease;
+
+        overflow-y: auto;
+
+    }
+
+
+
+    .ip-m-overlay.active .ip-m-panel {
+
+        right: 0;
+
+    }
+
+
+
+    .ip-m-panel-header {
+
+        background: var(--color-azul);
+
+        color: var(--ip-bg);
+
+        padding: 20px;
+
+        display: flex;
+
+        justify-content: space-between;
+
+        font-weight: 700;
+
+    }
+
+
+
+    #ipBtnClose {
+
+        background: none;
+
+        border: none;
+
+        color: var(--ip-bg);
+
+        font-size: 20px;
+
+    }
+
+
+
+    /* ACORDEÓN MÓVIL */
+
+    .ip-menu-list {
+
+        list-style: none;
+
+        width: 100%;
+
+    }
+
+
+
+    .ip-has-mega {
+
+        border-bottom: 1px solid var(--ip-border);
+
+        width: 100%;
+
+    }
+
+
+
+    .ip-m-accordion-header {
+
+        display: flex;
+
+        justify-content: space-between;
+
+        align-items: center;
+
+        padding: 18px 20px;
+
+        cursor: pointer;
+
+    }
+
+
+
+    .ip-menu-link {
+
+        color: var(--color-azul);
+
+        font-weight: 700;
+
+        font-size: 15px;
+
+        text-decoration: none;
+
+        pointer-events: none;
+
+        /* Deja que el clic lo maneje el div header */
+
+    }
+
+
+
+    .ip-m-arrow {
+
+        color: var(--color-azul);
+
+        transition: 0.3s;
+
+    }
+
+
+
+    /* Contenido oculto del acordeón */
+
+    .ip-mega-panel,
+
+    .ip-mega-menu {
+
+        display: none !important;
+
+        background: #fcfcfc;
+
+        padding: 15px 25px !important;
+
+        position: static !important;
+
+        width: 100% !important;
+
+        box-shadow: none !important;
+
+        border: none !important;
+
+    }
+
+
+
+    /* Clase activa para abrir acordeón */
+
+    .ip-has-mega.active .ip-mega-panel,
+
+    .ip-has-mega.active .ip-mega-menu {
+
+        display: block !important;
+
+    }
+
+
+
+    .ip-has-mega.active .ip-m-arrow {
+
+        transform: rotate(180deg);
+
+    }
+
+
+
+    /* Ajuste de listas internas en móvil */
+
+    .ip-category-list li {
+
+        padding: 10px 0;
+
+        border-bottom: 1px solid #f0f0f0;
+
+    }
+
+
+
+    .ip-category-list a {
+
+        color: #555;
+
+        text-decoration: none;
+
+        font-size: 14px;
+
+    }
+
+}
+
+
+
+@media (max-width: 991px) {
+
+
+
+    /* Ajuste del contenedor de botones para que no se amontonen */
+
+    .ip-m-btns {
+
+        display: flex;
+
+        align-items: center;
+
+        gap: 15px;
+
+        /* Espacio entre el ícono de WhatsApp y las 3 rayitas */
+
+    }
+
+
+
+    /* ÍCONO DE WHATSAPP MÁS GRANDE */
+
+    .ip-m-btn-wa {
+
+        color: var(--ip-btn-whatsapp) !important;
+
+        /* Color verde oficial de WhatsApp */
+
+        font-size: 24px !important;
+
+        /* Aumentamos el tamaño */
+
+        text-decoration: none;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        transition: 0.3s;
+
+    }
+
+
+
+    .ip-m-btn-wa:hover {
+
+        transform: scale(1.1);
+
+        /* Efecto de pulso al tocarlo */
+
+    }
+
+
+
+    /* Aseguramos que la hamburguesa también mantenga un buen tamaño */
+
+    .ip-m-ham {
+
+        font-size: 26px !important;
+
+        color: var(--ip-primary);
+
+        background: none;
+
+        border: none;
+
+        cursor: pointer;
+
+    }
+
+}
+
+
+
+
+
+@media (max-width: 991px) {
+
+
+
+    /* Fondo del panel lateral más limpio */
+
+    .ip-m-panel {
+
+        background-color: var(--ip-bg);
+
+    }
+
+
+
+    /* Cabecera del ítem (Machu Picchu) */
+
+    .ip-m-accordion-header {
+
+        padding: 12px 20px !important;
+
+        /* Más delgado y delicado */
+
+        border-bottom: 1px solid #f0f0f0;
+
+        background: var(--ip-bg);
+
+    }
+
+
+
+    /* Texto principal más pequeño y elegante */
+
+    .ip-menu-link {
+
+        font-size: 13px !important;
+
+        /* Letras más pequeñas */
+
+        font-weight: 600 !important;
+
+        letter-spacing: 0.5px;
+
+        color: var(--ip-primary) !important;
+
+        text-transform: uppercase;
+
+    }
+
+
+
+    /* Flecha más sutil */
+
+    .ip-m-arrow {
+
+        font-size: 10px !important;
+
+        color: #999;
+
+        /* Gris suave para no distraer */
+
+    }
+
+
+
+    /* CONTENIDO DESPLEGABLE (Caminatas) */
+
+    .ip-mega-panel {
+
+        background-color: #fafafa !important;
+
+        /* Gris muy clarito para diferenciar */
+
+        padding: 15px 25px !important;
+
+    }
+
+
+
+    /* Título: CAMINATAS DISPONIBLES */
+
+    .ip-mega-title {
+
+        font-size: 11px !important;
+
+        font-weight: 700;
+
+        color: #777;
+
+        /* Color más suave */
+
+        margin-bottom: 12px !important;
+
+        letter-spacing: 1px;
+
+        border: none !important;
+
+        /* Quitamos bordes gruesos */
+
+    }
+
+
+
+    /* Lista de caminatas */
+
+    .ip-category-list {
+
+        list-style: none;
+
+    }
+
+
+
+    .ip-category-list li {
+
+        padding: 8px 0 !important;
+
+        border-bottom: 1px solid var(--ip-border);
+
+    }
+
+
+
+    .ip-category-list li:last-child {
+
+        border-bottom: none;
+
+    }
+
+
+
+    /* Enlaces de caminatas más delicados */
+
+    .ip-category-list a {
+
+        font-size: 12px !important;
+
+        /* Letra pequeña y profesional */
+
+        color: #444 !important;
+
+        text-decoration: none;
+
+        display: flex;
+
+        align-items: center;
+
+        gap: 10px;
+
+        font-weight: 400;
+
+    }
+
+
+
+    /* Icono de personita caminando */
+
+    .ip-category-list a i {
+
+        font-size: 12px;
+
+        color: var(--ip-accent);
+
+        /* El amarillo corporativo solo en el ícono */
+
+    }
+
+
+
+    /* Ajuste del ícono de WhatsApp en la barra principal */
+
+    .ip-m-btn-wa {
+
+        font-size: 22px !important;
+
+        color: var(--ip-btn-whatsapp) !important;
+
+        margin-right: 5px;
+
+    }
+
+}
+
+
+
+
+
+
+
+@media (max-width: 991px) {
+
+
+
+    /* CONTENEDOR MÓVIL DE NOSOTROS */
+
+    .ip-mega-menu {
+
+        background-color: var(--ip-bg) !important;
+
+        padding: 10px 20px 25px 20px !important;
+
+    }
+
+
+
+    /* FILA DE COLUMNAS (Para que no se amontonen) */
+
+    .ip-row-mega {
+
+        display: flex;
+
+        flex-direction: column;
+
+        gap: 25px;
+
+        /* Espacio entre bloques como "NUESTRA EMPRESA" y "POR QUÉ VIAJAR" */
+
+    }
+
+
+
+    /* TÍTULOS DE SUBSECCIONES (Ej: NUESTRA EMPRESA) */
+
+    .ip-title-col {
+
+        font-size: 11px !important;
+
+        font-weight: 700;
+
+        color: #888 !important;
+
+        /* Gris profesional */
+
+        text-transform: uppercase;
+
+        letter-spacing: 1.2px;
+
+        margin-bottom: 12px !important;
+
+        display: block;
+
+        border-bottom: 1px solid var(--ip-border);
+
+        padding-bottom: 5px;
+
+    }
+
+
+
+    /* ESTILO DE LA LISTA DE ENLACES */
+
+    .ip-list-mega {
+
+        list-style: none;
+
+        padding-left: 5px;
+
+    }
+
+
+
+    .ip-list-mega li {
+
+        margin-bottom: 12px;
+
+        /* Espacio delicado entre cada link */
+
+    }
+
+
+
+    .ip-list-mega li a {
+
+        font-size: 13px !important;
+
+        /* Letra pequeña y elegante */
+
+        color: var(--ip-primary) !important;
+
+        /* Azul corporativo */
+
+        text-decoration: none;
+
+        font-weight: 400;
+
+        display: block;
+
+        transition: 0.2s;
+
+    }
+
+
+
+    /* Pequeño detalle al tocar el link */
+
+    .ip-list-mega li a:active {
+
+        color: var(--ip-accent) !important;
+
+        padding-left: 5px;
+
+    }
+
+
+
+    /* DISEÑO DEL BOTÓN DE CIERRE (La X del panel lateral) */
+
+    #ipBtnClose {
+
+        font-size: 18px;
+
+        color: var(--ip-bg);
+
+        opacity: 0.8;
+
+    }
+
+
+
+    /* REFINAMIENTO DE LA BARRA AZUL DEL MENÚ LATERAL */
+
+    .ip-m-panel-header {
+
+        padding: 15px 20px !important;
+
+        background: var(--ip-primary);
+
+        font-size: 11px;
+
+        letter-spacing: 1px;
+
+    }
+
+}
+
+
+
+@media (min-width: 992px) {
+
+    .ip-mobile-only {
+
+        display: none !important;
+
+    }
+
+
+
+    /* Centrado Maestro del Nav */
+
+    .ip-nav-main .ip-container-flex {
+
+        display: flex;
+
+        justify-content: center !important;
+
+        /* CENTRA LOGO Y MENÚ */
+
+        align-items: center;
+
+        gap: 60px;
+
+        max-width: 1400px;
+
+        margin: 0 auto;
+
+        position: relative;
+
+        /* Necesario para que el mega menú sepa dónde posicionarse */
+
+    }
+
+
+
+    .ip-nav-main {
+
+        height: 100px;
+
+        background: var(--color-blanco);
+
+        border-bottom: 1px solid var(--ip-border);
+
+        display: flex;
+
+        align-items: center;
+
+        position: relative;
+
+        z-index: 100;
+
+    }
+
+
+
+    .ip-logo img {
+
+        max-width: 180px;
+
+        height: auto;
+
+    }
+
+
+
+    .ip-menu-list {
+
+        display: flex;
+
+        list-style: none;
+
+        height: 100px;
+
+        flex-grow: 0;
+
+        /* Evita que se estire a la derecha */
+
+    }
+
+
+
+    .ip-has-mega {
+
+        display: flex;
+
+        align-items: center;
+
+        height: 100%;
+
+    }
+
+
+
+    .ip-menu-link {
+
+        text-decoration: none;
+
+        color: var(--color-azul);
+
+        font-weight: 700;
+
+        font-size: 12px;
+
+        padding: 0 20px;
+
+        height: 100%;
+
+        display: flex;
+
+        align-items: center;
+
+        text-transform: uppercase;
+
+        letter-spacing: 1px;
+
+        transition: 0.3s;
+
+    }
+
+
+
+    .ip-menu-link:hover {
+
+        color: var(--color-amarillo);
+
+    }
+
+
+
+    /* --- MEGA MENÚ (EL QUE SE HABÍA PERDIDO) --- */
+
+    .ip-mega-panel,
+
+    .ip-mega-menu {
+
+        position: absolute;
+
+        top: 100%;
+
+        /* Aparece justo debajo del nav */
+
+        /* FUERZA EL ANCHO TOTAL DE LA PANTALLA */
+
+        width: 100vw;
+
+        left: 50%;
+
+        right: 50%;
+
+        margin-left: -50vw;
+
+        margin-right: -50vw;
+
+        /* Ocupa todo el ancho de la pantalla */
+
+        background: var(--ip-bg);
+
+        z-index: 1000;
+
+        padding: 40px 0;
+
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+
+        border-top: 3px solid var(--color-amarillo);
+
+
+
+        /* Efecto de visibilidad */
+
+        display: none;
+
+        opacity: 0;
+
+        visibility: hidden;
+
+        transition: opacity 0.2s ease, visibility 0.2s ease;
+
+
+    }
+
+
+    /* Puente transparente: elimina la zona muerta entre el item del menú y el panel */
+    .ip-mega-panel::before,
+    .ip-mega-menu::before {
+        content: "";
+        position: absolute;
+        top: -6px;
+        left: 0;
+        right: 0;
+        height: 6px;
+        z-index: -1;
+    }
+
+
+    /* ESTO ACTIVA LA INFORMACIÓN AL PASAR EL MOUSE */
+
+    .ip-has-mega:hover .ip-mega-panel,
+
+    .ip-has-mega:hover .ip-mega-menu {
+
+        display: block !important;
+
+        opacity: 1;
+
+        visibility: visible;
+
+    }
+
+
+
+    .ip-mega-container {
+
+        display: grid;
+
+        grid-template-columns: 300px 1fr 350px;
+
+        gap: 30px;
+
+        max-width: 1200px;
+
+        margin: 0 auto;
+
+    }
+
+}
+
+
+
+
+
+
+
+@media (min-width: 992px) {
+
+
+
+    /* Contenedor del Mega Menú de Nosotros */
+
+    .ip-mega-menu .ip-container-mega {
+
+        max-width: 1200px;
+
+        margin: 0 auto;
+
+        padding: 0 20px;
+
+        display: grid; /* Mantiene tus columnas */
+
+    }
+
+
+
+    /* Forzamos las 4 columnas alineadas */
+
+    .ip-row-mega {
+
+        display: grid !important;
+
+        grid-template-columns: repeat(4, 1fr) !important;
+
+        /* Crea 4 columnas iguales */
+
+        gap: 40px;
+
+        /* Espacio elegante entre columnas */
+
+        align-items: start;
+
+    }
+
+
+
+    /* Títulos de las columnas (Ej: NUESTRA EMPRESA) */
+
+    .ip-title-col {
+
+        font-size: 11px !important;
+
+        font-weight: 800;
+
+        color: var(--color-azul);
+
+        text-transform: uppercase;
+
+        letter-spacing: 1.5px;
+
+        margin-bottom: 20px !important;
+
+        border-bottom: 2px solid var(--color-amarillo);
+
+        padding-bottom: 8px;
+
+        display: inline-block;
+
+        /* Para que la línea no ocupe todo el ancho si no quieres */
+
+    }
+
+
+
+    /* Lista de enlaces */
+
+    .ip-list-mega {
+
+        list-style: none;
+
+    }
+
+
+
+    .ip-list-mega li {
+
+        margin-bottom: 12px;
+
+    }
+
+
+
+    .ip-list-mega li a {
+
+        text-decoration: none;
+
+        color: #555;
+
+        font-size: 13px;
+
+        font-weight: 500;
+
+        transition: 0.3s;
+
+        display: block;
+
+    }
+
+
+
+    .ip-list-mega li a:hover {
+
+        color: var(--color-amarillo);
+
+        transform: translateX(5px);
+
+        /* Pequeño efecto de movimiento */
+
+    }
+
+}
+
+
+
+/* --- GRID DE INFORMACIÓN DE VIAJE (HORIZONTAL) --- */
+
+.ip-info-grid {
+
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr); /* Pone las 3 imágenes en horizontal */
+
+    gap: 15px;
+
+    margin-top: 20px;
+
+}
+
+
+
+.ip-info-card {
+
+    position: relative;
+
+    height: 120px; /* Ajusta la altura a tu gusto */
+
+    border-radius: 8px;
+
+    overflow: hidden;
+
+    background-color: #000; /* Fondo negro para que la opacidad se vea oscura */
+
+}
+
+
+
+.ip-info-card img {
+
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: cover;
+
+    display: block;
+
+    opacity: 0.6; /* Controla la opacidad de la imagen aquí (0.1 a 1) */
+
+    transition: 0.3s ease;
+
+}
+
+
+
+.ip-info-card:hover img {
+
+    opacity: 0.8; /* Aumenta un poco la visibilidad al pasar el mouse */
+
+}
+
+
+
+/* --- TEXTO ENCIMA DE LA IMAGEN --- */
+
+.ip-card-overlay {
+
+    position: absolute;
+
+    top: 0;
+
+    left: 0;
+
+    width: 100%;
+
+    height: 100%;
+
+    display: flex;
+
+    align-items: center;    /* Centrado vertical */
+
+    justify-content: center; /* Centrado horizontal */
+
+    pointer-events: none;    /* Permite hacer clic en el enlace de abajo */
+
+}
+
+
+
+.ip-card-overlay span {
+
+    color: var(--ip-bg);         /* Letras blancas */
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    text-align: center;
+
+    text-transform: uppercase;
+
+    letter-spacing: 1px;
+
+    padding: 0 5px;
+
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.8); /* Sombra para que se lea mejor */
+
+}
+
+
+
+
+
+/*Licencias --*/
+
+/* --- SECCIÓN LICENCIAS (PURO CSS) --- */
+
+.licencias-custom-section {
+
+    padding: 70px 20px;
+
+    background-color: #fcfcfc;
+
+    width: 100%;
+
+}
+
+
+
+.licencias-container {
+
+    max-width: 1200px;
+
+    margin: 0 auto;
+
+}
+
+
+
+.licencias-header {
+
+    text-align: center;
+
+    margin-bottom: 50px;
+
+}
+
+
+
+.licencias-titulo {
+
+    color: var(--ip-primary);
+
+    font-size: 2rem;
+
+    font-weight: 700;
+
+    margin-bottom: 15px;
+
+    text-transform: uppercase;
+
+}
+
+
+
+.licencias-linea {
+
+    width: 60px;
+
+    height: 4px;
+
+    background-color: var(--ip-primary);
+
+    margin: 0 auto;
+
+    border-radius: 10px;
+
+}
+
+
+
+/* LA GRILLA FLEXIBLE */
+
+.licencias-grid {
+
+    display: flex;
+
+    flex-wrap: wrap; /* Permite que bajen si no caben */
+
+    justify-content: center; /* Centra los items en la fila */
+
+    gap: 20px; /* Espacio entre cuadros */
+
+}
+
+
+
+/* CADA CUADRITO */
+
+.licencia-card {
+
+    background: var(--ip-bg);
+
+    border: 1px solid var(--ip-border);
+
+    border-radius: 12px;
+
+    padding: 20px;
+
+    width: calc(16.66% - 20px); /* 6 por fila en escritorio */
+
+    min-width: 160px; /* No se hacen más pequeños de esto */
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    transition: all 0.3s ease;
+
+    box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+
+}
+
+
+
+.licencia-card:hover {
+
+    transform: translateY(-8px);
+
+    box-shadow: 0 12px 20px rgba(0,0,0,0.08);
+
+    border-color: var(--ip-accent);
+
+}
+
+
+
+.licencia-box-link {
+
+    height: 90px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    width: 100%;
+
+    margin-bottom: 10px;
+
+}
+
+
+
+.licencia-card img {
+
+    max-width: 100%;
+
+    max-height: 100%;
+
+    object-fit: contain;
+
+    transition: transform 0.3s ease;
+
+}
+
+
+
+.licencia-card:hover img {
+
+    transform: scale(1.1);
+
+}
+
+
+
+.licencia-tag {
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    color: #555;
+
+    text-align: center;
+
+    text-transform: uppercase;
+
+}
+
+
+
+/* --- RESPONSIVE PURO --- */
+
+
+
+/* Tablets (3 por fila) */
+
+@media (max-width: 992px) {
+
+    .licencia-card {
+
+        width: calc(33.33% - 20px);
+
+    }
+
+}
+
+
+
+/* Celulares (2 por fila) */
+
+@media (max-width: 600px) {
+
+    .licencias-titulo {
+
+        font-size: 1.5rem;
+
+    }
+
+    .licencia-card {
+
+        width: calc(50% - 20px);
+
+        padding: 15px;
+
+    }
+
+    .licencia-box-link {
+
+        height: 70px;
+
+    }
+
+    .licencia-tag {
+
+        font-size: 9px;
+
+    }
+
+}

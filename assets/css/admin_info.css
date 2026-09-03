@@ -1,0 +1,87 @@
+/* ==========================================================================
+   INTIPATH TOURS - HOJA DE ESTILOS ADMINISTRACIÓN (OPTIMIZADA)
+   Afecta a: Todos los archivos de la carpeta /admin/
+   ========================================================================== */
+
+:root {
+    --color-primario-azul: #15305D;
+    --color-secundario-amarillo: #E8AC18;
+    --color-fondo-blanco: #FFFFFF;
+    --color-texto-oscuro: #333333;
+    --color-texto-claro: #ECF0F1;
+    --sidebar-width: 280px;
+}
+
+/* --------------------------------------------------------------------------
+   1. ESTILOS BASE Y RESET
+   Afecta a: El cuerpo de todas las páginas internas de administración.
+   -------------------------------------------------------------------------- */
+body { 
+    background-color: #f4f6f7; 
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    color: var(--color-texto-oscuro);
+}
+
+/* Contenedor flexible para separar Sidebar del Contenido */
+.admin-wrapper, .admin-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* --------------------------------------------------------------------------
+   2. ESTILOS ESPECÍFICOS - INFO VIAJE (CUADRO 2)
+   -------------------------------------------------------------------------- */
+.inf-main-content {
+    flex-grow: 1;
+    padding: 30px;
+    width: calc(100% - var(--sidebar-width));
+}
+
+.inf-card {
+    background: var(--color-fondo-blanco);
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    margin-bottom: 30px;
+}
+
+.inf-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.inf-full { grid-column: span 2; }
+
+.inf-group { display: flex; flex-direction: column; gap: 8px; }
+
+.inf-group label {
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: var(--color-primario-azul);
+}
+
+.inf-btn-save {
+    background-color: var(--color-primario-azul);
+    color: white;
+    border: none;
+    padding: 15px;
+    border-radius: 8px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.inf-btn-save:hover {
+    background-color: var(--color-secundario-amarillo);
+    transform: translateY(-2px);
+}
+
+.inf-img-preview {
+    width: 80px;
+    height: 55px;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+}

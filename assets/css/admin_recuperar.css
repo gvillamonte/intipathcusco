@@ -1,0 +1,162 @@
+/* ==========================================================================
+   ADMIN_RECUPERAR.CSS - Estilos Independientes para IntiPath
+   ========================================================================== */
+
+:root {
+    --color-primario-azul: #15305D;
+    --color-secundario-amarillo: #E8AC18;
+    --color-fondo-blanco: #FFFFFF;
+    --color-texto-oscuro: #333333;
+    --color-texto-gris: #666666;
+}
+
+body.body-recuperar {
+    margin: 0;
+    padding: 0;
+    font-family: 'Montserrat', sans-serif;
+    background-color: var(--color-primario-azul);
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.recuperar-wrapper {
+    width: 100%;
+    max-width: 450px;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.recuperar-caja {
+    background: var(--color-fondo-blanco);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+    text-align: center;
+}
+
+.recuperar-logo-container {
+    margin-bottom: 25px;
+}
+
+.main-recuperar-logo {
+    max-width: 180px;
+    height: auto;
+}
+
+.recuperar-caja h2 {
+    color: var(--color-primario-azul);
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+}
+
+.recuperar-caja h2 span {
+    color: var(--color-secundario-amarillo);
+}
+
+.instrucciones {
+    color: var(--color-texto-gris);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin-bottom: 30px;
+}
+
+/* FORMULARIO */
+.form-grupo {
+    text-align: left;
+    margin-bottom: 25px;
+}
+
+.form-grupo label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 700;
+    color: var(--color-texto-oscuro);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+}
+
+.input-with-icon {
+    position: relative;
+}
+
+.input-with-icon i {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
+}
+
+.input-with-icon input {
+    width: 100%;
+    padding: 14px 15px 14px 45px;
+    border: 2px solid #e1e8ed;
+    border-radius: 12px;
+    box-sizing: border-box;
+    font-size: 1rem;
+    outline: none;
+    transition: 0.3s;
+    background: #f9fbfd;
+}
+
+.input-with-icon input:focus {
+    border-color: var(--color-primario-azul);
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(21, 48, 93, 0.05);
+}
+
+/* BOTÓN */
+.btn-enviar {
+    width: 100%;
+    padding: 16px;
+    background: var(--color-primario-azul);
+    color: var(--color-fondo-blanco);
+    border: none;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.btn-enviar:hover {
+    background: #1a3d75;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(21, 48, 93, 0.3);
+}
+
+/* SEPARADOR Y LINK */
+.separador-retorno {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+.back-link {
+    color: var(--color-primario-azul);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.9rem;
+    transition: 0.3s;
+}
+
+.back-link:hover {
+    color: var(--color-secundario-amarillo);
+}
+
+/* RESPONSIVO */
+@media (max-width: 480px) {
+    .recuperar-caja {
+        padding: 30px 20px;
+    }
+    
+    .recuperar-caja h2 {
+        font-size: 1.5rem;
+    }
+}

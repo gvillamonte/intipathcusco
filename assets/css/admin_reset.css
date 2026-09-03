@@ -1,0 +1,142 @@
+/* ==========================================================================
+   ADMIN_RESET.CSS - Estilos para Cambio de Contraseña
+   ========================================================================== */
+
+:root {
+    --color-primario-azul: #15305D;
+    --color-secundario-amarillo: #E8AC18;
+    --color-fondo-blanco: #FFFFFF;
+    --color-texto-oscuro: #333333;
+}
+
+body.body-reset {
+    margin: 0;
+    padding: 0;
+    font-family: 'Montserrat', sans-serif;
+    background-color: var(--color-primario-azul);
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.reset-wrapper {
+    width: 100%;
+    max-width: 450px;
+    padding: 20px;
+}
+
+.reset-caja {
+    background: var(--color-fondo-blanco);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+    text-align: center;
+}
+
+.reset-logo img {
+    max-width: 180px;
+    margin-bottom: 25px;
+}
+
+.reset-caja h2 {
+    color: var(--color-primario-azul);
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+}
+
+.reset-caja h2 span {
+    color: var(--color-secundario-amarillo);
+}
+
+.reset-caja p {
+    color: #666;
+    font-size: 0.95rem;
+    margin-bottom: 30px;
+}
+
+/* FORMULARIO */
+.form-grupo {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.form-grupo label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 700;
+    color: var(--color-texto-oscuro);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+}
+
+.input-with-icon {
+    position: relative;
+}
+
+.icon-left {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
+}
+
+.toggle-pass {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #999;
+    transition: 0.3s;
+}
+
+.toggle-pass:hover {
+    color: var(--color-primario-azul);
+}
+
+.input-with-icon input {
+    width: 100%;
+    padding: 14px 45px 14px 45px; /* Espacio para ambos iconos */
+    border: 2px solid #e1e8ed;
+    border-radius: 12px;
+    box-sizing: border-box;
+    font-size: 1rem;
+    outline: none;
+    background: #f9fbfd;
+    transition: 0.3s;
+}
+
+.input-with-icon input:focus {
+    border-color: var(--color-primario-azul);
+    background: #fff;
+}
+
+/* BOTÓN */
+.btn-actualizar {
+    width: 100%;
+    padding: 16px;
+    background: var(--color-primario-azul);
+    color: var(--color-fondo-blanco);
+    border: none;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+}
+
+.btn-actualizar:hover {
+    background: #1a3d75;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(21, 48, 93, 0.3);
+}
+
+/* RESPONSIVO */
+@media (max-width: 480px) {
+    .reset-caja {
+        padding: 30px 20px;
+    }
+}

@@ -1,0 +1,311 @@
+/* ==========================================================================
+   ADMIN_LOGIN.CSS - IntiPath Tours
+   ========================================================================== */
+
+:root {
+    --color-primario-azul: #15305D;
+    --color-secundario-amarillo: #E8AC18;
+    --color-fondo-blanco: #FFFFFF;
+    --color-texto-oscuro: #333333;
+    --color-texto-claro: #ECF0F1;
+}
+
+body.body-login {
+    margin: 0;
+    padding: 0;
+    font-family: 'Montserrat', sans-serif;
+    background-color: var(--color-primario-azul);
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-wrapper {
+    display: flex;
+    width: 1000px;
+    height: 600px;
+    background: var(--color-fondo-blanco);
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+    overflow: hidden;
+}
+
+/* --- LADO IZQUIERDO: IMAGEN CON TRANSPARENCIA --- */
+.login-info-side {
+    flex: 1.2;
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 60px;
+    color: var(--color-fondo-blanco);
+    
+    /* El degradado azul crea la transparencia sobre la foto de Machu Picchu */
+    background: linear-gradient(
+        rgba(21, 48, 93, 0.8), 
+        rgba(21, 48, 93, 0.85)
+    ), 
+    url('../assets/img/Machu-Picchu.jpg') center/cover no-repeat;
+}
+
+.info-content {
+    z-index: 2;
+}
+
+.login-mini-logo {
+    width: 50px;
+    margin-bottom: 20px;
+}
+
+.info-content h1 { 
+    font-size: 3rem; 
+    line-height: 1.1; 
+    margin: 0 0 20px 0;
+    color: var(--color-fondo-blanco);
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+}
+
+.info-content h1 span { 
+    color: var(--color-secundario-amarillo); 
+}
+
+.info-content p { 
+    color: var(--color-texto-claro);
+    opacity: 0.9; 
+    line-height: 1.6; 
+    margin-bottom: 30px; 
+    font-size: 1.1rem;
+}
+
+.social-icons a {
+    color: var(--color-fondo-blanco);
+    margin-right: 15px;
+    font-size: 1.3rem;
+    transition: 0.3s ease;
+}
+
+.social-icons a:hover { 
+    color: var(--color-secundario-amarillo); 
+    transform: scale(1.1);
+}
+
+/* --- LADO DERECHO: FORMULARIO --- */
+.login-form-side {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+}
+
+.login-caja { 
+    width: 100%; 
+    max-width: 320px; 
+}
+
+.login-logo-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.main-login-logo {
+    max-width: 160px;
+    height: auto;
+}
+
+.login-caja h2 { 
+    color: var(--color-primario-azul); 
+    margin-bottom: 25px; 
+    font-size: 1.6rem;
+    text-align: center;
+}
+
+.login-form-grupo { 
+    margin-bottom: 20px; 
+}
+
+.login-form-grupo label { 
+    display: block; 
+    margin-bottom: 8px; 
+    font-weight: 700; 
+    color: var(--color-texto-oscuro); 
+    font-size: 0.75rem; 
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.input-with-icon { 
+    position: relative; 
+}
+
+.input-with-icon i { 
+    position: absolute; 
+    left: 15px; 
+    top: 50%; 
+    transform: translateY(-50%); 
+    color: #888; 
+}
+
+.input-with-icon input {
+    width: 100%;
+    padding: 12px 15px 12px 45px;
+    border: 2px solid #e1e8ed;
+    border-radius: 10px;
+    box-sizing: border-box;
+    outline: none;
+    transition: 0.3s;
+    background: #f9fbfd;
+}
+
+.input-with-icon input:focus { 
+    border-color: var(--color-primario-azul); 
+    background: #fff;
+}
+
+.login-extras {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.8rem;
+    margin-bottom: 25px;
+}
+
+.login-extras a { 
+    color: var(--color-primario-azul); 
+    text-decoration: none; 
+    font-weight: 700; 
+}
+
+.btn-login {
+    width: 100%;
+    padding: 15px;
+    background: var(--color-primario-azul);
+    color: var(--color-fondo-blanco);
+    border: none;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-login:hover { 
+    background: #1a3d75; 
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(21, 48, 93, 0.3);
+}
+
+.terms {
+    text-align: center;
+    font-size: 0.75rem;
+    color: #888;
+    margin-top: 20px;
+    line-height: 1.4;
+}
+
+.terms a { color: var(--color-primario-azul); text-decoration: none; }
+
+.error-diag {
+    background: #fff5f5;
+    color: #c53030;
+    padding: 10px;
+    border-radius: 8px;
+    border-left: 5px solid #fc8181;
+    margin-bottom: 20px;
+    font-size: 0.8rem;
+}
+
+/* ==========================================================================
+   DISEÑO RESPONSIVO ESPECÍFICO (760px y 480px)
+   ========================================================================== */
+
+/* 1. Ajuste para Tablets y Pantallas Medianas (760px) */
+@media (max-width: 760px) {
+    .login-wrapper {
+        width: 95%;
+        height: auto;
+        max-width: 700px;
+    }
+
+    .login-info-side {
+        padding: 30px;
+    }
+
+    .info-content h1 {
+        font-size: 2.2rem;
+    }
+    
+    .login-form-side {
+        padding: 30px;
+    }
+}
+
+/* 2. Ajuste Crítico para Celulares (480px) */
+@media (max-width: 480px) {
+    body.body-login {
+        padding: 10px;
+        align-items: flex-start; /* Permite scroll si el teclado del celular se abre */
+    }
+
+    .login-wrapper {
+        flex-direction: column; /* APILA: Imagen arriba, Formulario abajo */
+        height: auto;
+        border-radius: 15px;
+    }
+
+    .login-info-side {
+        flex: none;
+        width: 100%;
+        min-height: 200px; /* Altura reducida para que el form suba */
+        padding: 30px 20px;
+        text-align: center;
+    }
+
+    .info-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .info-content h1 {
+        font-size: 1.8rem;
+        margin-bottom: 10px;
+    }
+
+    .info-content p {
+        font-size: 0.9rem;
+        display: none; /* Ocultamos el párrafo largo en celulares para ahorrar espacio */
+    }
+
+    .login-form-side {
+        padding: 25px 15px;
+    }
+
+    .login-caja h2 {
+        font-size: 1.3rem;
+        margin-bottom: 20px;
+    }
+
+    .main-login-logo {
+        max-width: 130px;
+    }
+
+    /* Hace que los botones y campos sean más fáciles de tocar con el dedo */
+    .btn-login {
+        padding: 18px;
+        font-size: 1.1rem;
+    }
+
+    .login-extras {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+}
+
+/* 3. Ajuste extra para pantallas muy pequeñas (Opcional pero recomendado) */
+@media (max-width: 320px) {
+    .info-content h1 {
+        font-size: 1.5rem;
+    }
+}

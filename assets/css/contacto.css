@@ -1,0 +1,72 @@
+/* ================================================================
+   ESTILOS PARA NOTIFICACIÓN DE ÉXITO (TOAST)
+   ================================================================ */
+
+/* Contenedor que vuela sobre la página */
+.ip-toast-success {
+    position: fixed;         /* Se queda quieto aunque bajes la página */
+    top: 30px;               /* Separación del techo */
+    right: 30px;             /* Separación de la derecha */
+    background: #ffffff;     /* Fondo blanco */
+    border-left: 6px solid #28a745; /* Línea verde de "Éxito" */
+    box-shadow: 0 15px 40px rgba(0,0,0,0.2); /* Sombra elegante */
+    display: flex;           /* Icono y texto uno al lado del otro */
+    align-items: center;     /* Centrado vertical */
+    padding: 20px 30px;      /* Espacio interno */
+    border-radius: 12px;     /* Bordes redondeados */
+    z-index: 100000;         /* Por encima de cualquier menú o imagen */
+    min-width: 350px;        /* Ancho mínimo */
+    
+    /* Animación de entrada */
+    animation: ipSlideIn 0.5s ease-out forwards;
+}
+
+/* El icono del check */
+.ip-toast-icon {
+    font-size: 30px;
+    color: #28a745;
+    margin-right: 20px;
+}
+
+/* Título del mensaje */
+.ip-toast-text strong {
+    display: block;
+    color: #15305D;          /* Tu azul corporativo */
+    font-size: 16px;
+    margin-bottom: 2px;
+    text-transform: uppercase;
+}
+
+/* Subtítulo del mensaje */
+.ip-toast-text p {
+    margin: 0;
+    font-size: 13px;
+    color: #666;             /* Gris suave */
+}
+
+/* Botón X para cerrar */
+.ip-toast-close {
+    background: none;
+    border: none;
+    font-size: 24px;
+    margin-left: 20px;
+    color: #ccc;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.ip-toast-close:hover {
+    color: #ff0000;          /* Rojo al pasar el mouse */
+}
+
+/* --- ANIMACIÓN: De derecha a izquierda --- */
+@keyframes ipSlideIn {
+    from {
+        transform: translateX(120%); /* Empieza fuera de la pantalla */
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);    /* Termina en su sitio */
+        opacity: 1;
+    }
+}

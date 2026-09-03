@@ -1,0 +1,743 @@
+/* ==========================================================================
+   INTIPATH TOURS - ESTILOS PÁGINA NOSOTROS (CORREGIDOS)
+   ========================================================================== */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap');
+
+:root {
+    --ip-azul: var(--ip-primary);
+    --ip-amarillo: var(--ip-accent);
+    --ip-blanco: var(--ip-bg);
+    --ip-texto: #444444;
+}
+
+/* RESET PARA EVITAR CONFLICTOS */
+#nosotros-page {
+    font-family: 'Montserrat', sans-serif;
+    overflow-x: hidden;
+}
+
+/* 1. HERO / BANNER PRINCIPAL */
+.ip-nosotros-hero {
+    height: 500px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--ip-blanco) !important;
+    /* Forzamos texto blanco */
+}
+
+/* Capa oscura para que el texto resalte sobre la imagen */
+.ip-nosotros-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    /* Ajusta este valor si quieres más oscuro */
+    z-index: 1;
+}
+
+/* Contenedor del texto en el banner */
+.ip-nosotros-caption {
+    position: relative;
+    z-index: 2;
+    /* Por encima del overlay */
+    padding: 0 15px;
+}
+
+.ip-nosotros-title {
+    font-size: 3.5rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    margin: 0;
+    color: var(--ip-blanco) !important;
+}
+
+.ip-nosotros-subtitle {
+    font-size: 1.5rem;
+    margin-top: 10px;
+    color: var(--ip-blanco) !important;
+}
+
+/* 2. SECCIÓN HISTORIA */
+.ip-nosotros-content-wrap {
+    padding: 80px 0;
+    background: var(--color-fondo-blanco);
+}
+
+.ip-nosotros-heading {
+    font-size: 2.5rem;
+    color: var(--ip-azul);
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.ip-nosotros-heading span {
+    color: var(--ip-amarillo);
+}
+
+.ip-nosotros-text-block {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--ip-texto);
+    text-align: justify;
+}
+
+/* Imagen de la historia */
+.ip-nosotros-img-fluid {
+    width: 100%;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    /* Corregí el error de 'shadow' por 'box-shadow' */
+}
+
+/* 3. SECCIÓN VALORES (MISIÓN / VISIÓN) */
+.ip-nosotros-valores {
+    background: var(--ip-bg-section);
+}
+
+.ip-nosotros-valores .card {
+    transition: transform 0.3s ease;
+    border: none;
+    border-radius: 12px;
+}
+
+.ip-nosotros-valores .card:hover {
+    transform: translateY(-10px);
+}
+
+.ip-nosotros-valores i {
+    color: var(--ip-amarillo) !important;
+    /* Iconos color IntiPath */
+}
+
+.ip-nosotros-valores h3 {
+    color: var(--ip-azul);
+    font-weight: 700;
+}
+
+/* AJUSTE RESPONSIVO PARA MÓVILES */
+@media (max-width: 768px) {
+    .ip-nosotros-title {
+        font-size: 2.2rem;
+    }
+
+    .ip-nosotros-hero {
+        height: 350px;
+    }
+
+    .ip-nosotros-content-wrap {
+        padding: 40px 0;
+    }
+}
+
+
+/* ==========================================================================
+   ESTILOS PRESENTACIÓN NOSOTROS (INDEPENDIENTES - Ref: image_7.png)
+   ========================================================================== */
+
+/* Importación de fuente con pesos ligeros */
+
+
+/* Importación de Montserrat con pesos ligeros */
+
+
+.ip-presentacion-main {
+    padding: 100px 0;
+    background-color: var(--color-fondo-blanco);
+    font-family: 'Montserrat', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.ip-presentacion-container {
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 0 25px;
+}
+
+.ip-presentacion-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 70px;
+}
+
+/* COLUMNA DE TEXTO */
+.ip-presentacion-col-text {
+    flex: 1;
+    min-width: 320px;
+}
+
+/* La línea delgada superior con tu color secundario */
+.ip-presentacion-decorator {
+    width: 40px;
+    height: 3px;
+    background-color: var(--color-secundario-amarillo);
+    margin-bottom: 30px;
+    border-radius: 2px;
+}
+
+.ip-presentacion-title {
+    font-size: 2.4rem;
+    color: var(--color-primario-azul);
+    font-weight: 300;
+    /* Peso ligero para elegancia */
+    margin-bottom: 35px;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+}
+
+/* Resalte en el título con el amarillo corporativo */
+.ip-presentacion-title span {
+    color: var(--color-secundario-amarillo);
+    font-weight: 600;
+    /* Un poco más de presencia sin ser tosco */
+}
+
+.ip-presentacion-body {
+    font-size: 1.05rem;
+    line-height: 2;
+    /* Interlineado amplio para suavidad visual */
+    color: var(--color-texto-oscuro);
+    font-weight: 300;
+    /* Cuerpo de texto liviano */
+    text-align: justify;
+    opacity: 0.9;
+    /* Suaviza un poco más el tono del texto */
+}
+
+/* COLUMNA DE IMAGEN */
+.ip-presentacion-col-img {
+    flex: 0 0 42%;
+    min-width: 320px;
+}
+
+.ip-presentacion-img-frame {
+    border-radius: 4px;
+    overflow: hidden;
+    /* Sombra muy sutil para no verse pesada */
+    box-shadow: 0 20px 50px rgba(21, 48, 93, 0.08);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.ip-presentacion-img-fluid {
+    width: 100%;
+    height: auto;
+    display: block;
+    filter: contrast(1.02);
+}
+
+/* Pie de foto del Gerente */
+.ip-presentacion-footer-name {
+    margin-top: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-primario-azul);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-align: center;
+    opacity: 0.7;
+}
+
+/* RESPONSIVE */
+@media (max-width: 991px) {
+    .ip-presentacion-row {
+        flex-direction: column;
+        gap: 40px;
+    }
+
+    .ip-presentacion-col-img {
+        width: 100%;
+    }
+
+    .ip-presentacion-title {
+        font-size: 2rem;
+    }
+}
+
+
+/*=============================================================================
+   ESTILOS ADMINISTRACIÓN PÁGINA NOSOTROS (INDEPENDIENTES)
+   ========================================================================== */
+
+
+/* Tarjetas de Misión y Visión */
+.ip-col-valor {
+    flex: 1;
+    min-width: 300px;
+}
+
+.ip-card-valor {
+    background: var(--color-fondo-blanco);
+    padding: 40px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    border-bottom: 3px solid var(--color-secundario-amarillo);
+    height: 100%;
+    transition: transform 0.3s ease;
+}
+
+.ip-card-valor:hover {
+    transform: translateY(-10px);
+}
+
+.ip-icon-valor {
+    font-size: 2.5rem;
+    color: var(--color-primario-azul);
+    margin-bottom: 20px;
+}
+
+.ip-card-valor h3 {
+    color: var(--color-primario-azul);
+    font-weight: 600;
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+}
+
+.ip-card-valor p {
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--ip-text-muted);
+}
+
+
+/** * SECCIÓN EQUIPO - COLORES CORPORATIVOS
+ /* =============================================================
+   ESTILOS CORPORATIVOS: NUESTRO EQUIPO (CSS PURO)
+   ============================================================= */
+
+/* Contenedor General */
+.ip-equipo-full-wrapper {
+    width: 100%;
+    padding: 80px 0;
+    background-color: var(--gris-claro);
+    box-sizing: border-box;
+}
+
+.ip-equipo-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Header de Sección */
+.ip-equipo-main-header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.ip-equipo-title {
+    font-size: 2.5rem;
+    color: var(--azul-ip);
+    font-weight: 300;
+    margin: 0;
+}
+
+.ip-equipo-title span {
+    font-weight: 700;
+    color: var(--dorado-ip);
+}
+
+.ip-equipo-line {
+    width: 50px;
+    height: 3px;
+    background: var(--dorado-ip);
+    margin: 15px auto;
+}
+
+/* Bloque de Área (Gris suave de referencia) */
+.ip-equipo-area-label-box {
+    background: #E9ECEF;
+    padding: 20px 30px;
+    border-radius: 8px;
+    margin-bottom: 40px;
+    border-left: 5px solid var(--dorado-ip);
+}
+
+.ip-equipo-area-name {
+    color: var(--azul-ip);
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    margin: 0 0 10px 0;
+    letter-spacing: 1px;
+}
+
+.ip-equipo-area-description {
+    color: #555;
+    font-size: 1rem;
+    line-height: 1.5;
+    margin: 0;
+    font-style: italic;
+}
+
+/* Grid de Tarjetas (FLEXBOX) */
+.ip-equipo-flex-cards {
+    display: flex;
+    flex-wrap: wrap;
+    /* Permite que las tarjetas bajen si no hay espacio */
+    gap: 30px;
+    justify-content: center;
+    /* Centra las tarjetas si sobran espacios */
+    margin-bottom: 80px;
+}
+
+/* Tarjeta de Colaborador */
+.ip-equipo-card {
+    background: var(--blanco-ip);
+    width: 280px;
+    /* Ancho fijo para consistencia */
+    padding: 40px 20px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    border-bottom: 4px solid var(--dorado-ip);
+    transition: transform 0.3s ease;
+}
+
+.ip-equipo-card:hover {
+    transform: translateY(-10px);
+}
+
+/* Imagen Circular (Referencia) */
+.ip-equipo-img-holder {
+    width: 140px;
+    height: 140px;
+    margin: 0 auto 25px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 4px solid var(--dorado-ip);
+    background: var(--ip-border);
+}
+
+.ip-equipo-img-holder img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Info del Colaborador */
+.ip-equipo-name {
+    color: var(--azul-ip);
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin: 0 0 5px 0;
+}
+
+.ip-equipo-role {
+    color: var(--dorado-ip);
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .ip-equipo-card {
+        width: 100%;
+    }
+
+    .ip-equipo-area-label-box {
+        text-align: center;
+        border-left: none;
+        border-top: 5px solid var(--dorado-ip);
+    }
+}
+/* =============================================================
+   ESTILOS: CTA PIEDRA (IDENTIDAD INTI PATH)
+   ============================================================= */
+/* 1. SECCIÓN PRINCIPAL */
+.ip-stone-cta {
+    width: 100%;
+    min-height: 70vh;
+    /* Altura considerable para que luzca la imagen */
+    background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.8) 100%),
+        url('https://image-tc.galaxy.tf/wijpeg-7ellqz2uqv2l9plk30futx9jr/experiencias-machu-picchu_wide.jpg?crop=0%2C63%2C1200%2C675');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    /* Efecto Parallax elegante */
+    display: block;
+    position: relative;
+}
+
+/* 2. OVERLAY PARA CENTRADO (Reemplaza el sistema de filas de Bootstrap) */
+.ip-stone-overlay {
+    width: 100%;
+    min-height: 70vh;
+    display: flex;
+    /* Flexbox para centrar todo */
+    justify-content: center;
+    /* Centrado horizontal */
+    align-items: center;
+    /* Centrado vertical */
+    padding: 80px 20px;
+    box-sizing: border-box;
+}
+
+/* 3. CAJA DE CONTENIDO */
+.ip-stone-content-box {
+    max-width: 900px;
+    /* Ancho máximo manual */
+    width: 100%;
+    text-align: center;
+    background: transparent;
+    /* Totalmente transparente como querías */
+}
+
+/* 4. TIPOGRAFÍA Y DECORACIÓN */
+.ip-stone-divider {
+    width: 60px;
+    height: 1px;
+    background-color: var(--ip-bg);
+    margin: 0 auto 30px;
+    opacity: 0.7;
+}
+
+.ip-stone-title {
+    color: var(--ip-bg);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    /* O la que uses en IntiPath */
+    font-size: 2.8rem;
+    font-weight: 300;
+    margin-bottom: 25px;
+    line-height: 1.2;
+}
+
+.ip-stone-description {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.1rem;
+    line-height: 1.8;
+    font-weight: 300;
+    margin-bottom: 45px;
+}
+
+/* 5. BOTÓN PERSONALIZADO */
+.ip-stone-btn {
+    display: inline-block;
+    background-color: var(--ip-accent);
+    /* Naranja corporativo */
+    color: var(--ip-bg);
+    padding: 20px 40px;
+    text-decoration: none;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.ip-stone-btn:hover {
+    background-color: var(--ip-primary);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+}
+
+/* 6. RESPONSIVE (Manual) */
+@media (max-width: 768px) {
+    .ip-stone-title {
+        font-size: 2rem;
+    }
+
+    .ip-stone-description {
+        font-size: 1rem;
+    }
+
+    .ip-stone-btn {
+        width: 100%;
+        /* El botón ocupa todo el ancho en móviles */
+    }
+}
+
+/* ==========================================================================
+   INTIPATH TOURS - IDENTIDAD CORPORATIVA (ESTILO SALKANTAY)
+   ========================================================================== */
+
+:root {
+    --id-azul: var(--ip-primary);
+    --id-dorado: var(--ip-accent);
+    --id-texto: #555555;
+    --id-gris-linea: #e0e0e0;
+}
+
+#mision-vision-page {
+    font-family: 'Montserrat', sans-serif;
+    color: var(--id-texto);
+}
+
+/* 1. SECCIÓN PRINCIPAL */
+.ip-valores-section {
+    padding: 100px 0;
+    background-color: var(--ip-bg);
+}
+
+.ip-valores-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 25px;
+    position: relative;
+}
+
+/* 2. CABECERA */
+.ip-valores-header {
+    margin-bottom: 70px;
+    text-align: left;
+}
+
+.ip-valores-decorator {
+    width: 50px;
+    height: 4px;
+    background-color: var(--id-dorado);
+    margin-bottom: 25px;
+    border-radius: 2px;
+}
+
+.ip-valores-main-title {
+    font-size: 2.5rem;
+    color: var(--id-azul);
+    font-weight: 300;
+    margin: 0 0 20px 0;
+}
+
+.ip-valores-main-title span {
+    color: var(--id-dorado);
+    font-weight: 700;
+}
+
+.ip-valores-intro {
+    font-size: 1.1rem;
+    line-height: 1.9;
+    color: var(--id-texto);
+    max-width: 850px;
+}
+
+/* 3. LÍNEA DE TIEMPO (TIMELINE) */
+.ip-valores-grid {
+    position: relative;
+    padding-left: 20px;
+}
+
+/* La línea gris vertical que conecta los círculos */
+.ip-valores-grid::before {
+    content: '';
+    position: absolute;
+    left: 45px; /* Alineado al centro de los círculos */
+    top: 30px;
+    width: 1px;
+    height: calc(100% - 100px);
+    background-color: var(--id-gris-linea);
+    z-index: 1;
+}
+
+.ip-valor-item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 60px;
+    position: relative;
+    z-index: 2;
+}
+
+/* Círculo dorado con el icono */
+.ip-valor-icon-box {
+    width: 50px;
+    height: 50px;
+    background-color: var(--id-dorado);
+    color: var(--ip-bg);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    margin-right: 30px;
+    flex-shrink: 0;
+    /* El box-shadow blanco crea el efecto de "corte" en la línea gris */
+    box-shadow: 0 0 0 10px var(--ip-bg);
+}
+
+.ip-valor-text {
+    padding-top: 10px;
+}
+
+.ip-valor-text h3 {
+    font-size: 1.3rem;
+    color: var(--id-azul);
+    font-weight: 700;
+    margin: 0 0 15px 0;
+    letter-spacing: 1px;
+}
+
+.ip-valor-text p {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: var(--ip-text-muted);
+    text-align: justify;
+}
+
+/* 4. GRID DE VALORES (3 COLUMNAS) */
+.id-values-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px 30px;
+    margin-top: 35px;
+    padding: 30px;
+    background-color: #f9f9f9;
+    border-radius: 12px;
+    border-left: 5px solid var(--id-dorado);
+}
+
+.id-value-tag {
+    display: flex;
+    align-items: center;
+    font-size: 0.95rem;
+    color: var(--id-azul);
+    font-weight: 600;
+}
+
+.id-value-tag i {
+    color: var(--id-dorado);
+    margin-right: 12px;
+    font-size: 1rem;
+}
+
+/* 5. RESPONSIVE */
+@media (max-width: 900px) {
+    .id-values-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .ip-valores-main-title {
+        font-size: 1.8rem;
+    }
+    
+    .ip-valores-grid::before {
+        left: 35px;
+    }
+    
+    .ip-valor-icon-box {
+        width: 40px;
+        height: 40px;
+        margin-right: 20px;
+        font-size: 1rem;
+        box-shadow: 0 0 0 6px var(--ip-bg);
+    }
+    
+    .id-values-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+
+
+

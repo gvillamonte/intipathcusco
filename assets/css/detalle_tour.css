@@ -1,0 +1,1382 @@
+/* ==========================================================================
+    INTIPATH TOURS - HOJA DE ESTILOS DETALLE_TOUR.PHP
+    Versión Consolidada y Reordenada - 03/04/2026
+   ========================================================================== */
+
+/* --- 1. IMPORTACIONES Y VARIABLES --- */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap');
+
+:root {
+    --color-primario-verde-esmeralda: var(--ip-primary);
+    --color-secundario-verde-olivo: var(--ip-accent);
+    --color-naranja-inti: var(--ip-accent);
+    /* Tu naranja corporativo */
+    --color-fondo-blanco: var(--ip-bg);
+    --color-texto-oscuro: var(--ip-text);
+    --color-texto-claro: var(--ip-text-light);
+  
+}
+
+/* --- 2. CONFIGURACIÓN BASE (RESET) --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+body {
+    background-color: var(--color-fondo-blanco);
+    color: var(--color-texto-oscuro);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+a {
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+ul {
+    list-style: none;
+}
+
+.contenedor {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* --- 3. HERO SECTION --- */
+.ip-details-hero {
+    position: relative;
+    background-color: #0d1a33;
+    height: 60vh;
+    display: flex;
+    align-items: center;
+    background-size: cover;
+    background-position: center;
+    color: var(--color-fondo-blanco);
+}
+
+.ip-details-hero h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+/* --- 4. FEATURES BAR (ICONOS BLANCOS) --- */
+.ip-details-features-bar {
+    background: var(--color-fondo-blanco);
+    padding: 25px 0;
+    border-bottom: 1px solid var(--ip-border);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.ip-details-grid-features {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ip-details-feat-item {
+    flex: 1;
+    text-align: center;
+    border-right: 1px solid var(--ip-border);
+}
+
+.ip-details-feat-item:last-child {
+    border-right: none;
+}
+
+.ip-details-feat-item i {
+    color: var(--color-primario-verde-esmeralda);
+    font-size: 1.5rem;
+    margin-bottom: 5px;
+}
+
+/* Cambiar color del título Resumen de Itinerario */
+.ip-details-main-full .text-primary {
+    color: var(--ip-primary) !important;
+}
+
+/* Cambiar el color del ícono de video */
+.ip-details-feat-item .fa-play-circle {
+    color: var(--color-secundario-verde-olivo) !important; /* var(--ip-accent) */
+}
+.ip-details-feat-item small {
+    display: block;
+    font-size: 0.65rem;
+    color: #888;
+    text-transform: uppercase;
+}
+
+.ip-details-feat-item span {
+    font-weight: 700;
+    color: var(--color-primario-verde-esmeralda);
+    font-size: 0.9rem;
+}
+
+.ip-btn-download-pdf {
+    background: var(--ip-accent);
+    color: var(--color-fondo-blanco);
+    padding: 12px 20px;
+    border-radius: 4px;
+    font-weight: 700;
+    font-size: 0.85rem;
+}
+
+/* --- 5. SECCIÓN DE PESTAÑAS (CUADRO 1 - BLOQUES JUNTOS) --- */
+.ip-tabs-nav-bg {
+    background-color: #f2f2f2;
+    border-top: 1px solid #ddd;
+    border-bottom: 2px solid var(--color-primario-verde-esmeralda);
+}
+
+.ip-tour-tabs-main {
+    display: flex !important;
+    width: 100%;
+    margin: 0 !important;
+    padding: 0 !important;
+    list-style: none !important;
+    border: none !important;
+}
+
+.ip-tour-tabs-main .nav-item {
+    flex: 1;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.ip-tour-tabs-main .nav-link {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: none !important;
+    border-radius: 0 !important;
+    margin: 0 !important;
+    padding: 20px 5px !important;
+    color: #555 !important;
+    font-size: 0.7rem !important;
+    font-weight: 700;
+    height: 100%;
+    transition: all 0.2s ease-in-out;
+    background: transparent;
+    width: 100%;
+}
+
+.ip-tour-tabs-main .nav-link i {
+    font-size: 1.6rem;
+    margin-bottom: 8px;
+    color: #444;
+}
+
+/* Efectos Hover y Activo Azul */
+.ip-tour-tabs-main .nav-link:hover,
+.ip-tour-tabs-main .nav-link.active {
+    background-color: var(--color-primario-verde-esmeralda) !important;
+    color: var(--ip-bg) !important;
+}
+
+.ip-tour-tabs-main .nav-link:hover i,
+.ip-tour-tabs-main .nav-link.active i {
+    color: var(--ip-bg) !important;
+}
+
+/* Pestaña Consultar Naranja */
+.ip-tab-consultar .nav-link {
+    background-color: var(--color-fondo-blanco) !important;
+    border-left: 1px solid #ddd !important;
+}
+
+.ip-tab-consultar .nav-link i,
+.ip-tab-consultar .nav-link span {
+    color: var(--color-naranja-inti) !important;
+}
+
+.ip-tab-consultar .nav-link:hover {
+    background-color: var(--color-naranja-inti) !important;
+    color: var(--color-fondo-blanco) !important;
+}
+
+.ip-tab-consultar .nav-link:hover i,
+.ip-tab-consultar .nav-link:hover span {
+    color: var(--color-fondo-blanco) !important;
+}
+
+/* --- 6. CONTENIDO DE PESTAÑAS Y WIDGET (CUADRO 2 Y 3) --- */
+.ip-details-main-full {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.ip-tab-content-box {
+    min-height: 300px;
+    background-color: var(--color-fondo-blanco);
+}
+
+/* Títulos con borde amarillo */
+.border-warning {
+    border-color: var(--ip-accent) !important;
+}
+
+/* Tarjeta de Reserva Lateral (Cuadro 3) */
+.ip-booking-widget-card {
+    border: 1px solid #ddd !important;
+    background-color: var(--ip-bg);
+    position: sticky;
+    top: 100px;
+    z-index: 10;
+    transition: transform 0.3s ease;
+}
+
+.ip-booking-widget-card:hover {
+    transform: translateY(-5px);
+}
+
+.ip-booking-widget-card .card-header {
+    background-color: #212529 !important;
+}
+
+/* Elementos del formulario de reserva */
+.badge.bg-orange {
+    background-color: var(--color-naranja-inti) !important;
+    color: var(--color-fondo-blanco) !important;
+    width: 22px;
+    height: 22px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 0.75rem;
+}
+
+.amount {
+    color: var(--color-primario-verde-esmeralda);
+    font-weight: 700;
+    display: block;
+    line-height: 1.2;
+}
+
+.btn-secondary-custom {
+    background-color: #888 !important;
+    color: var(--color-fondo-blanco) !important;
+    border: none;
+    transition: background 0.3s ease;
+}
+
+/* --- 7. TARJETAS DE ACCIÓN (VIDEO, PDF, MAPA) --- */
+.ip-action-card {
+    height: 280px;
+    border-radius: 12px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.ip-action-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s ease;
+}
+
+.ip-action-card:hover .ip-action-overlay {
+    background: rgba(0, 0, 0, 0.5);
+}
+
+/* --- 8. INFO CARDS (PARTE INFERIOR) --- */
+.ip-info-card {
+    position: relative;
+    height: 200px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.ip-info-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.ip-info-overlay {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: rgba(15, 155, 158, 1);
+    color: var(--color-fondo-blanco);
+    padding: 10px;
+    text-align: center;
+    font-weight: 700;
+}
+
+/* Esto hace que cada salto de línea en Destacados tenga un icono automático */
+.ip-destacados-texto {
+    list-style: none;
+    padding-left: 0;
+}
+
+/* .ip-destacados-texto br + text, 
+.ip-destacados-texto:first-lin
+     Aquí puedes jugar con iconos de FontAwesome si usas listas <ul> 
+} */
+
+/* O mejor aún, si en el admin los guardas como lista, usa este estilo: */
+.ip-destacados-texto ul {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    /* Dos columnas como en la imagen */
+    gap: 10px;
+}
+
+.ip-destacados-texto ul li::before {
+    content: "\f005";
+    /* Estrella de FontAwesome */
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    color: var(--color-secundario-amarillo);
+    margin-right: 10px;
+}
+
+
+/* ****************************************************************** */
+
+/* --- ESTILO DE GALERÍA DE DESTACADOS --- */
+.ip-gallery-item {
+    overflow: hidden;
+    border-radius: 12px;
+    /* Esquinas redondeadas como en tu referencia */
+    height: 250px;
+    /* Altura fija para que se vean alineadas */
+}
+
+.ip-gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Para que las fotos no se deformen */
+    transition: transform 0.5s ease;
+}
+
+.ip-img-hover:hover {
+    transform: scale(1.1);
+    /* Efecto de zoom al pasar el mouse */
+}
+
+/* Responsivo para móviles */
+@media (max-width: 768px) {
+    .ip-gallery-item {
+        height: 150px;
+    }
+}
+
+/* --- ESTILO DE DESTACADOS CON ICONO DE ESTRELLA --- */
+.ip-destacados-lista ul {
+    padding: 0 !important;
+    margin: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    /* Esto crea las dos columnas */
+    gap: 15px 40px;
+    /* Espacio entre filas y columnas */
+    list-style: none !important;
+}
+
+.ip-destacados-lista ul li {
+    position: relative;
+    padding-left: 30px;
+    /* Espacio para que quepa la estrella */
+    font-size: 0.95rem;
+    color: #555;
+    line-height: 1.5;
+    text-align: justify;
+}
+
+/* Dibujamos la estrella naranja usando FontAwesome */
+.ip-destacados-lista ul li::before {
+    content: "\f005";
+    /* Código de la estrella */
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    position: absolute;
+    left: 0;
+    top: 3px;
+    color: var(--ip-accent);
+    /* El naranja de tu agencia */
+    font-size: 0.9rem;
+}
+
+/* Si el usuario entra desde celular, se pone en una sola columna */
+@media (max-width: 768px) {
+    .ip-destacados-lista ul {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* --- DISEÑO DE ITINERARIO RESUMIDO (ESTILO SALKANTAY) --- */
+.ip-it-item {
+    align-items: flex-start;
+}
+
+.text-orange {
+    color: var(--ip-accent) !important;
+    /* El naranja de tu marca */
+}
+
+.ip-it-dia span.h3 {
+    line-height: 1;
+    font-weight: 800;
+}
+
+.ip-it-info h6 {
+    color: var(--ip-text);
+    font-size: 1rem;
+}
+
+.ip-it-info p {
+    line-height: 1.6;
+    text-align: justify;
+}
+
+/* Espaciador sutil entre días */
+.ip-it-item:not(:last-child) {
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 20px;
+}
+
+
+
+
+/* --- ESTILOS INFORMACIÓN IMPORTANTE --- */
+.ip-info-importante-box {
+    border-top: 4px solid var(--color-primario-verde-esmeralda) !important;
+}
+
+.text-orange {
+    color: var(--ip-accent) !important;
+}
+
+/* --- ESTILOS POR QUÉ VIAJAR CON NOSOTROS --- */
+.ip-why-card {
+    transition: transform 0.3s ease;
+    background: var(--color-fondo-blanco);
+}
+
+.ip-why-card:hover {
+    transform: translateY(-10px);
+}
+
+.ip-why-card img {
+    height: 100px;
+    width: 100%;
+    object-fit: cover;
+}
+
+.ip-why-card h6 {
+    font-size: 0.85rem;
+    margin-top: 10px;
+    color: var(--color-primario-verde-esmeralda);
+}
+
+.ip-why-card p {
+    font-size: 0.75rem;
+    line-height: 1.3;
+}
+
+/* ==========================================================================
+   SECCIÓN: POR QUÉ VIAJAR CON NOSOTROS
+   Estilos para las tarjetas informativas (Icono + Título + Descripción)
+   ========================================================================== */
+
+/* Contenedor principal de la tarjeta individual */
+.ip-why-card {
+    display: flex;
+    /* Activa el modo flexible para alinear contenido */
+    flex-direction: column;
+    /* Alinea los elementos (img, h6, p) de arriba a abajo */
+    align-items: center;
+    /* Centra todos los elementos horizontalmente */
+    text-align: center;
+    /* Asegura que el texto esté centrado */
+    transition: all 0.3s ease;
+    /* Suaviza cualquier efecto visual al pasar el mouse */
+    background: var(--ip-bg);
+    /* Fondo blanco por defecto */
+    padding: 20px;
+    /* Espaciado interno para que el contenido no pegue al borde */
+}
+
+/* Estilo para la imagen o icono de la tarjeta */
+.ip-why-card img {
+    width: 60px;
+    /* Ancho fijo tipo icono */
+    height: 60px;
+    /* Alto fijo tipo icono */
+    object-fit: contain;
+    /* Evita que la imagen se deforme, ajustándola al cuadro */
+    margin-bottom: 15px;
+    /* Separa el icono del título que viene debajo */
+}
+
+/* Estilo para el título de la tarjeta (Cuadro 2 de tu imagen) */
+.ip-why-card h6 {
+    font-size: 0.85rem;
+    /* Tamaño de fuente pequeño y elegante */
+    font-weight: 700;
+    /* Texto en negrita para resaltar */
+    color: var(--color-primario-verde-esmeralda);
+    /* Usa el azul corporativo de tu agencia */
+    margin-bottom: 10px;
+    /* Separa el título del párrafo descriptivo */
+    min-height: 40px;
+    /* Altura mínima para que todos los cuadros midan lo mismo aunque el título sea largo */
+    display: flex;
+    /* Permite centrar el texto verticalmente dentro del min-height */
+    align-items: center;
+    /* Centrado vertical del título */
+    justify-content: center;
+    /* Centrado horizontal del título */
+}
+
+/* Estilo para la descripción o texto informativo (Cuadro 3 de tu imagen) */
+.ip-why-card p {
+    font-size: 0.75rem;
+    /* Tamaño de letra más pequeño para la descripción */
+    color: var(--ip-text-muted);
+    /* Color gris suave para que no compita con el título */
+    line-height: 1.3;
+    /* Espaciado entre líneas para facilitar la lectura */
+    margin-bottom: 0;
+    /* Elimina margen inferior innecesario */
+    text-align: center;
+    /* Texto centrado */
+}
+
+/* --- EFECTO VISUAL OPCIONAL --- */
+/* Al pasar el mouse sobre la tarjeta, se eleva ligeramente */
+.ip-why-card:hover {
+    transform: translateY(-5px);
+    /* Mueve la tarjeta 5 píxeles hacia arriba */
+}
+
+/* ==========================================================================
+   FIN DE SECCIÓN
+   ========================================================================== */
+
+
+
+/* ==========================================================================
+   INICIO: BLOQUE DE ESTILOS DETALLE_TOUR (SECCIONES 8 A 12)
+   ========================================================================== */
+
+/* --- 8. INFO CARDS (PARTE INFERIOR) --- */
+.ip-info-card {
+    position: relative;
+    height: 200px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.ip-info-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.ip-info-overlay {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: rgba(21, 48, 93, 0.8);
+    color: var(--color-fondo-blanco);
+    padding: 10px;
+    text-align: center;
+    font-weight: 700;
+}
+
+/* --- 9. GALERÍA DE DESTACADOS --- */
+.ip-gallery-item {
+    overflow: hidden;
+    border-radius: 12px;
+    height: 250px;
+}
+
+.ip-gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.ip-img-hover:hover {
+    transform: scale(1.1);
+}
+
+/* --- 10. LISTA DE DESTACADOS (DOS COLUMNAS) --- */
+.ip-destacados-lista ul {
+    padding: 0 !important;
+    margin: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px 40px;
+    list-style: none !important;
+}
+
+.ip-destacados-lista ul li {
+    position: relative;
+    padding-left: 30px;
+    font-size: 0.95rem;
+    color: #555;
+    line-height: 1.5;
+    text-align: justify;
+}
+
+.ip-destacados-lista ul li::before {
+    content: "\f005";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    position: absolute;
+    left: 0;
+    top: 3px;
+    color: var(--ip-accent);
+    font-size: 0.9rem;
+}
+
+/* --- 11. ITINERARIO RESUMIDO --- */
+.ip-it-item {
+    align-items: flex-start;
+    padding-bottom: 20px;
+}
+
+.ip-it-item:not(:last-child) {
+    border-bottom: 1px solid #f0f0f0;
+    margin-bottom: 20px;
+}
+
+.text-orange {
+    color: var(--ip-accent) !important;
+}
+
+.ip-it-dia span.h3 {
+    line-height: 1;
+    font-weight: 800;
+}
+
+.ip-it-info h6 {
+    color: var(--ip-text);
+    font-size: 1rem;
+    margin-bottom: 5px;
+}
+
+.ip-it-info p {
+    line-height: 1.6;
+    text-align: justify;
+    margin-bottom: 0;
+}
+
+/* ==========================================================================
+   9. SECCIÓN: POR QUÉ VIAJAR CON NOSOTROS (CORREGIDO SIN MÁRGENES)
+   ========================================================================== */
+
+.ip-why-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--ip-bg);
+    border-radius: 12px;
+    overflow: hidden;
+    /* Esto es lo que corta la imagen para que no se salga de las esquinas */
+    border: 1px solid var(--ip-border);
+    height: 100%;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    padding: 0 !important;
+    /* ELIMINAMOS EL PADDING DE LA CAJA PARA QUE LA FOTO PEGUE AL BORDE */
+    align-items: stretch !important;
+    /* OBLIGAMOS A QUE EL CONTENIDO SE ESTIRE A LO ANCHO */
+}
+
+.ip-why-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* La imagen ahora ocupa el 100% real del ancho */
+.ip-why-card img {
+    width: 100% !important;
+    height: 180px;
+    /* Ajusta la altura a tu gusto */
+    object-fit: cover;
+    /* Hace que la foto llene el espacio sin deformarse */
+    display: block;
+    margin: 0 !important;
+    /* Quitamos cualquier margen que traiga la imagen */
+}
+
+/* Creamos una nueva clase para que el texto SÍ tenga márgenes pero la foto NO */
+.ip-why-card h6,
+.ip-why-card p {
+    padding-left: 15px;
+    padding-right: 15px;
+    text-align: center;
+}
+
+.ip-why-card h6 {
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--color-primario-verde-esmeralda);
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+
+.ip-why-card p {
+    font-size: 0.75rem;
+    color: var(--ip-text-muted);
+    line-height: 1.4;
+    padding-bottom: 20px;
+    /* Margen al final del cuadro */
+    margin-bottom: 0;
+}
+
+/* ==========================================================================
+   SECCIÓN: VIAJES RELACIONADOS (CARDS TIPO PORTADA)
+   ========================================================================== */
+
+/* 1. Contenedor de la sección completa */
+.ip-relacionados-section {
+    background-color: var(--ip-bg);
+    padding: 60px 0;
+    width: 100%;
+    display: block;
+}
+
+/* 2. La Tarjeta Individual */
+.ip-rel-card {
+    display: block;
+    position: relative;
+    height: 420px;
+    /* Altura de la tarjeta */
+    border-radius: 15px;
+    overflow: hidden;
+    color: var(--ip-bg) !important;
+    text-decoration: none;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.ip-rel-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* 3. El Contenedor de la Imagen */
+.ip-rel-img-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.ip-rel-img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+.ip-rel-card:hover .ip-rel-img-wrapper img {
+    transform: scale(1.1);
+    /* Efecto zoom al pasar el mouse */
+}
+
+/* 4. Capa de degradado (Crucial para leer el texto blanco) */
+.ip-rel-img-wrapper::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 70%;
+    /* El degradado cubre el 70% inferior */
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0) 100%);
+    z-index: 2;
+}
+
+/* 5. Contenido de texto dentro de la tarjeta */
+.ip-rel-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 20px;
+    z-index: 3;
+    width: 100%;
+}
+
+/* Badge de Ciudad (Ej: Cusco) */
+.ip-rel-badge {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: rgba(255, 255, 255, 0.95);
+    color: var(--ip-accent);
+    /* Tu naranja corporativo */
+    padding: 3px 12px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    z-index: 4;
+    text-transform: uppercase;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Subtítulo (Destinos) */
+.ip-rel-tags {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.65rem;
+    font-weight: 400;
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+}
+
+/* Título del Tour */
+.ip-rel-content h5 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+    line-height: 1.2;
+}
+
+/* Línea divisora blanca sutil */
+.ip-rel-divider {
+    width: 100%;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.3);
+    margin-bottom: 12px;
+}
+
+/* Precio y Duración */
+.ip-rel-price {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.ip-rel-price .text-warning {
+    color: #ffc107 !important;
+    /* Amarillo para resaltar el precio */
+    font-size: 1rem;
+}
+
+/* --- Ajustes Responsivos --- */
+@media (max-width: 768px) {
+    .ip-rel-card {
+        height: 350px;
+    }
+
+    .ip-rel-content h5 {
+        font-size: 1.1rem;
+    }
+}
+
+
+/* ==========================================================================
+   ESTILOS: SECCIÓN FRASE INSPIRADORA (INTIPATH COLORS)
+   ========================================================================== */
+.ip-frase-parallax {
+    position: relative;
+    width: 100%;
+    height: 380px;
+    background-color: var(--ip-bg-section);
+    /* Esta es la imagen de silueta que me mostraste */
+    background-image: url('../img/bg-mountains-silhouette.png');
+    background-position: bottom center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    margin-top: 60px;
+    clear: both;
+}
+
+.ip-mountain-overlay {
+    width: 100%;
+    height: 100%;
+    /* Degradado de Blanco a tu Azul Corporativo con transparencia */
+    background: linear-gradient(0deg, var(--color-primario-verde-esmeralda) 0%, rgba(21, 48, 93, 0.7) 60%, rgba(255, 255, 255, 0) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ip-frase-content h2 {
+    color: var(--ip-bg);
+    font-size: 2.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 15px;
+    line-height: 1.2;
+    text-shadow: 2px 2px 15px rgba(0, 0, 0, 0.4);
+}
+
+.ip-frase-content p {
+    color: var(--color-secundario-amarillo);
+    /* Dorado corporativo */
+    font-size: 1.3rem;
+    font-weight: 300;
+    font-style: italic;
+    letter-spacing: 0.5px;
+}
+
+.ip-divider-naranja {
+    width: 100px;
+    height: 5px;
+    background-color: var(--color-naranja-inti);
+    /* Naranja Inti */
+    margin: 25px auto 0;
+    border-radius: 50px;
+}
+
+/* --- Adaptación para celulares --- */
+@media (max-width: 768px) {
+    .ip-frase-parallax {
+        height: 280px;
+    }
+
+    .ip-frase-content h2 {
+        font-size: 1.4rem;
+        padding: 0 15px;
+    }
+
+    .ip-frase-content p {
+        font-size: 0.9rem;
+        padding: 0 20px;
+    }
+}
+
+/* Fancybox Custom Styles - Intipath Tours */
+
+/* Contenedor de la imagen/PDF en la web */
+.btn-emergente {
+    transition: all 0.3s ease;
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+    border: 1px solid #ddd;
+    background: #f9f9f9;
+}
+
+.btn-emergente:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15) !important;
+    border-color: var(--ip-accent);
+}
+
+/* Capa oscura que aparece al pasar el mouse */
+.overlay-zoom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(230, 126, 34, 0.9);
+    /* Naranja Intipath */
+    color: var(--color-fondo-blanco);
+    text-align: center;
+    padding: 8px;
+    font-size: 11px;
+    font-weight: bold;
+    text-transform: uppercase;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.btn-emergente:hover .overlay-zoom {
+    opacity: 1;
+}
+
+/* Ajustes del visor Fancybox */
+.fancybox__container {
+    --fancybox-accent-color: var(--ip-accent);
+}
+
+.fancybox__content {
+    border-radius: 10px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+
+.antes-viajar-item {
+    background-size: cover;
+    /* Esto hace que la imagen llene todo el cuadro */
+    background-position: center;
+    min-height: 250px;
+    /* Esto obliga al cuadro a tener un tamaño mínimo */
+}
+
+
+
+/* Estilo extra para que se vea premium */
+.tour-card-aclimate {
+    transition: transform 0.3s ease;
+    border-radius: 15px;
+}
+
+.tour-card-aclimate:hover {
+    transform: translateY(-5px);
+}
+
+.tour-card-aclimate .overlay-dark {
+    transition: background 0.3s ease;
+}
+
+.tour-card-aclimate:hover .overlay-dark {
+    background: rgba(0, 0, 0, 0.2) !important;
+}
+
+
+
+.ip-equipaje-grid .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+}
+
+
+
+.ip-equipaje-list-vertical .equipaje-fila {
+    transition: all 0.3s ease;
+    border-left: 4px solid #002d5a;
+    /* Acento azul a la izquierda */
+}
+
+.ip-equipaje-list-vertical .equipaje-fila:hover {
+    background-color: var(--color-fondo-blanco) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1) !important;
+}
+
+.ip-btn-descarga-equipaje {
+    border-radius: 50px;
+    padding: 8px 18px;
+    font-size: 0.8rem;
+}
+
+.ip-btn-ver-imagen {
+    font-size: 0.8rem;
+    padding: 5px 12px;
+}
+
+
+
+
+
+/* Título de Categoría */
+.ip-categoria-titulo {
+    font-weight: bold;
+    text-transform: uppercase;
+    color: var(--ip-text);
+    border-bottom: 3px solid var(--ip-accent);
+    display: inline-block;
+    padding-bottom: 5px;
+    font-size: 1.1rem;
+}
+
+/* Tarjeta Personalizada */
+.equipaje-card-custom {
+    background: #fdfdfd;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    transition: 0.3s;
+}
+
+.equipaje-card-custom:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* Contenedor de Imagen SIN MARGENES */
+.equipaje-img-box {
+    width: 100%;
+    height: 170px;
+    /* Altura fija para que todos sean iguales */
+    margin: 0;
+    padding: 0;
+    background: var(--ip-border);
+}
+
+.equipaje-img-box img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover;
+    /* Esto estira la imagen para llenar el cuadro sin bordes blancos */
+    display: block;
+}
+
+/* Bloque del Nombre */
+.equipaje-info-box {
+    padding: 12px 5px;
+    text-align: center;
+    background: var(--color-fondo-blanco);
+    border-top: 1px solid #f0f0f0;
+}
+
+.equipaje-info-box span {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #444;
+    display: block;
+}
+
+/* Estilo si no hay imagen */
+.no-img-box {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f5f5f5;
+    color: #ccc;
+    font-size: 2.5rem;
+}
+
+
+
+
+
+
+
+#modalReservaTour .form-control:focus,
+#modalReservaTour .form-select:focus {
+    box-shadow: none;
+    border-color: var(--ip-accent) !important;
+}
+
+#modalReservaTour label {
+    color: var(--ip-admin-primary) !important;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 11px;
+}
+
+
+/* ==========================================================================
+   DISEÑO RESPONSIVE - DETALLE_TOUR.PHP
+   ========================================================================== */
+
+/* --- TABLETS Y LAPTOPS PEQUEÑAS (991px) --- */
+@media (max-width: 991px) {
+    .ip-details-hero h1 {
+        font-size: 2.5rem;
+    }
+
+    .ip-details-grid-features {
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    .ip-details-feat-item {
+        flex: 1 1 45%;
+        /* Dos items por fila en tablets */
+        border-right: none;
+        border-bottom: 1px solid var(--ip-border);
+        padding-bottom: 10px;
+    }
+
+    .ip-details-feat-item:nth-child(even) {
+        border-right: none;
+    }
+}
+
+/* --- TABLETS VERTICALES (768px) --- */
+@media (max-width: 768px) {
+    .ip-details-hero {
+        height: 40vh;
+        text-align: center;
+    }
+
+    .ip-details-hero h1 {
+        font-size: 2rem;
+    }
+
+    /* Pestañas de navegación en móvil */
+    .ip-tour-tabs-main {
+        overflow-x: auto;
+        white-space: nowrap;
+        display: flex !important;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .ip-tour-tabs-main .nav-item {
+        flex: 0 0 100px;
+        /* Tamaño fijo para permitir scroll lateral */
+    }
+
+    .ip-tour-tabs-main .nav-link {
+        padding: 15px 5px !important;
+        font-size: 0.6rem !important;
+    }
+
+    /* Widget de reserva deja de ser pegajoso en móvil */
+    .ip-booking-widget-card {
+        position: relative !important;
+        top: 0 !important;
+        margin-top: 30px;
+    }
+
+    /* Columnas de destacados y galería */
+    .ip-destacados-lista ul {
+        grid-template-columns: 1fr;
+        /* Una sola columna */
+    }
+
+    .ip-gallery-item {
+        height: 180px;
+    }
+
+    .ip-action-card {
+        height: 220px;
+        margin-bottom: 20px;
+    }
+
+    /* Frase inspiradora */
+    .ip-frase-content h2 {
+        font-size: 1.6rem;
+    }
+}
+
+/* --- CELULARES (480px) --- */
+@media (max-width: 480px) {
+    .ip-details-hero h1 {
+        font-size: 1.5rem;
+    }
+
+    .ip-details-feat-item {
+        flex: 1 1 100%;
+        /* Un item por fila */
+    }
+
+    .ip-btn-download-pdf {
+        width: 100%;
+        text-align: center;
+    }
+
+    /* Ajuste de tarjetas de Por qué viajar */
+    .ip-why-card img {
+        height: 140px;
+    }
+
+    /* Ajuste de tarjetas relacionadas */
+    .ip-rel-card {
+        height: 320px;
+    }
+
+    .ip-rel-content h5 {
+        font-size: 1.1rem;
+    }
+
+    /* Ajuste de imágenes de equipaje */
+    .equipaje-img-box {
+        height: 140px;
+    }
+
+    .ip-frase-parallax {
+        height: 300px;
+    }
+}
+
+/* ============================================================
+   CALENDARIO WIDGET
+   ============================================================ */
+
+/* Ocultar título de eventos */
+.fc-event-title { display: none !important; }
+.fc-event, .fc-daygrid-event, .fc-h-event {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+/* Fondo verde para fechas disponibles */
+.fc-daygrid-day.dia-disponible:not(.fc-day-past):not(.fc-day-disabled) {
+    background-color: #e8f5e9 !important;
+}
+.fc-daygrid-day.dia-disponible:not(.fc-day-past):not(.fc-day-disabled):hover {
+    background-color: #c8e6c9 !important;
+}
+
+/* Puntito verde con pseudo-elemento */
+.fc-daygrid-day.dia-disponible:not(.fc-day-past):not(.fc-day-disabled)::after {
+    content: '';
+    display: block;
+    width: 6px;
+    height: 6px;
+    background: var(--ip-primary);
+    border-radius: 50%;
+    margin: 0 auto 2px auto;
+}
+.fc-daygrid-day.dia-disponible:not(.fc-day-past):not(.fc-day-disabled) * {
+    cursor: pointer !important;
+}
+
+/* Número de día */
+.fc-daygrid-day-number {
+    font-weight: 800 !important;
+    color: #222 !important;
+    font-size: 1.1em !important;
+    padding: 5px 8px !important;
+    text-decoration: none !important;
+    z-index: 10;
+}
+
+/* Fechas pasadas */
+.fc-day-past, .fc-day-disabled {
+    background-color: #fdf2f2 !important;
+    opacity: 1 !important;
+}
+.fc-day-past .fc-daygrid-day-number,
+.fc-day-disabled .fc-daygrid-day-number {
+    color: #b71c1c !important;
+    text-decoration: line-through !important;
+    opacity: 1 !important;
+}
+.fc-day-past.dia-disponible {
+    background-color: var(--ip-bg) !important;
+}
+
+/* Hoy */
+.fc-day-today { background-color: #fffde7 !important; border: 2px solid #fbc02d !important; }
+.fc-day-today .fc-daygrid-day-number { color: #f57f17 !important; }
+
+/* Celda seleccionada */
+.fc-daygrid-day.dia-seleccionado {
+    background-color: #a5d6a7 !important;
+    box-shadow: inset 0 0 0 2px #2e7d32;
+}
+.fc-daygrid-day.dia-seleccionado .fc-daygrid-day-number {
+    color: var(--color-fondo-blanco) !important;
+}
+
+/* Tippy tooltip */
+.tippy-box {
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5) !important;
+    border-radius: 12px !important;
+    border: 1px solid #444 !important;
+}
