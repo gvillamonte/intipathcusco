@@ -1,5 +1,14 @@
-# Backups
+# Backups generales
 backup_*/
+
+# 🚫 EXCLUSION ESPECÍFICA: Bloquear el backup de Culqi y todo lo que tiene adentro
+backup_culqi_2026-08-17/
+
+# 🚫 EXCLUSION ESPECÍFICA: Carpeta temp_pfs en la raíz del proyecto
+/temp_pfs/
+
+# 🚫 EXCLUSION ESPECÍFICA: El archivo .htaccess de la raíz
+/.htaccess
 
 # SQL scripts (se ejecutan manualmente en phpMyAdmin)
 sql/
@@ -9,6 +18,10 @@ test_*.php
 
 # Imagenes de fundacion subidas localmente (ya estan en el servidor)
 assets/img/fundacion/*.webp
+
+# 🚫 ARCHIVOS DE CONFIGURACIÓN LOCAL (¡Muy Importante!)
+# Excluir el archivo exacto de configuración de base de datos
+config/database.php
 
 # Archivos de sistema
 Thumbs.db
@@ -23,6 +36,16 @@ Thumbs.db
 
 # Node
 node_modules/
+
+# Excluir la carpeta de PDFs por completo (con todos sus archivos internos)
+**/pdfs/
+
+# --- CONFIGURACIÓN AUTOMÁTICA DE CARPETAS DE IMÁGENES ---
+# Ignorar las fotos locales de todas tus carpetas (alquiler, blog, tours, etc.)
+**/img/*
+
+# No ignorar el archivo de señal para obligar a HostGator a crear las carpetas vacías
+!**/img/.gitkeep
 
 # Composer (vendor esta committeado intencionalmente)
 # vendor/
