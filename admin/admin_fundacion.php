@@ -21,14 +21,25 @@ if ($is_ajax) {
     }
 }
 
-requierePermiso('fundacion');
-require_once '../config/database.php';
-require_once __DIR__ . '/../includes/image_helper.php';
+// Envolver TODO en try-catch para que errores de setup devuelvan JSON en vez de 500
+try {
+    requierePermiso('fundacion');
+    require_once '../config/database.php';
+    require_once __DIR__ . '/../includes/image_helper.php';
 
-$db = (new Database())->getConnection();
-$img_dir = '../assets/img/fundacion/';
-if (!is_dir($img_dir)) {
-    @mkdir($img_dir, 0777, true);
+    $db = (new Database())->getConnection();
+    $img_dir = '../assets/img/fundacion/';
+    if (!is_dir($img_dir)) {
+        @mkdir($img_dir, 0777, true);
+    }
+} catch (Throwable $e) {
+    if ($is_ajax) {
+        while (ob_get_level()) ob_end_clean();
+        header('Content-Type: application/json');
+        echo json_encode(['ok' => false, 'error' => 'Error de configuración: ' . $e->getMessage()]);
+        exit;
+    }
+    throw $e;
 }
 
 $mensaje = null;
@@ -1426,7 +1437,8 @@ function guardarProyectoAjax() {
         .catch(err => {
             btn.innerHTML = btnHtml;
             btn.disabled = false;
-            Swal.fire('Error', 'Error de conexión', 'error');
+            if (err.message === 'Respuesta no-JSON') return;
+            Swal.fire('Error', err.message || 'Error de conexión. Intenta de nuevo.', 'error');
         });
 }
 
