@@ -2,23 +2,33 @@
 // admin/admin_fundacion.php — Fundación: config general + CRUD proyectos
 ob_start();
 require_once __DIR__ . '/../includes/auth_helper.php';
-requierePermiso('fundacion');
-require_once '../config/database.php';
-require_once __DIR__ . '/../includes/image_helper.php';
 
-$db = (new Database())->getConnection();
-$img_dir = '../assets/img/fundacion/';
-if (!is_dir($img_dir)) mkdir($img_dir, 0777, true);
-
-// Limpiar buffer de salida para requests AJAX — evita que warnings/notices rompan JSON
+// Detectar AJAX ANTES de verificar sesión — si la sesión expiró, devolver JSON en vez de redirect
 $is_ajax = !empty($_POST['ajax_guardar_proyecto'])
     || !empty($_POST['reemplazar_secimg']) || !empty($_POST['reorder_secimg'])
     || !empty($_POST['reorder_secciones']) || !empty($_POST['reorder_proyectos'])
     || !empty($_GET['eliminar_seccion'])
     || !empty($_GET['eliminar_secimg']) || !empty($_GET['toggle_proyecto'])
     || !empty($_GET['eliminar_proyecto']);
+
 if ($is_ajax) {
     while (ob_get_level()) ob_end_clean();
+    if (session_status() === PHP_SESSION_NONE) session_start();
+    if (!isset($_SESSION['admin_id'])) {
+        header('Content-Type: application/json');
+        echo json_encode(['ok' => false, 'error' => 'Sesión expirada. Recarga la página.']);
+        exit;
+    }
+}
+
+requierePermiso('fundacion');
+require_once '../config/database.php';
+require_once __DIR__ . '/../includes/image_helper.php';
+
+$db = (new Database())->getConnection();
+$img_dir = '../assets/img/fundacion/';
+if (!is_dir($img_dir)) {
+    @mkdir($img_dir, 0777, true);
 }
 
 $mensaje = null;
@@ -80,45 +90,50 @@ if (isset($_POST['guardar_config'])) {
 if (isset($_POST['ajax_guardar_proyecto'])) {
     while (ob_get_level()) ob_end_clean();
     header('Content-Type: application/json');
-    $pid = (int)($_POST['proyecto_id'] ?? 0);
-    $titulo = trim($_POST['proyecto_titulo'] ?? '');
-    $titulo_en = trim($_POST['proyecto_titulo_en'] ?? '');
-    $subtitulo = trim($_POST['proyecto_subtitulo'] ?? '');
-    $subtitulo_en = trim($_POST['proyecto_subtitulo_en'] ?? '');
-    $descripcion_corta = trim($_POST['proyecto_descripcion_corta'] ?? '');
-    $descripcion_corta_en = trim($_POST['proyecto_descripcion_corta_en'] ?? '');
-    $descripcion = $_POST['proyecto_descripcion'] ?? '';
-    $descripcion_en = $_POST['proyecto_descripcion_en'] ?? '';
-    $slug_pagina = trim($_POST['proyecto_slug'] ?? '');
-    $activo_p = isset($_POST['proyecto_activo']) ? 1 : 0;
-    $imagen_actual = $_POST['proyecto_imagen_actual'] ?? 'default-proyecto.webp';
+    try {
+        $pid = (int)($_POST['proyecto_id'] ?? 0);
+        $titulo = trim($_POST['proyecto_titulo'] ?? '');
+        $titulo_en = trim($_POST['proyecto_titulo_en'] ?? '');
+        $subtitulo = trim($_POST['proyecto_subtitulo'] ?? '');
+        $subtitulo_en = trim($_POST['proyecto_subtitulo_en'] ?? '');
+        $descripcion_corta = trim($_POST['proyecto_descripcion_corta'] ?? '');
+        $descripcion_corta_en = trim($_POST['proyecto_descripcion_corta_en'] ?? '');
+        $descripcion = $_POST['proyecto_descripcion'] ?? '';
+        $descripcion_en = $_POST['proyecto_descripcion_en'] ?? '';
+        $slug_pagina = trim($_POST['proyecto_slug'] ?? '');
+        $activo_p = isset($_POST['proyecto_activo']) ? 1 : 0;
+        $imagen_actual = $_POST['proyecto_imagen_actual'] ?? 'default-proyecto.webp';
 
-    if (empty($titulo)) {
-        echo json_encode(['ok' => false, 'error' => 'El título es obligatorio']);
-        exit;
-    }
-
-    if (!empty($_FILES['proyecto_imagen']['tmp_name']) && $_FILES['proyecto_imagen']['error'] == 0) {
-        $nueva_img = procesar_imagen_upload($_FILES['proyecto_imagen'], $img_dir, 'proyecto_' . time());
-        if ($nueva_img) {
-            if ($imagen_actual && $imagen_actual !== 'default-proyecto.webp' && file_exists($img_dir . $imagen_actual)) {
-                @unlink($img_dir . $imagen_actual);
-            }
-            $imagen_actual = $nueva_img;
+        if (empty($titulo)) {
+            echo json_encode(['ok' => false, 'error' => 'El título es obligatorio']);
+            exit;
         }
-    }
 
-    if ($pid > 0) {
-        $stmt = $db->prepare("UPDATE fundacion_proyectos SET imagen=?, titulo=?, titulo_en=?, subtitulo=?, subtitulo_en=?, descripcion_corta=?, descripcion_corta_en=?, descripcion=?, descripcion_en=?, slug_pagina=?, activo=? WHERE id=?");
-        $stmt->execute([$imagen_actual, $titulo, $titulo_en, $subtitulo, $subtitulo_en, $descripcion_corta, $descripcion_corta_en, $descripcion, $descripcion_en, $slug_pagina, $activo_p, $pid]);
-    } else {
-        $max_orden = $db->query("SELECT COALESCE(MAX(orden),0)+1 FROM fundacion_proyectos")->fetchColumn();
-        $stmt = $db->prepare("INSERT INTO fundacion_proyectos (imagen, titulo, titulo_en, subtitulo, subtitulo_en, descripcion_corta, descripcion_corta_en, descripcion, descripcion_en, slug_pagina, activo, orden) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)");
-        $stmt->execute([$imagen_actual, $titulo, $titulo_en, $subtitulo, $subtitulo_en, $descripcion_corta, $descripcion_corta_en, $descripcion, $descripcion_en, $slug_pagina, $activo_p, $max_orden]);
-        $pid = (int)$db->lastInsertId();
-    }
+        if (!empty($_FILES['proyecto_imagen']['tmp_name']) && $_FILES['proyecto_imagen']['error'] == 0) {
+            $nueva_img = procesar_imagen_upload($_FILES['proyecto_imagen'], $img_dir, 'proyecto_' . time());
+            if ($nueva_img) {
+                if ($imagen_actual && $imagen_actual !== 'default-proyecto.webp' && file_exists($img_dir . $imagen_actual)) {
+                    @unlink($img_dir . $imagen_actual);
+                }
+                $imagen_actual = $nueva_img;
+            }
+        }
 
-    echo json_encode(['ok' => true, 'id' => $pid, 'imagen' => $imagen_actual]);
+        if ($pid > 0) {
+            $stmt = $db->prepare("UPDATE fundacion_proyectos SET imagen=?, titulo=?, titulo_en=?, subtitulo=?, subtitulo_en=?, descripcion_corta=?, descripcion_corta_en=?, descripcion=?, descripcion_en=?, slug_pagina=?, activo=? WHERE id=?");
+            $stmt->execute([$imagen_actual, $titulo, $titulo_en, $subtitulo, $subtitulo_en, $descripcion_corta, $descripcion_corta_en, $descripcion, $descripcion_en, $slug_pagina, $activo_p, $pid]);
+        } else {
+            $max_orden = $db->query("SELECT COALESCE(MAX(orden),0)+1 FROM fundacion_proyectos")->fetchColumn();
+            $stmt = $db->prepare("INSERT INTO fundacion_proyectos (imagen, titulo, titulo_en, subtitulo, subtitulo_en, descripcion_corta, descripcion_corta_en, descripcion, descripcion_en, slug_pagina, activo, orden) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)");
+            $stmt->execute([$imagen_actual, $titulo, $titulo_en, $subtitulo, $subtitulo_en, $descripcion_corta, $descripcion_corta_en, $descripcion, $descripcion_en, $slug_pagina, $activo_p, $max_orden]);
+            $pid = (int)$db->lastInsertId();
+        }
+
+        echo json_encode(['ok' => true, 'id' => $pid, 'imagen' => $imagen_actual]);
+    } catch (Exception $e) {
+        error_log("FUNDACION AJAX ERROR: " . $e->getMessage());
+        echo json_encode(['ok' => false, 'error' => 'Error interno: ' . $e->getMessage()]);
+    }
     exit;
 }
 
