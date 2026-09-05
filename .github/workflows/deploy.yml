@@ -21,3 +21,5 @@ jobs:
         server-dir: public_html/
         protocol: ftps
         security: loose
+        # 🚀 LA SOLUCIÓN DEFINITIVA: Sube exclusivamente lo modificado en el commit
+        only-new-or-changed: true
