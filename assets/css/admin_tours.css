@@ -1264,6 +1264,60 @@ body {
     border-radius: 0 8px 8px 0;
 }
 
+/* --- Precio Soles: fila inline (checkbox + TC + preview) --- */
+.soles-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 8px;
+}
+.soles-row .form-check {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+    margin-bottom: 0;
+}
+.soles-row .form-check-input {
+    width: 18px;
+    height: 18px;
+    margin-top: 0;
+    flex-shrink: 0;
+}
+.soles-row .form-check-label {
+    white-space: nowrap;
+}
+.soles-row #tipoCambioRef {
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+.soles-row .soles-preview {
+    margin-left: auto;
+    padding: 8px 14px;
+    background: #f8fafc;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    font-weight: 700;
+    color: var(--color-primario-azul);
+    font-size: 1rem;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+@media (max-width: 640px) {
+    .soles-row {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+    .soles-row .soles-preview {
+        margin-left: 0;
+        width: 100%;
+        text-align: center;
+    }
+    .soles-row #tipoCambioRef {
+        width: 100%;
+    }
+}
+
 /* --- Sticky Save Bar --- */
 .sticky-save-bar {
     position: sticky;

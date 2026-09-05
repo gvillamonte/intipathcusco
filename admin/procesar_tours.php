@@ -327,6 +327,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['guardar_tour'])) {
 
     $precio_soles       = (!empty($_POST['precio_soles'])) ? $_POST['precio_soles'] : null;
 
+    $auto_soles         = isset($_POST['auto_soles']);
+
     $moneda             = $_POST['moneda'] ?? 'USD';
 
     $tipo_precio        = $_POST['tipo_precio'] ?? 'persona';
@@ -674,7 +676,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['guardar_tour'])) {
 
             (float)$precio,
 
-            ($precio_soles !== null) ? (float)$precio_soles : round((float)$precio * (float)$tipo_cambio_actual, 2),
+            $auto_soles ? (($moneda === 'PEN') ? (float)$precio : round((float)$precio * (float)$tipo_cambio_actual, 2)) : (($precio_soles !== null) ? (float)$precio_soles : (($moneda === 'PEN') ? (float)$precio : round((float)$precio * (float)$tipo_cambio_actual, 2))),
 
             $duracion,
 
@@ -816,7 +818,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['guardar_tour'])) {
 
             (float)$precio,
 
-            ($precio_soles !== null) ? (float)$precio_soles : round((float)$precio * (float)$tipo_cambio_actual, 2),
+            $auto_soles ? (($moneda === 'PEN') ? (float)$precio : round((float)$precio * (float)$tipo_cambio_actual, 2)) : (($precio_soles !== null) ? (float)$precio_soles : (($moneda === 'PEN') ? (float)$precio : round((float)$precio * (float)$tipo_cambio_actual, 2))),
 
             $duracion,
 

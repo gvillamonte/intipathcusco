@@ -1,5 +1,6 @@
 <?php
 // admin/admin_fundacion.php — Fundación: config general + CRUD proyectos
+ob_start();
 require_once __DIR__ . '/../includes/auth_helper.php';
 requierePermiso('fundacion');
 require_once '../config/database.php';
@@ -8,6 +9,17 @@ require_once __DIR__ . '/../includes/image_helper.php';
 $db = (new Database())->getConnection();
 $img_dir = '../assets/img/fundacion/';
 if (!is_dir($img_dir)) mkdir($img_dir, 0777, true);
+
+// Limpiar buffer de salida para requests AJAX — evita que warnings/notices rompan JSON
+$is_ajax = !empty($_POST['ajax_guardar_proyecto'])
+    || !empty($_POST['reemplazar_secimg']) || !empty($_POST['reorder_secimg'])
+    || !empty($_POST['reorder_secciones']) || !empty($_POST['reorder_proyectos'])
+    || !empty($_GET['eliminar_seccion'])
+    || !empty($_GET['eliminar_secimg']) || !empty($_GET['toggle_proyecto'])
+    || !empty($_GET['eliminar_proyecto']);
+if ($is_ajax) {
+    while (ob_get_level()) ob_end_clean();
+}
 
 $mensaje = null;
 
@@ -66,6 +78,7 @@ if (isset($_POST['guardar_config'])) {
 // AJAX: Guardar proyecto (retorna JSON)
 // =============================================
 if (isset($_POST['ajax_guardar_proyecto'])) {
+    while (ob_get_level()) ob_end_clean();
     header('Content-Type: application/json');
     $pid = (int)($_POST['proyecto_id'] ?? 0);
     $titulo = trim($_POST['proyecto_titulo'] ?? '');
@@ -173,127 +186,19 @@ if (isset($_GET['eliminar_proyecto'])) {
 }
 
 // =============================================
-// POST: Reemplazar imagen de galería (AJAX)
-// =============================================
-if (isset($_POST['reemplazar_img_galeria'])) {
-    header('Content-Type: application/json');
-    $rid = (int)($_POST['imagen_id'] ?? 0);
-    if ($rid > 0 && !empty($_FILES['nueva_imagen']['tmp_name']) && $_FILES['nueva_imagen']['error'] == 0) {
-        $st = $db->prepare("SELECT imagen FROM fundacion_proyecto_imagenes WHERE id=?");
-        $st->execute([$rid]);
-        $old_img = $st->fetchColumn();
-        $new_img = procesar_imagen_upload($_FILES['nueva_imagen'], $img_dir, 'galeria_' . time() . '_' . $rid);
-        if ($new_img) {
-            $db->prepare("UPDATE fundacion_proyecto_imagenes SET imagen=? WHERE id=?")->execute([$new_img, $rid]);
-            if ($old_img && file_exists($img_dir . $old_img)) @unlink($img_dir . $old_img);
-            echo json_encode(['ok' => true, 'nueva' => $new_img]);
-        } else {
-            echo json_encode(['ok' => false, 'error' => 'Error al procesar imagen']);
-        }
-    } else {
-        echo json_encode(['ok' => false, 'error' => 'Datos inválidos']);
-    }
-    exit;
-}
-
-// =============================================
-// POST: Reordenar galería (AJAX drag & drop)
-// =============================================
-if (isset($_POST['reorder_galeria'])) {
-    header('Content-Type: application/json');
-    $gids = $_POST['ids'] ?? [];
-    if (is_array($gids)) {
-        foreach ($gids as $pos => $gid) {
-            $db->prepare("UPDATE fundacion_proyecto_imagenes SET orden=? WHERE id=?")->execute([$pos, (int)$gid]);
-        }
-        echo json_encode(['ok' => true]);
-    } else {
-        echo json_encode(['ok' => false]);
-    }
-    exit;
-}
-
-// =============================================
-// GET: Eliminar imagen de galería (AJAX)
-// =============================================
-if (isset($_GET['eliminar_img_galeria'])) {
-    header('Content-Type: application/json');
-    $gid = (int)$_GET['eliminar_img_galeria'];
-    $st = $db->prepare("SELECT imagen FROM fundacion_proyecto_imagenes WHERE id=?");
-    $st->execute([$gid]);
-    $gimg = $st->fetchColumn();
-    if ($gimg) {
-        $db->prepare("DELETE FROM fundacion_proyecto_imagenes WHERE id=?")->execute([$gid]);
-        if (file_exists($img_dir . $gimg)) @unlink($img_dir . $gimg);
-    }
-    echo json_encode(['ok' => true]);
-    exit;
-}
-
-// =============================================
-// AJAX: Subir imágenes a galería (retorna JSON)
-// =============================================
-if (isset($_POST['ajax_guardar_galeria'])) {
-    header('Content-Type: application/json');
-    $gid_pid = (int)($_POST['galeria_proyecto_id'] ?? 0);
-    if ($gid_pid <= 0) {
-        echo json_encode(['ok' => false, 'error' => 'Proyecto inválido']);
-        exit;
-    }
-    $subidas = 0;
-    $imagenes_subidas = [];
-    if (!empty($_FILES['galeria_imagenes']['tmp_name'][0])) {
-        foreach ($_FILES['galeria_imagenes']['tmp_name'] as $idx => $tmp) {
-            if ($_FILES['galeria_imagenes']['error'][$idx] == 0 && $tmp) {
-                $gimg = procesar_imagen_upload($_FILES['galeria_imagenes'][$idx], $img_dir, 'galeria_' . time() . '_' . $idx);
-                if ($gimg) {
-                    $max_go = $db->query("SELECT COALESCE(MAX(orden),0)+1 FROM fundacion_proyecto_imagenes WHERE proyecto_id=$gid_pid")->fetchColumn();
-                    $db->prepare("INSERT INTO fundacion_proyecto_imagenes (proyecto_id, imagen, orden) VALUES (?,?,?)")->execute([$gid_pid, $gimg, $max_go + $idx]);
-                    $new_id = (int)$db->lastInsertId();
-                    $imagenes_subidas[] = ['id' => $new_id, 'imagen' => $gimg];
-                    $subidas++;
-                }
-            }
-        }
-    }
-    $total = $db->prepare("SELECT COUNT(*) FROM fundacion_proyecto_imagenes WHERE proyecto_id=?");
-    $total->execute([$gid_pid]);
-    $count = $total->fetchColumn();
-    echo json_encode(['ok' => true, 'subidas' => $subidas, 'total' => $count, 'imagenes' => $imagenes_subidas]);
-    exit;
-}
-
-// =============================================
-// POST: Subir imágenes a galería (proyecto actual) — fallback sin AJAX
-// =============================================
-if (isset($_POST['guardar_galeria'])) {
-    $gid_pid = (int)($_POST['galeria_proyecto_id'] ?? 0);
-    if ($gid_pid > 0 && !empty($_FILES['galeria_imagenes']['tmp_name'][0])) {
-        foreach ($_FILES['galeria_imagenes']['tmp_name'] as $idx => $tmp) {
-            if ($_FILES['galeria_imagenes']['error'][$idx] == 0 && $tmp) {
-                $gimg = procesar_imagen_upload($_FILES['galeria_imagenes'][$idx], $img_dir, 'galeria_' . time() . '_' . $idx);
-                if ($gimg) {
-                    $max_go = $db->query("SELECT COALESCE(MAX(orden),0)+1 FROM fundacion_proyecto_imagenes WHERE proyecto_id=$gid_pid")->fetchColumn();
-                    $db->prepare("INSERT INTO fundacion_proyecto_imagenes (proyecto_id, imagen, orden) VALUES (?,?,?)")->execute([$gid_pid, $gimg, $max_go + $idx]);
-                }
-            }
-        }
-    }
-    header("Location: admin_fundacion.php?editar_proyecto=$gid_pid&res=galeria_ok");
-    exit;
-}
-
-// =============================================
 // POST: Crear sección nueva
 // =============================================
 if (isset($_POST['crear_seccion'])) {
     $cs_pid = (int)($_POST['seccion_proyecto_id'] ?? 0);
     $cs_titulo = trim($_POST['seccion_titulo'] ?? '');
+    $cs_titulo_en = trim($_POST['seccion_titulo_en'] ?? '');
+    $cs_descripcion = $_POST['seccion_descripcion'] ?? '';
+    $cs_descripcion_en = $_POST['seccion_descripcion_en'] ?? '';
     if ($cs_pid > 0 && !empty($_FILES['seccion_imagen']['tmp_name']) && $_FILES['seccion_imagen']['error'] == 0) {
         $cs_img = procesar_imagen_upload($_FILES['seccion_imagen'], $img_dir, 'seccion_' . time());
         if ($cs_img) {
             $max_so = $db->query("SELECT COALESCE(MAX(orden),0)+1 FROM fundacion_secciones WHERE proyecto_id=$cs_pid")->fetchColumn();
-            $db->prepare("INSERT INTO fundacion_secciones (proyecto_id, titulo, imagen_principal, orden) VALUES (?,?,?,?)")->execute([$cs_pid, $cs_titulo, $cs_img, $max_so]);
+            $db->prepare("INSERT INTO fundacion_secciones (proyecto_id, titulo, titulo_en, descripcion, descripcion_en, imagen_principal, orden) VALUES (?,?,?,?,?,?,?)")->execute([$cs_pid, $cs_titulo, $cs_titulo_en, $cs_descripcion, $cs_descripcion_en, $cs_img, $max_so]);
         }
     }
     header("Location: admin_fundacion.php?editar_proyecto=$cs_pid&res=seccion_ok");
@@ -307,6 +212,9 @@ if (isset($_POST['editar_seccion'])) {
     $es_id = (int)($_POST['seccion_id'] ?? 0);
     $es_pid = (int)($_POST['seccion_proyecto_id'] ?? 0);
     $es_titulo = trim($_POST['seccion_titulo_edit'] ?? '');
+    $es_titulo_en = trim($_POST['seccion_titulo_en_edit'] ?? '');
+    $es_descripcion = $_POST['seccion_descripcion_edit'] ?? '';
+    $es_descripcion_en = $_POST['seccion_descripcion_en_edit'] ?? '';
     if ($es_id > 0) {
         $es_img_actual = $db->query("SELECT imagen_principal FROM fundacion_secciones WHERE id=$es_id")->fetchColumn();
         $es_img = $es_img_actual;
@@ -314,7 +222,7 @@ if (isset($_POST['editar_seccion'])) {
             $es_img = procesar_imagen_upload($_FILES['seccion_imagen_edit'], $img_dir, 'seccion_' . time());
             if ($es_img && $es_img_actual && file_exists($img_dir . $es_img_actual)) @unlink($img_dir . $es_img_actual);
         }
-        $db->prepare("UPDATE fundacion_secciones SET titulo=?, imagen_principal=? WHERE id=?")->execute([$es_titulo, $es_img, $es_id]);
+        $db->prepare("UPDATE fundacion_secciones SET titulo=?, titulo_en=?, descripcion=?, descripcion_en=?, imagen_principal=? WHERE id=?")->execute([$es_titulo, $es_titulo_en, $es_descripcion, $es_descripcion_en, $es_img, $es_id]);
     }
     header("Location: admin_fundacion.php?editar_proyecto=$es_pid&res=seccion_ok");
     exit;
@@ -351,7 +259,14 @@ if (isset($_POST['guardar_seccion_imgs'])) {
     if ($si_sid > 0 && !empty($_FILES['secimg_archivos']['tmp_name'][0])) {
         foreach ($_FILES['secimg_archivos']['tmp_name'] as $idx => $tmp) {
             if ($_FILES['secimg_archivos']['error'][$idx] == 0 && $tmp) {
-                $si_img = procesar_imagen_upload($_FILES['secimg_archivos'][$idx], $img_dir, 'secimg_' . time() . '_' . $idx);
+                $file_data = [
+                    'name' => $_FILES['secimg_archivos']['name'][$idx] ?? '',
+                    'type' => $_FILES['secimg_archivos']['type'][$idx] ?? '',
+                    'tmp_name' => $_FILES['secimg_archivos']['tmp_name'][$idx],
+                    'error' => $_FILES['secimg_archivos']['error'][$idx],
+                    'size' => $_FILES['secimg_archivos']['size'][$idx] ?? 0,
+                ];
+                $si_img = procesar_imagen_upload($file_data, $img_dir, 'secimg_' . time() . '_' . $idx);
                 if ($si_img) {
                     $max_sio = $db->query("SELECT COALESCE(MAX(orden),0)+1 FROM fundacion_seccion_imagenes WHERE seccion_id=$si_sid")->fetchColumn();
                     $db->prepare("INSERT INTO fundacion_seccion_imagenes (seccion_id, imagen, orden) VALUES (?,?,?)")->execute([$si_sid, $si_img, $max_sio + $idx]);
@@ -439,6 +354,19 @@ if (isset($_POST['reorder_secciones'])) {
 }
 
 // =============================================
+// GET: Obtener datos de sección (AJAX)
+// =============================================
+if (isset($_GET['obtener_seccion'])) {
+    header('Content-Type: application/json');
+    $os_id = (int)$_GET['obtener_seccion'];
+    $os = $db->prepare("SELECT titulo, titulo_en, descripcion, descripcion_en FROM fundacion_secciones WHERE id=?");
+    $os->execute([$os_id]);
+    $os_row = $os->fetch(PDO::FETCH_ASSOC);
+    echo json_encode(['ok' => true, 'titulo' => $os_row['titulo'] ?? '', 'titulo_en' => $os_row['titulo_en'] ?? '', 'descripcion' => $os_row['descripcion'] ?? '', 'descripcion_en' => $os_row['descripcion_en'] ?? '']);
+    exit;
+}
+
+// =============================================
 // GET: Toggle activo proyecto (AJAX)
 // =============================================
 if (isset($_GET['toggle_proyecto'])) {
@@ -475,17 +403,12 @@ $fund = $db->query("SELECT * FROM fundacion WHERE id=1")->fetch(PDO::FETCH_ASSOC
 $proyectos = $db->query("SELECT * FROM fundacion_proyectos ORDER BY orden ASC, id ASC")->fetchAll(PDO::FETCH_ASSOC);
 
 $editar_proyecto = null;
-$galeria_imagenes = [];
 $secciones = [];
 if (isset($_GET['editar_proyecto'])) {
     $st = $db->prepare("SELECT * FROM fundacion_proyectos WHERE id=?");
     $st->execute([(int)$_GET['editar_proyecto']]);
     $editar_proyecto = $st->fetch(PDO::FETCH_ASSOC);
     if ($editar_proyecto) {
-        $stg = $db->prepare("SELECT * FROM fundacion_proyecto_imagenes WHERE proyecto_id=? ORDER BY orden ASC, id ASC");
-        $stg->execute([$editar_proyecto['id']]);
-        $galeria_imagenes = $stg->fetchAll(PDO::FETCH_ASSOC);
-
         $sts = $db->prepare("SELECT * FROM fundacion_secciones WHERE proyecto_id=? ORDER BY orden ASC, id ASC");
         $sts->execute([$editar_proyecto['id']]);
         $secciones = $sts->fetchAll(PDO::FETCH_ASSOC);
@@ -788,6 +711,33 @@ $fp = $editar_proyecto ?? ['id'=>0,'imagen'=>'default-proyecto.webp','titulo'=>'
             font-size: 14px;
         }
 
+        .fund-res-hint {
+            font-family: var(--tds-font);
+            font-size: 12px;
+            color: var(--tds-outline);
+            margin-top: 4px;
+            line-height: 16px;
+        }
+        .fund-res-warn {
+            font-family: var(--tds-font);
+            font-size: 12px;
+            color: #b45309;
+            background: #fef3c7;
+            border: 1px solid #fcd34d;
+            border-radius: var(--tds-radius);
+            padding: 6px 10px;
+            margin-top: 6px;
+            line-height: 16px;
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+        }
+        .fund-res-warn .material-symbols-outlined {
+            font-size: 16px;
+            margin-top: 1px;
+            flex-shrink: 0;
+        }
+
         .fund-footer-actions {
             margin-top: 20px;
             display: flex;
@@ -967,7 +917,8 @@ $fp = $editar_proyecto ?? ['id'=>0,'imagen'=>'default-proyecto.webp','titulo'=>'
     <div class="fund-grid-2" style="margin-bottom:16px">
         <div class="fund-field">
             <label>Imagen Hero (fondo de pantalla)</label>
-            <input type="file" name="hero_imagen" accept=".webp" onchange="previewImg(this, 'prev-hero')">
+            <input type="file" name="hero_imagen" accept=".webp" onchange="previewImg(this, 'prev-hero', 'hero')">
+            <small class="fund-res-hint">Resolución ideal: 1920×823 px (relación 21:9)</small>
             <div id="prev-hero" style="margin-top:8px">
                 <?php if (!empty($fund['hero_imagen'])): ?>
                     <img src="<?= $img_dir . $fund['hero_imagen'] ?>" class="fund-img-preview" alt="Hero">
@@ -976,7 +927,8 @@ $fp = $editar_proyecto ?? ['id'=>0,'imagen'=>'default-proyecto.webp','titulo'=>'
         </div>
         <div class="fund-field">
             <label>Logo Fundación</label>
-            <input type="file" name="logo" accept=".webp" onchange="previewImg(this, 'prev-logo')">
+            <input type="file" name="logo" accept=".webp" onchange="previewImg(this, 'prev-logo', 'logo')">
+            <small class="fund-res-hint">Resolución ideal: 200×200 px (cuadrado)</small>
             <div id="prev-logo" style="margin-top:8px">
                 <?php if (!empty($fund['logo'])): ?>
                     <img src="<?= $img_dir . $fund['logo'] ?>" class="fund-logo-preview" alt="Logo">
@@ -1091,7 +1043,8 @@ $fp = $editar_proyecto ?? ['id'=>0,'imagen'=>'default-proyecto.webp','titulo'=>'
 
             <div class="fund-field">
                 <label>Imagen del proyecto</label>
-                <input type="file" name="proyecto_imagen" accept=".webp" onchange="previewImg(this, 'prev-proyecto')">
+                <input type="file" name="proyecto_imagen" accept=".webp" onchange="previewImg(this, 'prev-proyecto', 'proyecto')">
+                <small class="fund-res-hint">Resolución ideal: 800×600 px (relación 4:3)</small>
                 <div id="prev-proyecto" style="margin-top:8px">
                     <?php if (!empty($fp['imagen'])): ?>
                         <img src="<?= $img_dir . $fp['imagen'] ?>" class="fund-img-preview" alt="" onerror="this.onerror=null;this.src='data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27%23cbd5e1%27%3E%3Cpath d=%27M21 19V5a2 2 0 00-2-2H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2zM8.5 13.5l2.5 3 3.5-4.5 4.5 6H5l3.5-5z%27/%3E%3C/svg%3E'">
@@ -1135,40 +1088,6 @@ $fp = $editar_proyecto ?? ['id'=>0,'imagen'=>'default-proyecto.webp','titulo'=>'
             </div>
         </form>
 
-            <!-- GALERÍA DE IMÁGENES (máx. 8) -->
-            <?php if ($fp['id'] > 0): ?>
-            <div class="fund-section" style="margin-top:20px">
-                <h2 style="font-size:16px"><i class="fas fa-images" style="color:var(--tds-primary)"></i> Galería de Imágenes <span style="font-weight:400;font-size:13px;color:var(--tds-outline)">(<?= count($galeria_imagenes) ?>/8)</span></h2>
-                <div class="fd-galeria-grid" id="galeriaGrid">
-                    <?php foreach ($galeria_imagenes as $gi): ?>
-                    <div class="fd-galeria-item" id="gi-<?= $gi['id'] ?>" data-id="<?= $gi['id'] ?>" draggable="true">
-                        <div class="fd-galeria-drag" title="Arrastrar para reordenar"><i class="fas fa-grip-vertical"></i></div>
-                        <img src="<?= $img_dir . $gi['imagen'] ?>" alt="" onerror="this.onerror=null;this.src='data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27%23cbd5e1%27%3E%3Cpath d=%27M21 19V5a2 2 0 00-2-2H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2zM8.5 13.5l2.5 3 3.5-4.5 4.5 6H5l3.5-5z%27/%3E%3C/svg%3E'">
-                        <div class="fd-galeria-actions">
-                            <button type="button" class="fd-galeria-replace" onclick="reemplazarImgGaleria(<?= $gi['id'] ?>)" title="Reemplazar imagen"><i class="fas fa-sync-alt"></i></button>
-                            <button type="button" class="fd-galeria-del" onclick="eliminarImgGaleria(<?= $gi['id'] ?>)" title="Eliminar"><i class="fas fa-times"></i></button>
-                        </div>
-                    </div>
-                    <?php endforeach; ?>
-                </div>
-                <?php if (count($galeria_imagenes) < 8): ?>
-                <form method="POST" enctype="multipart/form-data" style="margin-top:12px" id="formGaleria">
-                    <input type="hidden" name="galeria_proyecto_id" value="<?= $fp['id'] ?>">
-                    <div class="fund-field">
-                        <label>Agregar imágenes (puedes seleccionar varias) — Máximo 8 en total</label>
-                        <input type="file" name="galeria_imagenes[]" accept=".webp" multiple id="inputGaleria" onchange="validarGaleria(this)">
-                    </div>
-                    <div style="margin-top:10px">
-                        <button type="submit" name="guardar_galeria" class="btn-primary" id="btnSubirGaleria"><i class="fas fa-upload"></i> Subir imágenes</button>
-                    </div>
-                </form>
-                <?php else: ?>
-                <p style="margin-top:12px;color:var(--tds-outline);font-size:13px;font-family:var(--tds-font)"><i class="fas fa-info-circle"></i> Límite de 8 imágenes alcanzado. Elimina alguna para agregar más.</p>
-                <?php endif; ?>
-                </form>
-            </div>
-            <?php endif; ?>
-
             <!-- SECCIONES DEL PROYECTO -->
             <?php if ($fp['id'] > 0): ?>
             <div class="fund-section" style="margin-top:20px">
@@ -1182,6 +1101,12 @@ $fp = $editar_proyecto ?? ['id'=>0,'imagen'=>'default-proyecto.webp','titulo'=>'
                         <div class="fd-seccion-header">
                             <div class="fd-seccion-drag" title="Arrastrar"><i class="fas fa-grip-vertical"></i></div>
                             <strong><?= htmlspecialchars($sec['titulo'] ?? '(Sin título)') ?></strong>
+                            <?php if (!empty($sec['titulo_en'])): ?>
+                            <span style="font-size:11px;color:var(--tds-outline);margin-left:4px"><i class="fas fa-language"></i> EN</span>
+                            <?php endif; ?>
+                            <?php if (!empty($sec['descripcion'])): ?>
+                            <span style="font-size:11px;color:var(--tds-outline);margin-left:4px"><i class="fas fa-align-left"></i> Texto</span>
+                            <?php endif; ?>
                             <div class="fd-seccion-actions">
                                 <button type="button" class="btn-edit" onclick="editarSeccion(<?= $sec['id'] ?>, '<?= addslashes($sec['titulo'] ?? '') ?>')" title="Editar"><i class="fas fa-pen"></i></button>
                                 <button type="button" class="btn-del" onclick="eliminarSeccion(<?= $sec['id'] ?>)" title="Eliminar"><i class="fas fa-trash"></i></button>
@@ -1209,7 +1134,8 @@ $fp = $editar_proyecto ?? ['id'=>0,'imagen'=>'default-proyecto.webp','titulo'=>'
                                 <input type="hidden" name="secimg_seccion_id" value="<?= $sec['id'] ?>">
                                 <div class="fund-field">
                                     <label>Agregar imágenes a esta sección</label>
-                                    <input type="file" name="secimg_archivos[]" accept="image/*" multiple>
+                                    <input type="file" name="secimg_archivos[]" accept=".webp" multiple onchange="previewGaleria(this)">
+                                    <small class="fund-res-hint">Resolución ideal: 1920×823 px (21:9) o 1280×720 px (16:9)</small>
                                 </div>
                                 <div style="margin-top:8px">
                                     <button type="submit" name="guardar_seccion_imgs" class="btn-primary" style="font-size:12px;padding:6px 14px"><i class="fas fa-upload"></i> Subir</button>
@@ -1225,13 +1151,31 @@ $fp = $editar_proyecto ?? ['id'=>0,'imagen'=>'default-proyecto.webp','titulo'=>'
                     <h3 style="font-size:14px;color:var(--tds-primary);margin:0 0 12px"><i class="fas fa-plus"></i> Nueva Sección</h3>
                     <div class="fund-grid-2">
                         <div class="fund-field">
-                            <label>Título de la sección</label>
+                            <label>Título de la sección (ES)</label>
                             <input type="text" name="seccion_titulo" placeholder="Ej: Campaña Navidad 2024">
                         </div>
                         <div class="fund-field">
-                            <label>Imagen principal</label>
-                            <input type="file" name="seccion_imagen" accept="image/*" required>
+                            <label>Título de la sección (EN)</label>
+                            <input type="text" name="seccion_titulo_en" placeholder="Ej: Christmas Campaign 2024">
                         </div>
+                    </div>
+                    <div class="fund-grid-2" style="margin-top:12px">
+                        <div class="fund-field">
+                            <label>Imagen principal</label>
+                            <input type="file" name="seccion_imagen" accept=".webp" required onchange="previewImg(this, 'prev-seccion', 'seccion')">
+                            <small class="fund-res-hint">Resolución ideal: 1920×823 px (relación 21:9)</small>
+                            <div id="prev-seccion" style="margin-top:8px"></div>
+                        </div>
+                    </div>
+                    <div class="fund-field" style="margin-top:12px">
+                        <label>Descripción (ES)</label>
+                        <small style="color:var(--tds-outline);font-size:11px">Usa: - para viñetas, **texto** para negrita, ## para subtítulo</small>
+                        <textarea name="seccion_descripcion" rows="4" placeholder="Campaña de reforestación en la comunidad de Huasao&#10;- Se realizaron jornadas de siembra de árboles nativos&#10;- **Más de 200 familias** beneficiadas con el programa&#10;## Resultados&#10;Se plantearon más de 500 árboles en la zona"></textarea>
+                    </div>
+                    <div class="fund-field" style="margin-top:12px">
+                        <label>Descripción (EN)</label>
+                        <small style="color:var(--tds-outline);font-size:11px">Use: - for bullets, **text** for bold, ## for subtitle</small>
+                        <textarea name="seccion_descripcion_en" rows="4" placeholder="Reforestation campaign in the Huasao community&#10;- Tree planting sessions were held with local farmers&#10;- **Over 200 families** benefited from the program&#10;## Results&#10;More than 500 trees were planted in the area"></textarea>
                     </div>
                     <input type="hidden" name="seccion_proyecto_id" value="<?= $fp['id'] ?>">
                     <div style="margin-top:12px">
@@ -1243,9 +1187,50 @@ $fp = $editar_proyecto ?? ['id'=>0,'imagen'=>'default-proyecto.webp','titulo'=>'
     </div>
 </div>
 
+<!-- ========== MODAL: EDITAR SECCIÓN ========== -->
+<div class="modal-overlay" id="modalSeccion">
+    <div class="modal-box">
+        <button class="modal-close" onclick="cerrarModalSeccion()">&times;</button>
+        <h3>Editar Sección</h3>
+        <form method="POST" enctype="multipart/form-data" id="formSeccion">
+            <input type="hidden" name="editar_seccion" value="1">
+            <input type="hidden" name="seccion_id" id="seccion_id_edit">
+            <input type="hidden" name="seccion_proyecto_id" value="<?= $fp['id'] ?>">
+            <div class="fund-grid-2">
+                <div class="fund-field">
+                    <label>Título (ES)</label>
+                    <input type="text" name="seccion_titulo_edit" id="seccion_titulo_edit">
+                </div>
+                <div class="fund-field">
+                    <label>Título (EN)</label>
+                    <input type="text" name="seccion_titulo_en_edit" id="seccion_titulo_en_edit">
+                </div>
+            </div>
+            <div class="fund-field" style="margin-top:12px">
+                <label>Descripción (ES)</label>
+                <small style="color:var(--tds-outline);font-size:11px">Usa: - para viñetas, **texto** para negrita, ## para subtítulo</small>
+                <textarea id="seccion_descripcion_edit" name="seccion_descripcion_edit" rows="4" placeholder="Campaña de reforestación en la comunidad de Huasao&#10;- Se realizaron jornadas de siembra de árboles nativos&#10;- **Más de 200 familias** beneficiadas"></textarea>
+            </div>
+            <div class="fund-field" style="margin-top:12px">
+                <label>Descripción (EN)</label>
+                <small style="color:var(--tds-outline);font-size:11px">Use: - for bullets, **text** for bold, ## for subtitle</small>
+                <textarea id="seccion_descripcion_en_edit" name="seccion_descripcion_en_edit" rows="4" placeholder="Reforestation campaign in the Huasao community&#10;- Tree planting sessions were held with local farmers&#10;- **Over 200 families** benefited"></textarea>
+            </div>
+            <div class="fund-field" style="margin-top:12px">
+                <label>Imagen principal (dejar vacío para mantener la actual)</label>
+                <input type="file" name="seccion_imagen_edit" accept=".webp">
+            </div>
+            <div class="fund-modal-footer">
+                <button type="submit" class="btn-save"><i class="fas fa-save"></i> Guardar</button>
+                <button type="button" class="btn-cancel" onclick="cerrarModalSeccion()">Cancelar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
 <script>
 // Vista previa de imagen
-function previewImg(input, containerId) {
+function previewImg(input, containerId, tipo) {
     var container = document.getElementById(containerId);
     if (!container) { console.log('Container not found:', containerId); return; }
     if (input.files && input.files[0]) {
@@ -1255,11 +1240,36 @@ function previewImg(input, containerId) {
             input.value = '';
             return;
         }
+        var ratioMap = {
+            'hero': { ratio: 21/9, label: '21:9 (1920×823 px)' },
+            'logo': { ratio: 1, label: '1:1 (200×200 px)' },
+            'proyecto': { ratio: 4/3, label: '4:3 (800×600 px)' },
+            'seccion': { ratio: 21/9, label: '21:9 (1920×823 px)' }
+        };
         var reader = new FileReader();
         reader.onload = function(e) {
             var isLogo = containerId === 'prev-logo';
             var cls = isLogo ? 'fund-logo-preview' : 'fund-img-preview';
-            container.innerHTML = '<img src="' + e.target.result + '" class="' + cls + '" alt="Preview">';
+            var html = '<img src="' + e.target.result + '" class="' + cls + '" alt="Preview">';
+            if (tipo && ratioMap[tipo]) {
+                var tmpImg = new Image();
+                tmpImg.onload = function() {
+                    var w = tmpImg.naturalWidth;
+                    var h = tmpImg.naturalHeight;
+                    var realRatio = w / h;
+                    var expected = ratioMap[tipo].ratio;
+                    var tolerance = 0.15;
+                    if (Math.abs(realRatio - expected) / expected > tolerance) {
+                        html += '<div class="fund-res-warn"><span class="material-symbols-outlined">warning</span><span>La imagen tiene relación ' + w + '×' + h + ' (' + realRatio.toFixed(2) + ':1). Se recomienda ' + ratioMap[tipo].label + ' para que no se distorsione.</span></div>';
+                    } else {
+                        html += '<div style="font-family:var(--tds-font);font-size:11px;color:var(--tds-outline);margin-top:3px">' + w + '×' + h + ' px</div>';
+                    }
+                    container.innerHTML = html;
+                };
+                tmpImg.src = e.target.result;
+            } else {
+                container.innerHTML = html;
+            }
             Swal.fire({toast:true, position:'top-end', icon:'success', title:'Imagen cargada', showConfirmButton:false, timer:1500});
         };
         reader.onerror = function(e) {
@@ -1268,6 +1278,91 @@ function previewImg(input, containerId) {
         reader.readAsDataURL(file);
     }
 }
+
+// Vista previa de imágenes antes de subir (galería y secciones)
+function previewGaleria(input) {
+    var container = document.getElementById('galeriaPreview');
+    if (!container) {
+        var secPreview = input.closest('.fd-seccion-imgs-panel') || input.closest('form');
+        if (secPreview) {
+            var existing = secPreview.querySelector('.sec-preview-grid');
+            if (!existing) {
+                existing = document.createElement('div');
+                existing.className = 'sec-preview-grid';
+                existing.style.cssText = 'display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px';
+                input.parentElement.appendChild(existing);
+            }
+            container = existing;
+        }
+    }
+    if (!container) return;
+
+    if (!input.files || input.files.length === 0) {
+        container.innerHTML = '';
+        return;
+    }
+
+    container.innerHTML = '';
+    for (var i = 0; i < input.files.length; i++) {
+        var file = input.files[i];
+        if (!file.name.toLowerCase().endsWith('.webp')) {
+            Swal.fire('Formato no válido', 'Solo se aceptan archivos .webp. Archivo: ' + file.name, 'warning');
+            input.value = '';
+            container.innerHTML = '';
+            return;
+        }
+        var item = document.createElement('div');
+        item.style.cssText = 'position:relative;border-radius:6px;overflow:hidden;border:1px solid var(--tds-outline-variant);aspect-ratio:4/3';
+        var img = document.createElement('img');
+        img.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block';
+        var info = document.createElement('div');
+        info.style.cssText = 'position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.6);color:#fff;font-size:10px;padding:3px 5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:var(--tds-font)';
+        var removeBtn = document.createElement('button');
+        removeBtn.type = 'button';
+        removeBtn.innerHTML = '&times;';
+        removeBtn.style.cssText = 'position:absolute;top:3px;right:3px;width:20px;height:20px;border-radius:50%;border:none;background:var(--tds-error);color:#fff;font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1';
+        removeBtn.onclick = (function(inp, idx) {
+            return function() {
+                var dt = new DataTransfer();
+                for (var j = 0; j < inp.files.length; j++) {
+                    if (j !== idx) dt.items.add(inp.files[j]);
+                }
+                inp.files = dt.files;
+                previewGaleria(inp);
+            };
+        })(input, i);
+        var reader = new FileReader();
+        reader.onload = (function(imgEl, infoEl, idx) {
+            return function(e) {
+                imgEl.src = e.target.result;
+                var tmpImg = new Image();
+                tmpImg.onload = function() {
+                    var w = tmpImg.naturalWidth;
+                    var h = tmpImg.naturalHeight;
+                    var realRatio = w / h;
+                    var ratio21_9 = 21/9;
+                    var ratio16_9 = 16/9;
+                    var tolerance = 0.15;
+                    var matchOk = (Math.abs(realRatio - ratio21_9) / ratio21_9 <= tolerance) ||
+                                  (Math.abs(realRatio - ratio16_9) / ratio16_9 <= tolerance);
+                    var txt = file.name + ' (' + (file.size / 1024).toFixed(0) + 'KB) — ' + w + '×' + h;
+                    if (!matchOk) {
+                        txt += ' ⚠ Relación no recomendada';
+                        infoEl.style.background = 'rgba(180,83,9,0.85)';
+                    }
+                    infoEl.textContent = txt;
+                };
+                tmpImg.src = e.target.result;
+            };
+        })(img, info, i);
+        reader.readAsDataURL(file);
+        item.appendChild(img);
+        item.appendChild(info);
+        item.appendChild(removeBtn);
+        container.appendChild(item);
+    }
+}
+
 
 // Abrir modal
 function abrirModalProyecto() {
@@ -1289,7 +1384,15 @@ function guardarProyectoAjax() {
     btn.disabled = true;
 
     fetch('admin_fundacion.php', { method: 'POST', body: fd })
-        .then(r => r.json())
+        .then(r => {
+            var ct = r.headers.get('content-type') || '';
+            if (ct.indexOf('application/json') === -1) {
+                Swal.fire({icon:'warning', title:'Sesión expirada', text:'Tu sesión ha expirado.', timer:2500, showConfirmButton:false});
+                setTimeout(function(){ window.location.href = 'login.php?res=sesion_expirada'; }, 2500);
+                throw new Error('Respuesta no-JSON');
+            }
+            return r.json();
+        })
         .then(d => {
             btn.innerHTML = btnHtml;
             btn.disabled = false;
@@ -1300,8 +1403,7 @@ function guardarProyectoAjax() {
                 form.querySelector('input[name="proyecto_imagen_actual"]').value = d.imagen;
                 // Actualizar título del modal
                 document.getElementById('modalProyectoTitle').textContent = 'Editar Proyecto';
-                // Mostrar sección galería si no existía
-                mostrarSeccionGaleria(d.id);
+                // Recargar página para mostrar secciones
             } else {
                 Swal.fire('Error', d.error || 'No se pudo guardar', 'error');
             }
@@ -1313,98 +1415,6 @@ function guardarProyectoAjax() {
         });
 }
 
-// Inyectar sección de galería dentro del modal
-function mostrarSeccionGaleria(pid) {
-    var modal = document.querySelector('#modalProyecto .modal-box');
-    var existing = document.getElementById('galeriaSection');
-    if (existing) {
-        var hiddenInput = existing.querySelector('input[name="galeria_proyecto_id"]');
-        if (hiddenInput) hiddenInput.value = pid;
-        return;
-    }
-    var html = '<div class="fund-section" style="margin-top:20px" id="galeriaSection">' +
-        '<h2 style="font-size:16px"><i class="fas fa-images" style="color:var(--tds-primary)"></i> Galería de Imágenes <span style="font-weight:400;font-size:13px;color:var(--tds-outline)" id="galeriaCount">(0/8)</span></h2>' +
-        '<div class="fd-galeria-grid" id="galeriaGrid"></div>' +
-        '<form method="POST" enctype="multipart/form-data" style="margin-top:12px" id="formGaleria">' +
-        '<input type="hidden" name="galeria_proyecto_id" value="' + pid + '">' +
-        '<div class="fund-field">' +
-        '<label>Agregar imágenes (puedes seleccionar varias) — Máximo 8 en total</label>' +
-        '<input type="file" name="galeria_imagenes[]" accept=".webp" multiple id="inputGaleria" onchange="validarGaleria(this)">' +
-        '</div>' +
-        '<div style="margin-top:10px">' +
-        '<button type="button" name="guardar_galeria" class="btn-primary" id="btnSubirGaleria" onclick="subirGaleriaAjax()"><i class="fas fa-upload"></i> Subir imágenes</button>' +
-        '</div>' +
-        '</form></div>';
-    // Insertar DESPUÉS del form del proyecto (fuera del form)
-    var formProyecto = document.getElementById('formProyecto');
-    if (formProyecto) {
-        formProyecto.insertAdjacentHTML('afterend', html);
-    } else {
-        modal.insertAdjacentHTML('beforeend', html);
-    }
-}
-
-// Subir galería vía AJAX
-function subirGaleriaAjax() {
-    var form = document.getElementById('formGaleria');
-    var input = document.getElementById('inputGaleria');
-    if (!input.files || input.files.length === 0) {
-        Swal.fire('Sin archivos', 'Selecciona al menos una imagen', 'warning');
-        return;
-    }
-    if (!validarGaleria(input)) return;
-
-    var fd = new FormData(form);
-    fd.append('ajax_guardar_galeria', '1');
-
-    var btn = document.getElementById('btnSubirGaleria');
-    var btnHtml = btn.innerHTML;
-    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Subiendo...';
-    btn.disabled = true;
-
-    fetch('admin_fundacion.php', { method: 'POST', body: fd })
-        .then(r => r.json())
-        .then(d => {
-            btn.innerHTML = btnHtml;
-            btn.disabled = false;
-            input.value = '';
-            if (d.ok) {
-                Swal.fire({toast:true, position:'top-end', icon:'success', title: d.subidas + ' imagen(es) subida(s)', showConfirmButton:false, timer:1500});
-                // Actualizar contador
-                var counter = document.getElementById('galeriaCount');
-                if (counter) counter.textContent = '(' + d.total + '/8)';
-                // Agregar thumbnails al grid dinámicamente
-                var grid = document.getElementById('galeriaGrid');
-                if (grid && d.imagenes) {
-                    d.imagenes.forEach(function(img) {
-                        var item = document.createElement('div');
-                        item.className = 'fd-galeria-item';
-                        item.id = 'gi-' + img.id;
-                        item.dataset.id = img.id;
-                        item.draggable = true;
-                        item.innerHTML = '<div class="fd-galeria-drag" title="Arrastrar para reordenar"><i class="fas fa-grip-vertical"></i></div>' +
-                            '<img src="../assets/img/fundacion/' + img.imagen + '" alt="" onerror="this.onerror=null;this.src=\'data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27%23cbd5e1%27%3E%3Cpath d=%27M21 19V5a2 2 0 00-2-2H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2zM8.5 13.5l2.5 3 3.5-4.5 4.5 6H5l3.5-5z%27/%3E%3C/svg%3E\'">' +
-                            '<div class="fd-galeria-actions">' +
-                            '<button type="button" class="fd-galeria-replace" onclick="reemplazarImgGaleria(' + img.id + ')" title="Reemplazar imagen"><i class="fas fa-sync-alt"></i></button>' +
-                            '<button type="button" class="fd-galeria-del" onclick="eliminarImgGaleria(' + img.id + ')" title="Eliminar"><i class="fas fa-times"></i></button>' +
-                            '</div>';
-                        grid.appendChild(item);
-                    });
-                }
-                // Si se alcanzó el límite, ocultar form de upload
-                if (d.total >= 8 && form) {
-                    form.style.display = 'none';
-                }
-            } else {
-                Swal.fire('Error', d.error || 'No se pudo subir', 'error');
-            }
-        })
-        .catch(err => {
-            btn.innerHTML = btnHtml;
-            btn.disabled = false;
-            Swal.fire('Error', 'Error al subir imágenes', 'error');
-        });
-}
 
 // Si estamos editando, abrir modal automáticamente
 <?php if ($editar_proyecto): ?>
@@ -1415,9 +1425,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Toggle activo proyecto
 function toggleProyecto(id, el) {
-    fetch('?toggle_proyecto=' + id)
-        .then(r => r.json())
-        .then(d => {
+    fetch('?toggle_proyecto=' + id).then(r => {
+        var ct = r.headers.get('content-type') || '';
+        if (ct.indexOf('application/json') === -1) { throw new Error('Sesión'); }
+        return r.json();
+    }).then(d => {
             if (d.ok) {
                 Swal.fire({toast:true,position:'top-end',icon:'success',title:'Estado actualizado',showConfirmButton:false,timer:1500});
             }
@@ -1441,135 +1453,6 @@ document.addEventListener('keydown', function(e) { if (e.key === 'Escape') cerra
 // Cerrar modal haciendo clic fuera
 document.getElementById('modalProyecto').addEventListener('click', function(e) { if (e.target === this) cerrarModal(); });
 
-// Eliminar imagen de galería
-function eliminarImgGaleria(id) {
-    Swal.fire({
-        title: '¿Eliminar imagen?',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#dc2626',
-        confirmButtonText: 'Sí, eliminar'
-    }).then(r => {
-        if (r.isConfirmed) {
-            fetch('?eliminar_img_galeria=' + id).then(res => res.json()).then(d => {
-                if (d.ok) {
-                    var el = document.getElementById('gi-' + id);
-                    if (el) el.remove();
-                    Swal.fire({toast:true,position:'top-end',icon:'success',title:'Imagen eliminada',showConfirmButton:false,timer:1500});
-                }
-            });
-        }
-    });
-}
-
-// Reemplazar imagen de galería
-function reemplazarImgGaleria(id) {
-    var input = document.createElement('input');
-    input.type = 'file';
-    input.accept = 'image/*';
-    input.onchange = function() {
-        if (!input.files[0]) return;
-        var fd = new FormData();
-        fd.append('reemplazar_img_galeria', '1');
-        fd.append('imagen_id', id);
-        fd.append('nueva_imagen', input.files[0]);
-        fetch('admin_fundacion.php', { method: 'POST', body: fd })
-            .then(r => r.json())
-            .then(d => {
-                if (d.ok) {
-                    var item = document.getElementById('gi-' + id);
-                    if (item) {
-                        var img = item.querySelector('img');
-                        if (img) img.src = '../assets/img/fundacion/' + d.nueva + '?t=' + Date.now();
-                    }
-                    Swal.fire({toast:true,position:'top-end',icon:'success',title:'Imagen reemplazada',showConfirmButton:false,timer:1500});
-                } else {
-                    Swal.fire('Error', d.error || 'No se pudo reemplazar', 'error');
-                }
-            });
-    };
-    input.click();
-}
-
-// Drag & Drop reorder galería
-(function() {
-    var grid = document.getElementById('galeriaGrid');
-    if (!grid) return;
-    var dragItem = null;
-
-    grid.addEventListener('dragstart', function(e) {
-        var item = e.target.closest('.fd-galeria-item');
-        if (!item) return;
-        dragItem = item;
-        item.classList.add('dragging');
-        e.dataTransfer.effectAllowed = 'move';
-    });
-
-    grid.addEventListener('dragover', function(e) {
-        e.preventDefault();
-        e.dataTransfer.dropEffect = 'move';
-        var item = e.target.closest('.fd-galeria-item');
-        if (item && item !== dragItem) {
-            document.querySelectorAll('.fd-galeria-item.drag-over-g').forEach(function(el) { el.classList.remove('drag-over-g'); });
-            item.classList.add('drag-over-g');
-        }
-    });
-
-    grid.addEventListener('dragleave', function(e) {
-        var item = e.target.closest('.fd-galeria-item');
-        if (item) item.classList.remove('drag-over-g');
-    });
-
-    grid.addEventListener('drop', function(e) {
-        e.preventDefault();
-        var target = e.target.closest('.fd-galeria-item');
-        if (target && dragItem && target !== dragItem) {
-            var items = Array.from(grid.children);
-            var fromIdx = items.indexOf(dragItem);
-            var toIdx = items.indexOf(target);
-            if (fromIdx < toIdx) {
-                grid.insertBefore(dragItem, target.nextSibling);
-            } else {
-                grid.insertBefore(dragItem, target);
-            }
-            guardarOrdenGaleria();
-        }
-        document.querySelectorAll('.fd-galeria-item.drag-over-g').forEach(function(el) { el.classList.remove('drag-over-g'); });
-    });
-
-    grid.addEventListener('dragend', function(e) {
-        if (dragItem) dragItem.classList.remove('dragging');
-        dragItem = null;
-        document.querySelectorAll('.fd-galeria-item.drag-over-g').forEach(function(el) { el.classList.remove('drag-over-g'); });
-    });
-
-    function guardarOrdenGaleria() {
-        var ids = Array.from(grid.querySelectorAll('.fd-galeria-item')).map(function(el) { return el.dataset.id; });
-        var fd = new FormData();
-        fd.append('reorder_galeria', '1');
-        ids.forEach(function(id) { fd.append('ids[]', id); });
-        fetch('admin_fundacion.php', { method: 'POST', body: fd });
-    }
-})();
-
-// Validar límite de 8 imágenes y formato .webp en galería
-function validarGaleria(input) {
-    for (var i = 0; i < input.files.length; i++) {
-        if (!input.files[i].name.toLowerCase().endsWith('.webp')) {
-            Swal.fire('Formato no válido', 'Solo se aceptan archivos .webp. Archivo: ' + input.files[i].name, 'warning');
-            input.value = '';
-            return false;
-        }
-    }
-    var maxImg = 8;
-    var itemsActuales = document.querySelectorAll('.fd-galeria-item').length;
-    if (itemsActuales + input.files.length > maxImg) {
-        Swal.fire('Límite alcanzado', 'Solo puedes tener un máximo de 8 imágenes en la galería. Tienes ' + itemsActuales + ' y seleccionaste ' + input.files.length + ' más.', 'warning');
-        input.value = '';
-        return false;
-    }
-    return true;
-}
 
 // Notificación post-redirect
 document.addEventListener('DOMContentLoaded', function() {
@@ -1595,26 +1478,22 @@ function toggleSeccionImgs(id) {
 
 // Secciones: editar
 function editarSeccion(id, titulo) {
-    Swal.fire({
-        title: 'Editar sección',
-        input: 'text',
-        inputLabel: 'Título',
-        inputValue: titulo,
-        showCancelButton: true,
-        confirmButtonText: 'Guardar',
-        confirmButtonColor: '#00685f'
-    }).then(r => {
-        if (r.isConfirmed) {
-            var fd = new FormData();
-            fd.append('editar_seccion', '1');
-            fd.append('seccion_id', id);
-            fd.append('seccion_proyecto_id', '<?= $fp["id"] ?? 0 ?>');
-            fd.append('seccion_titulo_edit', r.value);
-            fetch('admin_fundacion.php', { method: 'POST', body: fd })
-                .then(res => res.text())
-                .then(() => location.reload());
-        }
-    });
+    document.getElementById('seccion_id_edit').value = id;
+    document.getElementById('seccion_titulo_edit').value = titulo;
+    document.getElementById('seccion_titulo_en_edit').value = '';
+    document.getElementById('seccion_descripcion_edit').value = '';
+    document.getElementById('seccion_descripcion_en_edit').value = '';
+    document.getElementById('modalSeccion').classList.add('active');
+    fetch('admin_fundacion.php?obtener_seccion=' + id)
+        .then(r => r.json())
+        .then(d => {
+            document.getElementById('seccion_titulo_en_edit').value = d.titulo_en || '';
+            document.getElementById('seccion_descripcion_edit').value = d.descripcion || '';
+            document.getElementById('seccion_descripcion_en_edit').value = d.descripcion_en || '';
+        });
+}
+function cerrarModalSeccion() {
+    document.getElementById('modalSeccion').classList.remove('active');
 }
 
 // Secciones: eliminar
@@ -1628,7 +1507,11 @@ function eliminarSeccion(id) {
         confirmButtonText: 'Sí, eliminar'
     }).then(r => {
         if (r.isConfirmed) {
-            fetch('?eliminar_seccion=' + id).then(res => res.json()).then(d => {
+            fetch('?eliminar_seccion=' + id).then(res => {
+                var ct = res.headers.get('content-type') || '';
+                if (ct.indexOf('application/json') === -1) { throw new Error('Sesión'); }
+                return res.json();
+            }).then(d => {
                 if (d.ok) {
                     var el = document.getElementById('sec-' + id);
                     if (el) el.remove();
@@ -1649,7 +1532,11 @@ function eliminarSecImg(id) {
         confirmButtonText: 'Sí, eliminar'
     }).then(r => {
         if (r.isConfirmed) {
-            fetch('?eliminar_secimg=' + id).then(res => res.json()).then(d => {
+            fetch('?eliminar_secimg=' + id).then(res => {
+                var ct = res.headers.get('content-type') || '';
+                if (ct.indexOf('application/json') === -1) { throw new Error('Sesión'); }
+                return res.json();
+            }).then(d => {
                 if (d.ok) {
                     var el = document.getElementById('si-' + id);
                     if (el) el.remove();
@@ -1664,16 +1551,26 @@ function eliminarSecImg(id) {
 function reemplazarSecImg(id) {
     var input = document.createElement('input');
     input.type = 'file';
-    input.accept = 'image/*';
+    input.accept = '.webp';
     input.onchange = function() {
         if (!input.files[0]) return;
+        if (!input.files[0].name.toLowerCase().endsWith('.webp')) {
+            Swal.fire('Formato no válido', 'Solo se aceptan archivos .webp', 'warning');
+            return;
+        }
         var fd = new FormData();
         fd.append('reemplazar_secimg', '1');
         fd.append('imagen_id', id);
         fd.append('nueva_imagen', input.files[0]);
+        Swal.fire({title:'Reemplazando...',text:'Por favor espera',allowOutsideClick:false,allowEscapeKey:false,allowEnterKey:false,didOpen:function(){Swal.showLoading()}});
         fetch('admin_fundacion.php', { method: 'POST', body: fd })
-            .then(r => r.json())
+            .then(r => {
+                var ct = r.headers.get('content-type') || '';
+                if (ct.indexOf('application/json') === -1) { Swal.close(); Swal.fire({icon:'warning',title:'Sesión expirada',text:'Tu sesión ha expirado.',timer:2500,showConfirmButton:false}); setTimeout(function(){window.location.href='login.php?res=sesion_expirada';},2500); throw new Error('Sesión'); }
+                return r.json();
+            })
             .then(d => {
+                Swal.close();
                 if (d.ok) {
                     var item = document.getElementById('si-' + id);
                     if (item) {
@@ -1682,8 +1579,12 @@ function reemplazarSecImg(id) {
                     }
                     Swal.fire({toast:true,position:'top-end',icon:'success',title:'Imagen reemplazada',showConfirmButton:false,timer:1500});
                 } else {
-                    Swal.fire('Error', d.error || 'No se pudo reemplazar', 'error');
+                    Swal.fire('Error', d.error || 'No se pudo reemplazar la imagen', 'error');
                 }
+            })
+            .catch(function(err) {
+                Swal.close();
+                if (err.message !== 'Sesión') Swal.fire('Error', 'Error de conexión al reemplazar imagen', 'error');
             });
     };
     input.click();
@@ -1842,6 +1743,11 @@ function reemplazarSecImg(id) {
         });
     }
 })();
+
+// Cerrar modal de sección con Escape
+document.addEventListener('keydown', function(e) { if (e.key === 'Escape') cerrarModalSeccion(); });
+// Cerrar modal de sección haciendo clic fuera
+document.getElementById('modalSeccion').addEventListener('click', function(e) { if (e.target === this) cerrarModalSeccion(); });
 </script>
 </body>
 </html>

@@ -15,9 +15,10 @@ if (isset($_POST['editar_caminata_modal'])) {
     $titulo_en = $_POST['titulo_en'];
     $precio = $_POST['precio'];
     $precio_soles = !empty($_POST['precio_soles']) ? $_POST['precio_soles'] : null;
+    $en_menu_edit = isset($_POST['en_menu']) ? 1 : 0;
 
-    $stmt = $db->prepare("UPDATE tours SET titulo = ?, titulo_en = ?, precio = ?, precio_soles = ? WHERE id = ?");
-    $stmt->execute([$titulo, $titulo_en, $precio, $precio_soles, $id]);
+    $stmt = $db->prepare("UPDATE tours SET titulo = ?, titulo_en = ?, precio = ?, precio_soles = ?, en_menu = ? WHERE id = ?");
+    $stmt->execute([$titulo, $titulo_en, $precio, $precio_soles, $en_menu_edit, $id]);
     header("Location: tipos_tours.php?res=success");
     exit;
 }
@@ -30,8 +31,9 @@ if (isset($_POST['crear_caminata_nueva'])) {
         require_once __DIR__ . '/../includes/tipo_cambio_helper.php';
         $precio_soles_nuevo = round((float)$precio_nuevo * obtenerTipoCambio($db), 2);
     }
-    $stmt = $db->prepare("INSERT INTO tours (titulo, titulo_en, precio, precio_soles, parent_id, estado) VALUES (?, ?, ?, ?, ?, 'activo')");
-    $stmt->execute([$_POST['titulo'], $_POST['titulo_en'], $precio_nuevo, $precio_soles_nuevo, $_POST['parent_id_nuevo'], $en_menu]);
+    $en_menu_nuevo = isset($_POST['en_menu']) ? 1 : 0;
+    $stmt = $db->prepare("INSERT INTO tours (titulo, titulo_en, precio, precio_soles, parent_id, estado, en_menu) VALUES (?, ?, ?, ?, ?, 'activo', ?)");
+    $stmt->execute([$_POST['titulo'], $_POST['titulo_en'], $precio_nuevo, $precio_soles_nuevo, $_POST['parent_id_nuevo'], $en_menu_nuevo]);
     header("Location: tipos_tours.php?res=success");
     exit;
 }

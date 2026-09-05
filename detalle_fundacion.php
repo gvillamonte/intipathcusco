@@ -31,10 +31,26 @@ $hero_img = $img_base . ($proyecto['fund_hero'] ?: 'default-hero.webp');
 $logo_img = $img_base . ($proyecto['fund_logo'] ?: 'default-logo.webp');
 $fund_name = ($is_en && !empty($proyecto['fund_titulo_en'])) ? $proyecto['fund_titulo_en'] : $proyecto['fund_titulo'];
 
-$stmt_gal = $db->prepare("SELECT * FROM fundacion_proyecto_imagenes WHERE proyecto_id=? ORDER BY orden ASC, id ASC");
-$stmt_gal->execute([$proyecto['id']]);
-$galeria = $stmt_gal->fetchAll(PDO::FETCH_ASSOC);
-$stmt_gal->closeCursor();
+// Secciones del proyecto con sus imágenes
+$stmt_sec = $db->prepare("SELECT * FROM fundacion_secciones WHERE proyecto_id=? ORDER BY orden ASC, id ASC");
+$stmt_sec->execute([$proyecto['id']]);
+$secciones = $stmt_sec->fetchAll(PDO::FETCH_ASSOC);
+$stmt_sec->closeCursor();
+
+$secciones_con_imagenes = [];
+foreach ($secciones as $sec) {
+    $stmt_si = $db->prepare("SELECT * FROM fundacion_seccion_imagenes WHERE seccion_id=? ORDER BY orden ASC, id ASC");
+    $stmt_si->execute([$sec['id']]);
+    $sec['imagenes'] = $stmt_si->fetchAll(PDO::FETCH_ASSOC);
+    $stmt_si->closeCursor();
+    $secciones_con_imagenes[] = $sec;
+}
+
+function sanitizarHTML($html) {
+    $html = htmlspecialchars($html, ENT_QUOTES, 'UTF-8');
+    $html = nl2br($html);
+    return $html;
+}
 
 function renderFD($txt) {
     $txt = preg_replace('/\*\*(.*?)\*\*/', '<strong>$1</strong>', $txt);
@@ -175,26 +191,38 @@ tailwind.config = {
         </section>
         <?php endif; ?>
 
-        <!-- Galería de imágenes -->
-        <?php if (!empty($galeria)): ?>
-        <section class="flex flex-col gap-xl">
-            <div class="bg-surface rounded-lg p-lg border border-outline-variant">
-                <h3 class="font-headline-sm text-headline-sm text-primary border-b border-outline-variant pb-sm mb-md"><?= $is_en ? 'Gallery' : 'Galería de Imágenes' ?></h3>
+        <!-- Secciones del proyecto -->
+        <?php if (!empty($secciones_con_imagenes)): ?>
+        <?php foreach ($secciones_con_imagenes as $sec): ?>
+        <section class="bg-surface rounded-lg border border-outline-variant overflow-hidden">
+            <div class="p-lg border-b border-outline-variant">
+                <?php $sec_titulo = ($is_en && !empty($sec['titulo_en'])) ? $sec['titulo_en'] : ($sec['titulo'] ?? ''); ?>
+                <h3 class="font-headline-sm text-headline-sm text-primary"><?= htmlspecialchars($sec_titulo) ?></h3>
+                <?php
+                $sec_desc = ($is_en && !empty($sec['descripcion_en'])) ? $sec['descripcion_en'] : ($sec['descripcion'] ?? '');
+                if (!empty($sec_desc)):
+                ?>
+                <div class="prose max-w-none text-body-md text-on-surface-variant mt-sm"><?= renderFD($sec_desc) ?></div>
+                <?php endif; ?>
+            </div>
+            <?php if (!empty($sec['imagen_principal'])): ?>
+            <div class="w-full aspect-[21/9] overflow-hidden">
+                <img src="<?= $img_base . htmlspecialchars($sec['imagen_principal']) ?>" alt="<?= htmlspecialchars($sec['titulo'] ?? '') ?>" loading="lazy" class="w-full h-full object-cover">
+            </div>
+            <?php endif; ?>
+            <?php if (!empty($sec['imagenes'])): ?>
+            <div class="p-lg">
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-sm">
-                    <?php foreach (array_slice($galeria, 0, 8) as $idx => $gi): ?>
-                    <?php if ($idx === 0): ?>
-                    <div class="col-span-2 md:col-span-4 aspect-[21/9] overflow-hidden rounded">
-                        <div class="w-full h-full bg-cover bg-center" style="background-image: url('<?= $img_base . htmlspecialchars($gi['imagen'] ?? '') ?>');" role="img" aria-label="<?= htmlspecialchars($p_titulo) ?>"></div>
+                    <?php foreach ($sec['imagenes'] as $si): ?>
+                    <div class="aspect-video overflow-hidden rounded-xl">
+                        <div class="w-full h-full bg-cover bg-center transition-transform duration-300 hover:scale-105" style="background-image: url('<?= $img_base . htmlspecialchars($si['imagen'] ?? '') ?>');" role="img"></div>
                     </div>
-                    <?php else: ?>
-                    <div class="aspect-video overflow-hidden rounded">
-                        <div class="w-full h-full bg-cover bg-center" style="background-image: url('<?= $img_base . htmlspecialchars($gi['imagen'] ?? '') ?>');" role="img"></div>
-                    </div>
-                    <?php endif; ?>
                     <?php endforeach; ?>
                 </div>
             </div>
+            <?php endif; ?>
         </section>
+        <?php endforeach; ?>
         <?php endif; ?>
 
     </div>

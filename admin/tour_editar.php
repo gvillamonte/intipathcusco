@@ -439,23 +439,25 @@ try {
                                     <div class="group-title"><i class="fas fa-coins"></i> Precio en Soles (PEN) — Se muestra en español</div>
                                     <div class="form-helper">
                                         <i class="fas fa-info-circle"></i>
-                                        <span>Se calcula automáticamente con el tipo de cambio. Puede editarlo manualmente si desea un precio exacto en soles.</span>
+                                        <span>Se calcula automáticamente con el tipo de cambio. Desmarque la casilla para editar manualmente.</span>
                                     </div>
-                                    <div class="price-field-row cols-2">
+                                    <div class="price-field-row">
                                         <div class="form-group">
                                             <label class="field-label">Precio Soles (S/)</label>
                                             <div class="input-group">
                                                 <span class="input-group-text">S/</span>
-                                                <input type="number" step="0.01" name="precio_soles" id="precioSolesInput" class="form-control" value="<?= $datos['precio_soles'] ?? '' ?>" placeholder="Se calcula automáticamente">
+                                                <input type="number" step="0.01" name="precio_soles" id="precioSolesInput" class="form-control" value="<?= $datos['precio_soles'] ?? '' ?>" placeholder="Se calcula automáticamente" readonly>
                                             </div>
-                                            <small class="text-muted" id="tipoCambioRef"></small>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="field-label">Vista Previa (ES)</label>
-                                            <div style="padding: 10px 14px; background: #f8fafc; border-radius: 8px; border: 1px solid #e2e8f0; font-weight: 700; color: var(--color-primario-azul); font-size: 1.1rem;">
-                                                S/ <span id="previewSoles">—</span>
+                                            <div class="soles-row">
+                                                <div class="form-check mb-0">
+                                                    <input class="form-check-input" type="checkbox" name="auto_soles" id="autoSolesCheck" value="1" checked style="border-radius:3px;">
+                                                    <label class="form-check-label fw-bold" for="autoSolesCheck" id="autoSolesLabel">Automático</label>
+                                                </div>
+                                                <small class="text-muted mb-0" id="tipoCambioRef"></small>
+                                                <div class="soles-preview">
+                                                    S/ <span id="previewSoles">—</span>
+                                                </div>
                                             </div>
-                                            <small class="text-muted">Así lo ve el visitante en español</small>
                                         </div>
                                     </div>
                                 </div>
@@ -741,24 +743,63 @@ try {
     (function() {
         var tipoCambio = <?= (float)$tipo_cambio_actual ?>;
         var precioInput = document.querySelector('input[name="precio"]');
+        var monedaSelect = document.querySelector('select[name="moneda"]');
         var solesInput = document.getElementById('precioSolesInput');
+        var autoCheck = document.getElementById('autoSolesCheck');
         var preview = document.getElementById('previewSoles');
         var ref = document.getElementById('tipoCambioRef');
-        if (ref) ref.textContent = 'Tipo de cambio actual: 1 USD = ' + tipoCambio.toFixed(3) + ' PEN';
+
+        function mostrarTipoCambio() {
+            if (ref) ref.textContent = 'TC: 1 USD = (S/ ' + tipoCambio.toFixed(4) + ')';
+        }
+
+        function fetchTipoCambio() {
+            fetch('api/tipo_cambio.php')
+                .then(function(r) { return r.json(); })
+                .then(function(d) {
+                    if (d.tipo_cambio && d.tipo_cambio > 0) {
+                        tipoCambio = d.tipo_cambio;
+                        mostrarTipoCambio();
+                        calcSoles();
+                    }
+                })
+                .catch(function() {});
+        }
+
+        function getMoneda() {
+            if (!monedaSelect) return 'USD';
+            return monedaSelect.value || 'USD';
+        }
 
         function calcSoles() {
             var usd = parseFloat(precioInput.value) || 0;
-            if (usd > 0 && solesInput && !solesInput.dataset.manual) {
-                var soles = (usd * tipoCambio).toFixed(2);
-                solesInput.value = soles;
-                if (preview) preview.textContent = parseFloat(soles).toLocaleString('es-PE', {minimumFractionDigits: 2});
-            } else if (solesInput && solesInput.value) {
+            var isAuto = autoCheck && autoCheck.checked;
+            var moneda = getMoneda();
+            var label = document.getElementById('autoSolesLabel');
+            if (label) label.textContent = isAuto ? 'Automático' : 'Manual';
+            if (isAuto) {
+                solesInput.removeAttribute('readonly');
+                var soles = (moneda === 'PEN') ? usd.toFixed(2) : (usd * tipoCambio).toFixed(2);
+                solesInput.value = usd > 0 ? soles : '0.00';
+                solesInput.setAttribute('readonly', 'readonly');
+            } else {
+                solesInput.value = '0.00';
+                solesInput.removeAttribute('readonly');
+                solesInput.focus();
+            }
+            if (solesInput.value) {
                 if (preview) preview.textContent = parseFloat(solesInput.value).toLocaleString('es-PE', {minimumFractionDigits: 2});
             }
         }
+
+        mostrarTipoCambio();
+        fetchTipoCambio();
+        setInterval(fetchTipoCambio, 60000);
+
         if (precioInput) precioInput.addEventListener('input', calcSoles);
+        if (monedaSelect) monedaSelect.addEventListener('change', calcSoles);
+        if (autoCheck) autoCheck.addEventListener('change', calcSoles);
         if (solesInput) {
-            solesInput.addEventListener('focus', function() { this.dataset.manual = '1'; });
             solesInput.addEventListener('input', function() {
                 if (preview) preview.textContent = parseFloat(this.value || 0).toLocaleString('es-PE', {minimumFractionDigits: 2});
             });

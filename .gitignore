@@ -1,0 +1,28 @@
+# Backups
+backup_*/
+
+# SQL scripts (se ejecutan manualmente en phpMyAdmin)
+sql/
+
+# Archivos de prueba
+test_*.php
+
+# Imagenes de fundacion subidas localmente (ya estan en el servidor)
+assets/img/fundacion/*.webp
+
+# Archivos de sistema
+Thumbs.db
+.DS_Store
+*.swp
+*.swo
+*~
+
+# IDE
+.vscode/
+.idea/
+
+# Node
+node_modules/
+
+# Composer (vendor esta committeado intencionalmente)
+# vendor/

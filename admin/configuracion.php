@@ -101,6 +101,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['accion']) && $_POST['a
                     header_btn_url = :header_btn_url,
                     testimonios_url = :testimonios_url,
                     tipo_cambio = :tipo_cambio,
+                    tipo_cambio_fecha = NOW(),
                     ga4_id = :ga4_id"
         . $logo_sql_part
         . $favicon_sql_part .
@@ -289,7 +290,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['accion']) && $_POST['a
 
                         <div class="login-form-grupo">
                             <label style="font-weight: bold;">Tipo de cambio PEN → USD (S/ por US$)</label>
-                            <input type="number" step="0.01" min="0" name="tipo_cambio" value="<?php echo htmlspecialchars($config['tipo_cambio'] ?? '3.75'); ?>"
+                            <input type="number" step="0.0001" min="0" name="tipo_cambio" value="<?php echo htmlspecialchars($config['tipo_cambio'] ?? '3.75'); ?>"
                                 style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px;">
                             <small style="color: #888; display: block; margin-top: 6px;">
                                 <i class="fas fa-info-circle"></i> Se usa para mostrar el equivalente en soles en la página de pago. Default: 3.75.

@@ -107,7 +107,7 @@ function tipoCambioDesdeApi($url, $monedaObjetivo) {
  */
 function convertirUsdAPen($db, $monto_usd) {
     $tipo = obtenerTipoCambio($db);
-    return round($monto_usd * $tipo, 2);
+    return round($monto_usd * $tipo, 4);
 }
 
 /**

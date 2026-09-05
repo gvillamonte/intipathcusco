@@ -59,7 +59,7 @@ function montoNinoMoneda($tour, $idioma = 'es') {
  * Formatea precio completo: símbolo + monto formateado.
  * Ejemplo: "S/ 380" o "US$ 100"
  */
-function precioFormato($tour, $idioma = 'es', $decimales = 0) {
+function precioFormato($tour, $idioma = 'es', $decimales = 2) {
     $simbolo = simboloMoneda($idioma);
     $monto = montoMoneda($tour, $idioma);
     return $simbolo . ' ' . number_format($monto, $decimales);
